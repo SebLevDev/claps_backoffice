@@ -13,25 +13,25 @@
         .map-pin { width:14px;height:14px;border-radius:50%;background:var(--c-red);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35) }
         .map-pin.intl { background:var(--c-brown) }
         .leaflet-popup-content-wrapper { border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.18) }
-        .leaflet-popup-content { margin:12px 14px;font-family:Inter,sans-serif }
-        .popup-name { font-weight:600;font-size:.88rem;color:#2c2218;margin-bottom:4px }
-        .popup-loc  { font-size:.78rem;color:#7a6a58 }
-        .popup-year { font-size:.78rem;font-weight:700;color:#b83227;margin-top:4px }
-        .popup-desc { font-size:.75rem;color:#7a6a58;margin-top:4px;font-style:italic }
+        .leaflet-popup-content { margin:12px 14px;font-family:'Roboto',sans-serif }
+        .popup-name { font-weight:600;font-size:.88rem;color:#1c222f;margin-bottom:4px }
+        .popup-loc  { font-size:.78rem;color:#868991 }
+        .popup-year { font-size:.78rem;font-weight:700;color:#ea6045;margin-top:4px }
+        .popup-desc { font-size:.75rem;color:#868991;margin-top:4px;font-style:italic }
 
         .ref-timeline { position:relative }
         .ref-year-group { margin-bottom:4px }
-        .ref-year-label { font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--c-red);padding:10px 0 4px;border-top:1px solid var(--c-border);margin-top:4px }
+        .ref-year-label { font-family:'Lato',sans-serif;font-size:1.1rem;font-weight:900;color:var(--c-red);padding:10px 0 4px;border-top:1px solid var(--c-border);margin-top:4px }
         .ref-entries { display:flex;flex-direction:column;gap:6px;padding-bottom:8px }
         .ref-entry { display:flex;align-items:flex-start;gap:10px;background:var(--c-card);border:1px solid var(--c-border);border-radius:var(--r);padding:10px 14px;transition:border-color .2s }
-        .ref-entry:hover { border-color:rgba(184,50,39,.3) }
+        .ref-entry:hover { border-color:rgba(234,96,69,.3) }
         .ref-entry-icon { font-size:1.1rem;flex-shrink:0;margin-top:1px }
         .ref-entry-body { flex:1;min-width:0 }
         .ref-entry-name { font-weight:600;font-size:.85rem;color:var(--c-text) }
         .ref-entry-loc  { font-size:.76rem;color:var(--c-muted);margin-top:2px }
         .ref-entry-desc { font-size:.74rem;color:var(--c-muted);font-style:italic;margin-top:2px }
         .ref-entry-badge { flex-shrink:0;font-size:.68rem;font-weight:700;padding:2px 7px;border-radius:20px;background:var(--c-red-lt);color:var(--c-red);white-space:nowrap;align-self:flex-start }
-        .ref-entry-badge.intl { background:#f0ebe5;color:var(--c-brown) }
+        .ref-entry-badge.intl { background:#e9e9e9;color:var(--c-brown) }
         .map-legend { display:flex;gap:16px;padding:10px 14px;font-size:.78rem;color:var(--c-muted);background:var(--c-bg);border-top:1px solid var(--c-border) }
         .legend-dot { width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:middle }
         @media(max-width:600px){ #ref-map{height:340px} }
@@ -39,17 +39,21 @@
 {% endblock %}
 
 {% block main %}
-<section class="section">
+<div class="page-banner">
     <div class="container">
         <p class="hero-eyebrow">Nos références</p>
         <h1 class="display">Là où nous avons dansé</h1>
         <p class="lead" style="max-width:620px;margin-top:8px">Depuis 1982, Clap'Sabots a représenté la Belgique partout en Europe et au-delà — des fêtes de village du Brabant Wallon aux festivals internationaux de folklore.</p>
+    </div>
+</div>
 
+<section class="section">
+    <div class="container">
         <div class="ref-map-wrap">
             <div id="ref-map"></div>
             <div class="map-legend">
-                <span><span class="legend-dot" style="background:#b83227"></span>Belgique</span>
-                <span><span class="legend-dot" style="background:#5c3d2e"></span>International</span>
+                <span><span class="legend-dot" style="background:var(--c-red)"></span>Belgique</span>
+                <span><span class="legend-dot" style="background:var(--c-brown)"></span>International</span>
             </div>
         </div>
 

@@ -34,7 +34,7 @@
         <li><a href="{{ path('app_contact') }}">Contact</a></li>
         {% if is_granted('ROLE_USER') %}
             <li><a href="{{ path('app_user_show') }}">Mon Espace</a></li>
-            <li><a href="{{ path('security_logout') }}" style="background:#5c3d2e!important">Déconnexion</a></li>
+            <li><a href="{{ path('security_logout') }}" style="background:var(--c-brown)!important">Déconnexion</a></li>
         {% else %}
             <li><a href="{{ path('security_login') }}" id="btn-login">Connexion</a></li>
         {% endif %}
