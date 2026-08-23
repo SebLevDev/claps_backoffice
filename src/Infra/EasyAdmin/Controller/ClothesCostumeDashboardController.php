@@ -9,7 +9,7 @@ use Infra\Symfony\Persistance\Doctrine\Repository\ClubYearRepository;
 use Infra\Symfony\Persistance\Doctrine\Repository\MemberShipRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * @Security("is_granted('ROLE_ADMIN')")

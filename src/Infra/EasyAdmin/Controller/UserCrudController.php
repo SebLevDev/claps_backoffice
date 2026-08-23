@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Infra\EasyAdmin\Controller;
 
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -15,6 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
+#[AdminRoute(path: '/users', name: 'user')]
 class UserCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string

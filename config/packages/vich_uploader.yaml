@@ -8,6 +8,20 @@ vich_uploader:
         clothespiece_images:
             uri_prefix:         '%app.path.clothespiece_images%'
             upload_destination: '%kernel.project_dir%/public%app.path.clothespiece_images%'
+            namer:               Vich\UploaderBundle\Naming\SmartUniqueNamer
         documents:
             uri_prefix:         '%app.path.documents%'
             upload_destination: '%kernel.project_dir%/public%app.path.documents%'
+            namer:               Vich\UploaderBundle\Naming\SmartUniqueNamer
+        section_images:
+            uri_prefix:         '%app.path.section_images%'
+            upload_destination: '%kernel.project_dir%/public%app.path.section_images%'
+            namer:               Vich\UploaderBundle\Naming\SmartUniqueNamer
+        blog_articles:
+            uri_prefix:         '%app.path.blog_articles%'
+            upload_destination: '%kernel.project_dir%/public%app.path.blog_articles%'
+            namer:               Vich\UploaderBundle\Naming\SmartUniqueNamer
+        media_photos:
+            uri_prefix:         '%app.path.media_photos%'
+            upload_destination: '%kernel.project_dir%/public%app.path.media_photos%'
+            namer:               Vich\UploaderBundle\Naming\SmartUniqueNamer

@@ -1,0 +1,27 @@
+{% extends 'layout.html.twig' %}
+
+{% block banner_title %}AmiClap{% endblock %}
+{% block title %}L'AmiClap – Clap'Sabots{% endblock %}
+
+{% block main %}
+<section class="section">
+    <div class="container" style="max-width:700px">
+        <p class="hero-eyebrow">Soutien</p>
+        <h1 class="display">L'AmiClap</h1>
+        <p class="lead">L'AmiClap est l'association des amis et soutiens de Clap'Sabots, qui permettent à l'ensemble de se développer et rayonner.</p>
+
+        <div class="card mt-32">
+            <div class="card-body">
+                <h3>Pourquoi adhérer ?</h3>
+                <ul style="color:var(--c-muted);margin-top:12px;padding-left:20px;font-size:.9rem;line-height:2.2">
+                    <li>Soutenir la création de nouveaux costumes</li>
+                    <li>Aider à financer les voyages et stages</li>
+                    <li>Participer à la vie associative</li>
+                    <li>Recevoir la newsletter du groupe</li>
+                </ul>
+                <a href="mailto:contact@clapsabots.be" class="btn btn-primary mt-16">Devenir ami·e de Clap'Sabots</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

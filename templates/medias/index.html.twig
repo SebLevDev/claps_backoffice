@@ -1,0 +1,50 @@
+{% extends 'layout.html.twig' %}
+
+{% block banner_title %}Médias{% endblock %}
+{% block title %}Médias – Clap'Sabots{% endblock %}
+
+{% block main %}
+<section class="section">
+    <div class="container">
+        <p class="hero-eyebrow">Photos & Vidéos</p>
+        <h1 class="display">Médias</h1>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('photos',this)">📷 Photos</button>
+            <button class="tab" onclick="switchTab('videos',this)">🎬 Vidéos</button>
+        </div>
+
+        <div class="tab-panel active" id="tab-photos">
+            <div class="gallery">
+                {% for photo in photos %}
+                <div class="gallery-item">
+                    <img src="{{ photo }}" alt="Photo {{ loop.index }}" onerror="this.parentElement.innerHTML='📷'">
+                    <div class="overlay">Voir en plein écran</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="tab-panel" id="tab-videos">
+            <div class="grid-3">
+                {% for video in videos %}
+                <div class="card">
+                    <div class="blog-card-img-wrap" style="position:relative">
+                        <img src="https://www.clapsabots.be/wp-content/uploads/2024/09/PXL_20240728_102556518-scaled-e1725203092284-1024x706.jpg"
+                             alt="{{ video.titre }}" onerror="this.parentElement.innerHTML='▶️'">
+                        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+                            <div style="background:var(--c-red);color:#fff;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 4px 12px rgba(0,0,0,.3)">▶</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tag">{{ video.cat }}</div>
+                        <h3 style="font-size:.9rem">{{ video.titre }}</h3>
+                        <p class="text-muted mt-8" style="font-size:.78rem">⏱ {{ video.duree }} · {{ video.date }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

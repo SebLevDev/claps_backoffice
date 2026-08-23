@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Infra\EasyAdmin\Controller;
 
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use Infra\Symfony\Persistance\Doctrine\Entity\ClothesType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -12,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
+#[AdminRoute(path: '/clothes/types', name: 'clothesType')]
 class ClothesTypeCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string

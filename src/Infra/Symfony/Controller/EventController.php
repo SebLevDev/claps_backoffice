@@ -7,7 +7,7 @@ namespace Infra\Symfony\Controller;
 use Infra\Symfony\Form\Type\SearchVideoType;
 use Infra\Symfony\Persistance\Doctrine\Repository\EventRepository;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/events')]
 class EventController extends BaseController

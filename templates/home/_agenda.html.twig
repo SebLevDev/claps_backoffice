@@ -1,0 +1,14 @@
+<!-- AGENDA -->
+<section class="section bg-alt">
+	<div class="container">
+		<div class="flex-between mb-32">
+			<div><p class="hero-eyebrow">Calendrier</p><h2 class="section-title">Prochains événements</h2></div>
+			<a href="{{ path('app_agenda_list') }}" class="btn btn-outline btn-sm">Tout l'agenda</a>
+		</div>
+		<div>
+			{% for event in events_preview %}
+				{% include 'agenda/_list-item.html.twig' %}
+			{% endfor %}
+		</div>
+	</div>
+</section>

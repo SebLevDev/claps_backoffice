@@ -6,7 +6,7 @@ namespace Infra\Symfony\Controller;
 
 use Infra\Symfony\Persistance\Doctrine\Repository\ClothesCostumeRepository;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/clothes/costumes')]
 class ClothesCostumeController extends BaseController

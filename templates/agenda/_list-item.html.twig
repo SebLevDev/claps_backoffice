@@ -1,0 +1,13 @@
+{% set fr_months = ['', 'JAN', 'FÉV', 'MAR', 'AVR', 'MAI', 'JUN', 'JUL', 'AOÛ', 'SEP', 'OCT', 'NOV', 'DÉC'] %}
+{% set type_labels = {spectacle: 'Spectacle', stage: 'Stage', voyage: 'Voyage', cours: 'Cours'} %}
+<div class="event-item">
+	<div class="event-date">
+		<div class="event-day">{{ event.date|date('d') }}</div>
+		<div class="event-month">{{ fr_months[event.date|date('n')] }}</div>
+	</div>
+	<div>
+		<div class="event-title">{{ event.title }}</div>
+		<div class="event-meta">📍 {{ event.lieu }}</div>
+	</div>
+	<span class="event-type type-{{ event.type }}">{{ type_labels[event.type] ?? event.type|capitalize }}</span>
+</div>

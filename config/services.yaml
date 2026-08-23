@@ -7,6 +7,9 @@ parameters:
     locale: 'fr'
     app.path.clothespiece_images: /uploads/images/clothespieces
     app.path.documents: /uploads/documents
+    app.path.section_images: /uploads/section_images
+    app.path.blog_articles: /uploads/blog_articles
+    app.path.media_photos: /uploads/media_photos
     app.sender_address: "%env(MAILER_SENDER_ADDR)%"
     app.sender_name: "%env(MAILER_SENDER_NAME)%"
     app.site_name: "%env(APP_NAME)%"

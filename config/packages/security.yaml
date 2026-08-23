@@ -1,9 +1,4 @@
 security:
-    # a new authentication system is available since Symfony 5.1 to make
-    # Symfony security more extensible and easier to understand
-    # https://symfony.com/doc/current/security/experimental_authenticators.html
-    enable_authenticator_manager: true
-
     password_hashers:
         # Our user class and the algorithm we'll use to encode passwords
         # 'auto' means to let Symfony choose the best possible password hasher (Argon2 or Bcrypt)
@@ -70,6 +65,22 @@ security:
         - { path: '^/video/feed', roles: PUBLIC_ACCESS }
         - { path: '^/login', roles: PUBLIC_ACCESS }
         - { path: '^/barcode', roles: PUBLIC_ACCESS }
+
+        # public frontoffice (visitor-facing pages, replacing the old WordPress site)
+        - { path: '^/$', roles: PUBLIC_ACCESS }
+        - { path: '^/sections', roles: PUBLIC_ACCESS }
+        - { path: '^/agenda', roles: PUBLIC_ACCESS }
+        - { path: '^/blog', roles: PUBLIC_ACCESS }
+        - { path: '^/medias', roles: PUBLIC_ACCESS }
+        - { path: '^/history', roles: PUBLIC_ACCESS }
+        - { path: '^/giants', roles: PUBLIC_ACCESS }
+        - { path: '^/references', roles: PUBLIC_ACCESS }
+        - { path: '^/friends', roles: PUBLIC_ACCESS }
+        - { path: '^/shows', roles: PUBLIC_ACCESS }
+        - { path: '^/workshops', roles: PUBLIC_ACCESS }
+        - { path: '^/trips', roles: PUBLIC_ACCESS }
+        - { path: '^/contact', roles: PUBLIC_ACCESS }
+
         - { path: '^/admin', roles: ROLE_ADMIN }
         - { path: '^/', roles: ROLE_USER }
 

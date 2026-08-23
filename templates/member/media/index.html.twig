@@ -1,0 +1,16 @@
+{% extends 'old/layout.html.twig' %}
+
+{% block banner_title %}Médias{% endblock %}
+{% block title %}Média{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12 heading">
+            <span class="title-icon classic pull-left"><i class="fa fa-film"></i></span>
+            <h2 class="title classic">Vidéos</h2>
+            <a href="{{ path('app_video_index') }}" class="widget-title">Tout regarder</a>
+        </div>
+    </div>
+    {% include '../video/_grid.html.twig' %}
+
+{% endblock %}

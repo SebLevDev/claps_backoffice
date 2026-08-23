@@ -15,7 +15,7 @@ class UserSubscriber implements EventSubscriberInterface
     {
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             BeforeEntityPersistedEvent::class => ['addUser'],
@@ -23,7 +23,7 @@ class UserSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function updateUser(BeforeEntityUpdatedEvent $event)
+    public function updateUser(BeforeEntityUpdatedEvent $event): void
     {
         $entity = $event->getEntityInstance();
 
@@ -33,7 +33,7 @@ class UserSubscriber implements EventSubscriberInterface
         $this->setPassword($entity);
     }
 
-    public function addUser(BeforeEntityPersistedEvent $event)
+    public function addUser(BeforeEntityPersistedEvent $event): void
     {
         $entity = $event->getEntityInstance();
 

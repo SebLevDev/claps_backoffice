@@ -1,0 +1,119 @@
+{% extends 'old/layout_rightcolumn.html.twig' %}
+
+{% block body_id 'user_edit' %}
+
+{% block main %}
+    <h1>{{ 'user.show_user.title'|trans({'%name%': user.firstname }, 'messages') }}</h1>
+
+    <p>Accède à tes informations personneles, modifie celle-ci pour qu'elle soit toujours à jours.</p>
+
+    <h3 class="title-border"><i class="fa fa-user"></i> Mes informations personnelles</h3>
+    <div class="accordion" id="accordion">
+        {% for familyMember in familyMembers %}
+            <div class="card border rounded mb-2">
+                <div class="card-header p-0">
+                    <a class="h4 mb-0 font-weight-bold text-uppercase d-block p-2 pl-5 collapsed" data-toggle="collapse" data-target="#collapseMember_{{ familyMember.id }}" aria-expanded="false" aria-controls="collapseMember_{{ familyMember.id }}">
+                        {{ familyMember.firstname }} {{ familyMember.lastname }}</a>
+                </div>
+                <div id="collapseMember_{{ familyMember.id }}" class="{% if not loop.first %}collapse{% endif %}" data-parent="#accordion" style="">
+                    <div class="card-body">
+                        <div class="contact-info">
+                            <p>
+                                <i class="fa fa-birthday-cake info"></i> {{ familyMember.birthdate|date('d/m/Y') }}<br />
+                                <i class="fa fa-envelope-o info"></i> {{ familyMember.email }}<br />
+                                <i class="fa fa-phone info"></i> <a href="tel:{{ familyMember.mobilePhone }}">{{ familyMember.mobilePhone }}</a><br />
+                                <i class="fa fa-home info"></i> {{ familyMember.address }}<br />
+                            </p>
+                            <p><a href="{{ path('app_member_edit',  {'id': familyMember.id }) }}" class="btn btn-outline-primary pull-right"><span class="mr-2">Modifier</span> <i class="fa fa-pencil"></i></a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="gap-20"></div>
+
+    {%  if families != null and families|length > 0 %}
+    <h3 class="title-border"><i class="fa fa-users"></i> Ma famille</h3>
+    <div class="accordion" id="accordion">
+        {% for family in families %}
+            <div class="card border rounded mb-2">
+                <div class="card-header p-0">
+                    <a class="h4 mb-0 font-weight-bold text-uppercase d-block p-2 pl-5 collapsed" data-toggle="collapse" data-target="#collapseFamily_{{ family.id }}" aria-expanded="false" aria-controls="collapseFamily_{{ family.id }}">
+                        {{ family.lastname }}</a>
+                </div>
+                <div id="collapseFamily_{{ family.id }}" class="{% if not loop.first %}collapse{% endif %}" data-parent="#accordion" style="">
+                    <div class="card-body">
+                        <div class="contact-info">
+                            <p>
+                                <i class="fa fa-envelope-o info"></i> {{ family.fatherEmail }}<br />
+                                <i class="fa fa-phone info"></i> <a href="tel:{{ family.fatherMobilePhone }}">{{ family.fatherMobilePhone }}</a><br /><br />
+
+                                <i class="fa fa-envelope-o info"></i> {{ family.motherEmail }}<br />
+                                <i class="fa fa-phone info"></i> <a href="tel:{{ family.motherMobilePhone }}">{{ family.motherMobilePhone }}</a><br /><br />
+                            </p>
+                            <p><a href="{{ path('app_member_edit',  {'id': family.id }) }}" class="btn btn-outline-primary pull-right"><span class="mr-2">Modifier</span> <i class="fa fa-pencil"></i></a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <h3 class="title-border"><i class="fa fa-tags"></i> Mes affiliations</h3>
+    <div class="accordion" id="accordion_membership">
+        {% for familyMember in familyMembers %}
+            <div class="card border rounded mb-2">
+                <div class="card-header p-0">
+                    <a class="h4 mb-0 font-weight-bold text-uppercase d-block p-2 pl-5 collapsed" data-toggle="collapse" data-target="#collapseMemberShip_{{ familyMember.id }}" aria-expanded="false" aria-controls="collapseMemberShip_{{ familyMember.id }}">
+                        {{ familyMember.firstname }} {{ familyMember.lastname }}</a>
+                </div>
+                <div id="collapseMemberShip_{{ familyMember.id }}" class="{% if not loop.first %}collapse{% endif %}" data-parent="#accordion" style="">
+                    <div class="card-body">
+                        <div class="contact-info">
+                            <table class="table">
+                                {% for memberShip in familyMember.memberShips|reverse %}
+                                    <tr>
+                                        <td>{{ memberShip.clubYear.club.name }}</td>
+                                        <td>{{ memberShip.startDate|date('d/m/Y') }}</td>
+                                        <td>
+                                            {% for section in memberShip.sections %}
+                                                <span class="badge badge-info">{{ section.name }}</span>&nbsp;
+                                            {% endfor %}
+                                        </td>
+                                        <td>{{ memberShip.subscriptionAmount }} €</td>
+                                        <td>
+                                            {% if memberShip.isPaid %}
+                                                <span class="badge badge-success">Payé</span>&nbsp;
+                                                <small>{{ memberShip.subscriptionPaidAt|date('d/m/Y', false) }}</small>
+                                            {% else %}
+                                                <span class="badge badge-danger">Non payé</span>
+                                             {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="gap-20"></div>
+
+
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section widget widget-user">
+        <a href="{{ path('user_edit') }}" class="btn btn-block btn-outline-primary">
+            <i class="fa fa-user"></i> {{ 'user.edit_user.action'|trans }}
+        </a>
+        <a href="{{ path('user_change_password') }}" class="btn btn-block btn-outline-secondary">
+            <i class="fa fa-lock" aria-hidden="true"></i> {{ 'user.change_password.action'|trans }}
+        </a>
+    </div>
+
+    {{ parent() }}
+{% endblock %}

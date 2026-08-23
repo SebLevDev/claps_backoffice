@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Infra\EasyAdmin\Controller;
 
 use Domain\Barcode\Service\PdfPrintTicket;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
@@ -21,6 +22,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
+#[AdminRoute(path: '/barcodes', name: 'barcode')]
 class BarcodeCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string

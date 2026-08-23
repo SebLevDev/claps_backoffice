@@ -1,0 +1,36 @@
+{% extends 'layout.html.twig' %}
+
+{% set fr_months = ['', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] %}
+
+{% block banner_title %}Blog{% endblock %}
+{% block title %}{{ article.title }} – Clap'Sabots{% endblock %}
+
+{% block main %}
+<article>
+    <div class="blog-show-hero">
+        <img src="{{ article.img }}" alt="{{ article.title }}" onerror="this.parentElement.classList.add('no-img')">
+        <div class="blog-show-hero-overlay">
+            <div class="container">
+                <span class="card-tag">{{ article.tag }}</span>
+                <h1 class="display" style="color:#fff;margin-top:12px">{{ article.title }}</h1>
+                <p style="color:rgba(255,255,255,.75);margin-top:10px;font-size:.9rem">
+                    {{ article.date|date('d') }} {{ fr_months[article.date|date('n')] }} {{ article.date|date('Y') }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container" style="max-width:740px">
+            <p class="lead">{{ article.resume }}</p>
+            <hr class="divider">
+            <div class="blog-content">
+                {{ article.content|raw }}
+            </div>
+            <div class="mt-32">
+                <a href="{{ path('app_blog_list') }}" class="btn btn-outline">← Retour au blog</a>
+            </div>
+        </div>
+    </section>
+</article>
+{% endblock %}

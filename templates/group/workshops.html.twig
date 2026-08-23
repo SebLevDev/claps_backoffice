@@ -1,0 +1,30 @@
+{% extends 'layout.html.twig' %}
+
+{% block banner_title %}Stages{% endblock %}
+{% block title %}Stages avec chorégraphe – Clap'Sabots{% endblock %}
+
+{% block main %}
+<section class="section">
+    <div class="container" style="max-width:800px">
+        <p class="hero-eyebrow">Formation</p>
+        <h1 class="display">Stages avec chorégraphe</h1>
+        <p class="lead">Des chorégraphes invités de toute l'Europe pour transmettre leur savoir et enrichir notre répertoire.</p>
+
+        <div class="notice mt-32">📅 Prochain stage : <strong>Stage de danses bulgares avec Ivan Petrov — 15-16 mars 2025</strong>. Inscriptions ouvertes aux membres.</div>
+
+        <h2 class="section-title mt-32">Stages passés</h2>
+        <div class="mt-16">
+            {% for workshop in workshops %}
+            <div class="event-item">
+                <div style="font-size:2rem;text-align:center">{{ workshop.flag }}</div>
+                <div>
+                    <div class="event-title">{{ workshop.style }}</div>
+                    <div class="event-meta">👤 {{ workshop.choreg }} · {{ workshop.annee }}</div>
+                </div>
+                <span class="event-type type-stage">Stage</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

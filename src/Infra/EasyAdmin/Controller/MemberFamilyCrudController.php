@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Infra\EasyAdmin\Controller;
 
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use Infra\Symfony\Persistance\Doctrine\Entity\MemberFamily;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -13,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
+#[AdminRoute(path: '/member-families', name: 'memberfamily')]
 class MemberFamilyCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string

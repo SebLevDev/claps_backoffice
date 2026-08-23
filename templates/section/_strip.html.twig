@@ -1,0 +1,13 @@
+<!-- SECTIONS STRIP -->
+<section class="section bg-alt">
+	<div class="container">
+		<p class="hero-eyebrow">Nos sections</p>
+		<h2 class="section-title">Un groupe pour chaque âge</h2>
+		<p class="section-sub">Du tout-petit curieux au danseur confirmé, chacun trouve sa place.</p>
+		<div class="section-strip">
+			{% for section in sections %}
+				{% include 'section/_strip-item.html.twig' %}
+			{% endfor %}
+		</div>
+	</div>
+</section>

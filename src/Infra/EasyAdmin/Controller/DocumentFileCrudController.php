@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Infra\EasyAdmin\Controller;
 
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -13,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use Infra\Symfony\Persistance\Doctrine\Entity\DocumentFile;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 
+#[AdminRoute(path: '/documents/files', name: 'documentFile')]
 class DocumentFileCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string

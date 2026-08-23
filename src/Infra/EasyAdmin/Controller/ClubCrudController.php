@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Infra\EasyAdmin\Controller;
 
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use Infra\Symfony\Persistance\Doctrine\Entity\Club;
@@ -14,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
+#[AdminRoute(path: '/clubs', name: 'club')]
 class ClubCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
@@ -35,7 +37,7 @@ class ClubCrudController extends AbstractCrudController
     {
 
         return [
-            FormField::addPanel('club.crud.form.general'),
+            FormField::addFieldset('club.crud.form.general'),
             IDField::new('id', 'ID')->onlyOnDetail(),
             TextField::new('name', 'word.name'),
             EmailField::new('email', 'club.properties.email'),
@@ -43,7 +45,7 @@ class ClubCrudController extends AbstractCrudController
             TextField::new('bankNumber', 'club.properties.bank_number'),
             TextField::new('vatNumber', 'club.properties.vat_number'),
 
-            FormField::addPanel('club.crud.form.headoffice_address')->collapsible(),
+            FormField::addFieldset('club.crud.form.headoffice_address')->collapsible(),
             TextField::new('headOfficeAddress.street','address.properties.street')->hideOnIndex(),
             TextField::new('headOfficeAddress.streetNumber','address.properties.streetNumber')->hideOnIndex(),
             TextField::new('headOfficeAddress.streetBox','address.properties.streetBox')->hideOnIndex(),

@@ -1,0 +1,17 @@
+<p class="hero-eyebrow">Section</p>
+<h1 class="display">{{ section.title }}</h1>
+{% if section.images is not empty %}
+<div style="border-radius:var(--r-lg);overflow:hidden;margin-bottom:28px;box-shadow:var(--shadow-lg)">
+	<img src="{{ section.images[0] }}" alt="{{ section.title }}" style="width:100%;height:300px;object-fit:cover;display:block" onerror="this.parentElement.style.display='none'">
+</div>
+{% endif %}
+<p class="lead">{{ section.desc }}</p>
+<div class="grid-2 mt-32">
+	<div class="card"><div class="card-body"><h3>🕐 Horaire</h3><p class="text-muted mt-8">{{ section.horaire }}</p></div></div>
+	<div class="card"><div class="card-body"><h3>👤 Encadrement</h3><p class="text-muted mt-8">{{ section.encad }}</p></div></div>
+</div>
+<div class="card mt-16" style="border-color:rgba(184,50,39,.2)"><div class="card-body"><h3>📍 Lieu des cours</h3><p class="text-muted mt-8">Stade Gaston Reiff — Rue Ernest Laurent 215, 1420 Braine-l'Alleud</p></div></div>
+<div style="margin-top:28px;display:flex;gap:14px;flex-wrap:wrap">
+	<a href="mailto:contact@clapsabots.be" class="btn btn-primary">S'inscrire à cette section</a>
+	<a href="{{ path('app_sections_list') }}" class="btn btn-outline">← Toutes les sections</a>
+</div>

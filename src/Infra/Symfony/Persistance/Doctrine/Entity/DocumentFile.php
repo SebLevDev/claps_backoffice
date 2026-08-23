@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Infra\Symfony\Persistance\Doctrine\Repository\DocumentFileRepository;
 use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Mapping\Attribute as Vich;
 
 #[ApiResource]
 #[Vich\Uploadable]
@@ -35,6 +35,11 @@ class DocumentFile implements \Stringable
 
     #[ORM\ManyToOne(targetEntity: DocumentCategory::class, inversedBy: 'documentFiles')]
     private $documentCategory;
+
+    public function __construct()
+    {
+        $this->updatedAt = new \DateTime('now');
+    }
 
     public function __toString(): string
     {

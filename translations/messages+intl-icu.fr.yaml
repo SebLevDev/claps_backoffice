@@ -11,7 +11,19 @@ address:
     streetBox: "Boite"
     streetNumber: "Numéro"
     zipCode: "Code postal"
-  
+
+blog_article:
+  crud:
+    title:
+      singular: "Article de blog"
+      plural: "Articles de blog"
+  properties:
+    slug: "Slug"
+    tag: "Catégorie"
+    resume: "Résumé"
+    content: "Contenu"
+    is_published: "Publié"
+
 body_measurement:
   properties:
     neck: "Tour du Cou"
@@ -125,6 +137,15 @@ event:
       plural: "Évènements"
   properties:
     is_highlight: "Mise en avant"
+    type: "Type"
+
+media_photo:
+  crud:
+    title:
+      singular: "Photo"
+      plural: "Photos"
+  properties:
+    caption: "Légende"
 
 member:
   crud:
@@ -157,11 +178,38 @@ playlist:
       singular: "Playlist"
       plural: "Playlists"
 
+reference:
+  crud:
+    title:
+      singular: "Référence"
+      plural: "Références"
+  properties:
+    icon: "Icône"
+    city: "Ville"
+    year: "Année"
+    lat: "Latitude"
+    lng: "Longitude"
+
 section:
   crud:
     title:
       singular: "Section"
       plural: "Sections"
+  properties:
+    slug: "Slug"
+    position: "Position"
+    age_range: "Tranche d'âge"
+    schedule: "Horaire"
+    instructor_name: "Encadrant(e)"
+    images: "Photos"
+
+section_image:
+  crud:
+    title:
+      singular: "Photo de section"
+      plural: "Photos de section"
+  properties:
+    position: "Position"
 
 user:
   change_password:
@@ -239,5 +287,6 @@ word:
   gender:
     female: "Femme"
     male: "Homme"
+  image: "Image"
   name: "Nom"
   url: "Url"

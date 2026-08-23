@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Infra\EasyAdmin\Controller;
 
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -14,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Infra\Symfony\Persistance\Doctrine\Entity\DocumentCategory;
 
+#[AdminRoute(path: '/documents/categories', name: 'documentCategory')]
 class DocumentCategoryCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string

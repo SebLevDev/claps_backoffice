@@ -1,0 +1,96 @@
+{% extends 'layout.html.twig' %}
+
+{% block banner_title %}Contact{% endblock %}
+{% block title %}Contact & Inscription – Clap'Sabots{% endblock %}
+
+{% block main %}
+<section class="section">
+    <div class="container" style="max-width:700px">
+        <p class="hero-eyebrow">Nous rejoindre</p>
+        <h1 class="display">Contact & Inscription</h1>
+
+        {% for message in app.flashes('success') %}
+            <div class="notice mb-16">✅ {{ message }}</div>
+        {% endfor %}
+
+        <div class="tabs">
+            <button type="button" class="tab {{ activeTab == 'contact-form' ? 'active' }}" onclick="switchTab('contact-form',this)">✉️ Nous contacter</button>
+            <button type="button" class="tab {{ activeTab == 'inscription-form' ? 'active' }}" onclick="switchTab('inscription-form',this)">📝 S'inscrire</button>
+        </div>
+
+        <div class="tab-panel {{ activeTab == 'contact-form' ? 'active' }}" id="tab-contact-form">
+            {{ form_start(contactForm) }}
+                <div class="form-group">
+                    {{ form_label(contactForm.fullName) }}
+                    {{ form_widget(contactForm.fullName) }}
+                    {{ form_errors(contactForm.fullName) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(contactForm.email) }}
+                    {{ form_widget(contactForm.email) }}
+                    {{ form_errors(contactForm.email) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(contactForm.subject) }}
+                    {{ form_widget(contactForm.subject) }}
+                    {{ form_errors(contactForm.subject) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(contactForm.message) }}
+                    {{ form_widget(contactForm.message) }}
+                    {{ form_errors(contactForm.message) }}
+                </div>
+                {{ form_rest(contactForm) }}
+                <button type="submit" class="btn btn-primary">Envoyer le message</button>
+            {{ form_end(contactForm, {render_rest: false}) }}
+        </div>
+
+        <div class="tab-panel {{ activeTab == 'inscription-form' ? 'active' }}" id="tab-inscription-form">
+            <div class="notice mb-16">📋 Ce formulaire pré-remplit votre dossier. Un responsable vous contactera pour finaliser.</div>
+            {{ form_start(registrationForm) }}
+                <div class="form-row">
+                    <div class="form-group">
+                        {{ form_label(registrationForm.firstName) }}
+                        {{ form_widget(registrationForm.firstName) }}
+                        {{ form_errors(registrationForm.firstName) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(registrationForm.lastName) }}
+                        {{ form_widget(registrationForm.lastName) }}
+                        {{ form_errors(registrationForm.lastName) }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        {{ form_label(registrationForm.birthDate) }}
+                        {{ form_widget(registrationForm.birthDate) }}
+                        {{ form_errors(registrationForm.birthDate) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(registrationForm.section) }}
+                        {{ form_widget(registrationForm.section) }}
+                        {{ form_errors(registrationForm.section) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(registrationForm.email) }}
+                    {{ form_widget(registrationForm.email) }}
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(registrationForm.phone) }}
+                    {{ form_widget(registrationForm.phone) }}
+                    {{ form_errors(registrationForm.phone) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(registrationForm.additionalInfo) }}
+                    {{ form_widget(registrationForm.additionalInfo) }}
+                    {{ form_errors(registrationForm.additionalInfo) }}
+                </div>
+                {{ form_rest(registrationForm) }}
+                <button type="submit" class="btn btn-primary">Envoyer ma demande</button>
+            {{ form_end(registrationForm, {render_rest: false}) }}
+        </div>
+    </div>
+</section>
+{% endblock %}

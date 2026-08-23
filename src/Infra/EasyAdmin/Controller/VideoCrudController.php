@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Infra\EasyAdmin\Controller;
 
 use Domain\Video\Enum\VideoTagEnum;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
@@ -21,6 +22,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 
+#[AdminRoute(path: '/videos', name: 'video')]
 class VideoCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string

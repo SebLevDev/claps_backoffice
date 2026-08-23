@@ -18,8 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
@@ -110,10 +109,13 @@ class SecurityController extends BaseController
     }
 
     #[Route('/login', name: 'security_login')]
-    public function login(Request $request, Security $security, AuthenticationUtils $helper): Response
-    {
+    public function login(
+        Request $request,
+        #[CurrentUser] ?User $user,
+        AuthenticationUtils $helper
+    ): Response {
         // if user is already logged in, don't display the login page again
-        if ($security->isGranted('ROLE_USER')) {
+        if ($user) {
             return $this->redirectToRoute('admin_dashboard');
         }
 

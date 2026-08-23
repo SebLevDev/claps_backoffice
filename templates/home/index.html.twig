@@ -4,103 +4,127 @@
 {% block title %}Accueil{% endblock %}
 
 {% block main %}
-    <div id="feature-center" class="feature-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay=".3s" style="visibility: visible;-webkit-animation-delay: .5s; -moz-animation-delay: .5s; animation-delay: .5s;">
-                    <div class="feature-center-content text-center">
-                        <span class="feature-center-icon">
-                             <a href="{{ path('app_user_show') }}">
-                                 <i class="fa fa-user"></i>
-                             </a>
-                        </span>
-                        <h3>Mes infos</h3>
-                        <p>Accède à tes informations personnelles, modifie celle-ci pour qu'elle soit toujours à jours.</p>
-                    </div>
-                </div>
+    <!-- ══════════ HOME ══════════ -->
+    <div class="page active" id="page-home">
+        {% include 'home/_hero.html.twig' %}
+        {% include 'section/_strip.html.twig' %}
+        {% include 'home/_activities.html.twig' %}
+        {% include 'home/_agenda.html.twig' %}
+        {% include 'home/_blog.html.twig' %}
 
-                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay=".6s" style="visibility: visible;-webkit-animation-delay: .8s; -moz-animation-delay: .8s; animation-delay: .8s;">
-                    <div class="feature-center-content text-center">
-                        <span class="feature-center-icon">
-                            <a href="{{ path('app_document_index') }}">
-                                <i class="fa fa-file-pdf-o"></i>
-                            </a>
-                        </span>
-                        <h3>Documents</h3>
-                        <p>Liste de tous les documents officiels ou pratiques (assurances, PV, ...)</p>
-                    </div>
-                </div>
-
-                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay="0.9s" style="visibility: visible;-webkit-animation-delay: 1.4s; -moz-animation-delay: 1.4s; animation-delay: 1.4s;">
-                    <div class="feature-center-content text-center">
-                        <span class="feature-center-icon">
-                             <a href="{{ path('app_dance_index') }}">
-                                <i class="fa fa-star"></i>
-                             </a>
-                        </span>
-                        <h3>Danses</h3>
-                        <p>Retrouvez toutes les informations sur notre répertoire de danses</p>
-                    </div>
+        <!-- CTA -->
+        <section class="section bg-red">
+            <div class="container text-center" style="max-width:580px;margin:auto">
+                <p class="hero-eyebrow" style="color:rgba(255,255,255,.7)!important">Rejoignez-nous</p>
+                <h2 class="section-title" style="color:#fff">Prêt(e) à danser ?</h2>
+                <p style="color:rgba(255,255,255,.75);margin:16px 0 32px">Les cours reprennent chaque automne. Inscriptions ouvertes toute l'année sous réserve de places disponibles.</p>
+                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+                    <a href="{{ path('app_contact') }}" class="btn" style="background:#fff;color:var(--c-red)">Nous contacter</a>
+                    <a href="{{ path('app_sections_list') }}" class="btn btn-outline">Voir les sections</a>
                 </div>
             </div>
-            <!--/ 1st row end -->
-
-            <div class="gap-40"></div>
-
-            <div class="row">
-                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay="0.3s" style="visibility: visible;-webkit-animation-delay: 1.1s; -moz-animation-delay: 1.1s; animation-delay: 1.1s;">
-                    <div class="feature-center-content text-center">
-                        <span class="feature-center-icon">
-                            <a href="{{ path('app_video_index') }}">
-                                <i class="fa fa-film"></i>
-                            </a>
-                        </span>
-                        <h3>Vidéos</h3>
-                        <p>Liste des vidéos de nos derniers spectacles, des stages ou apprentissage de danses.</p>
-                    </div>
-                </div>
-
-                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay=".6s" style="visibility: visible;-webkit-animation-delay: .8s; -moz-animation-delay: .8s; animation-delay: .8s;">
-                    <div class="feature-center-content text-center">
-                        <span class="feature-center-icon">
-                            <a href="{{ path('app_music_index') }}">
-                                <i class="fa fa-file-sound-o"></i>
-                            </a>
-                        </span>
-                        <h3>Musiques</h3>
-                        <p>Liste de toutes les musiques des danses pratiqués : spectacles, animations, ...</p>
-                    </div>
-                </div>
-
-                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay="0.9s" style="visibility: visible;-webkit-animation-delay: 1.1s; -moz-animation-delay: 1.1s; animation-delay: 1.1s;">
-                    <div class="feature-center-content text-center">
-                        <span class="feature-center-icon">
-                            <a href="{{ path('app_clothes_piece_index') }}">
-                                <i class="fa fa-scissors"></i>
-                            </a>
-                        </span>
-                        <h3>Costumes</h3>
-                        <p>Liste des différentes costumes par pays avec les différentes pièces qui les composes.</p>
-                    </div>
-                </div>
-            </div>
-            <!--/ 2nd row end -->
-        </div>
-        <!--/ Container end -->
+        </section>
     </div>
 
-    <section class="feature-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 heading">
-                    <span class="title-icon classic pull-left"><i class="fa fa-film"></i></span>
-                    <h2 class="title classic">Dernières vidéos</h2>
-                    <a href="{{ path('app_video_index') }}" class="widget-title">Toutes les vidéos</a>
-                </div>
-            </div>
+    <!-- L'espace membre réel vit sous /profile, /video, /clothes, /documents, ... (voir templates/member/) -->
 
-            {% include 'video/_grid.html.twig' %}
-        </div>
-    </section>
+{#    <div id="feature-center" class="feature-center">#}
+{#        <div class="container">#}
+{#            <div class="row">#}
+{#                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay=".3s" style="visibility: visible;-webkit-animation-delay: .5s; -moz-animation-delay: .5s; animation-delay: .5s;">#}
+{#                    <div class="feature-center-content text-center">#}
+{#                        <span class="feature-center-icon">#}
+{#                             <a href="{{ path('app_user_show') }}">#}
+{#                                 <i class="fa fa-user"></i>#}
+{#                             </a>#}
+{#                        </span>#}
+{#                        <h3>Mes infos</h3>#}
+{#                        <p>Accède à tes informations personnelles, modifie celle-ci pour qu'elle soit toujours à jours.</p>#}
+{#                    </div>#}
+{#                </div>#}
+
+{#                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay=".6s" style="visibility: visible;-webkit-animation-delay: .8s; -moz-animation-delay: .8s; animation-delay: .8s;">#}
+{#                    <div class="feature-center-content text-center">#}
+{#                        <span class="feature-center-icon">#}
+{#                            <a href="{{ path('app_document_index') }}">#}
+{#                                <i class="fa fa-file-pdf-o"></i>#}
+{#                            </a>#}
+{#                        </span>#}
+{#                        <h3>Documents</h3>#}
+{#                        <p>Liste de tous les documents officiels ou pratiques (assurances, PV, ...)</p>#}
+{#                    </div>#}
+{#                </div>#}
+
+{#                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay="0.9s" style="visibility: visible;-webkit-animation-delay: 1.4s; -moz-animation-delay: 1.4s; animation-delay: 1.4s;">#}
+{#                    <div class="feature-center-content text-center">#}
+{#                        <span class="feature-center-icon">#}
+{#                             <a href="{{ path('app_dance_index') }}">#}
+{#                                <i class="fa fa-star"></i>#}
+{#                             </a>#}
+{#                        </span>#}
+{#                        <h3>Danses</h3>#}
+{#                        <p>Retrouvez toutes les informations sur notre répertoire de danses</p>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <!--/ 1st row end -->#}
+
+{#            <div class="gap-40"></div>#}
+
+{#            <div class="row">#}
+{#                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay="0.3s" style="visibility: visible;-webkit-animation-delay: 1.1s; -moz-animation-delay: 1.1s; animation-delay: 1.1s;">#}
+{#                    <div class="feature-center-content text-center">#}
+{#                        <span class="feature-center-icon">#}
+{#                            <a href="{{ path('app_video_index') }}">#}
+{#                                <i class="fa fa-film"></i>#}
+{#                            </a>#}
+{#                        </span>#}
+{#                        <h3>Vidéos</h3>#}
+{#                        <p>Liste des vidéos de nos derniers spectacles, des stages ou apprentissage de danses.</p>#}
+{#                    </div>#}
+{#                </div>#}
+
+{#                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay=".6s" style="visibility: visible;-webkit-animation-delay: .8s; -moz-animation-delay: .8s; animation-delay: .8s;">#}
+{#                    <div class="feature-center-content text-center">#}
+{#                        <span class="feature-center-icon">#}
+{#                            <a href="{{ path('app_music_index') }}">#}
+{#                                <i class="fa fa-file-sound-o"></i>#}
+{#                            </a>#}
+{#                        </span>#}
+{#                        <h3>Musiques</h3>#}
+{#                        <p>Liste de toutes les musiques des danses pratiqués : spectacles, animations, ...</p>#}
+{#                    </div>#}
+{#                </div>#}
+
+{#                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay="0.9s" style="visibility: visible;-webkit-animation-delay: 1.1s; -moz-animation-delay: 1.1s; animation-delay: 1.1s;">#}
+{#                    <div class="feature-center-content text-center">#}
+{#                        <span class="feature-center-icon">#}
+{#                            <a href="{{ path('app_clothes_piece_index') }}">#}
+{#                                <i class="fa fa-scissors"></i>#}
+{#                            </a>#}
+{#                        </span>#}
+{#                        <h3>Costumes</h3>#}
+{#                        <p>Liste des différentes costumes par pays avec les différentes pièces qui les composes.</p>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <!--/ 2nd row end -->#}
+{#        </div>#}
+{#        <!--/ Container end -->#}
+{#    </div>#}
+
+{#    <section class="feature-center">#}
+{#        <div class="container">#}
+{#            <div class="row">#}
+{#                <div class="col-md-12 heading">#}
+{#                    <span class="title-icon classic pull-left"><i class="fa fa-film"></i></span>#}
+{#                    <h2 class="title classic">Dernières vidéos</h2>#}
+{#                    <a href="{{ path('app_video_index') }}" class="widget-title">Toutes les vidéos</a>#}
+{#                </div>#}
+{#            </div>#}
+
+{#            {% include 'video/_grid.html.twig' %}#}
+{#        </div>#}
+{#    </section>#}
 
 {% endblock %}

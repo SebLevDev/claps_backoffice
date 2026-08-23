@@ -1,0 +1,20 @@
+{% extends 'layout.html.twig' %}
+
+{% block banner_title %}Nos sections{% endblock %}
+{% block title %}Nos sections – Clap'Sabots{% endblock %}
+
+{% block main %}
+<section class="section">
+    <div class="container">
+        <p class="hero-eyebrow">Cours de danse</p>
+        <h1 class="display">Nos sections</h1>
+        <p class="lead" style="max-width:580px">Que vous ayez 4 ou 80 ans, débutant ou chevronné, il y a une place pour vous chez Clap'Sabots.</p>
+
+        <div class="grid-2 mt-32">
+            {% for section in sections %}
+                {% include 'section/_card.html.twig' %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

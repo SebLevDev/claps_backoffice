@@ -1,0 +1,9 @@
+<a class="section-card" href="{{ path('app_sections_show', {slug: section.slug}) }}">
+	{% if section.images is not empty %}
+		<img src="{{ section.images[0] }}" alt="{{ section.title }}" onerror="this.style.display='none'">
+	{% endif %}
+	<div class="section-card-overlay">
+		<h4>{{ section.title }}</h4>
+		<p>{{ section.age }}</p>
+	</div>
+</a>

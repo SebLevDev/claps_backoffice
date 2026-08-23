@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block head %}
+	{% include '_head.html.twig' %}
+{% endblock %}
+
+{% block header %}
+	{% include '_header.html.twig' %}
+{% endblock %}
+
+
+{% block container %}
+	<div id="main-container" class="portfolio-static">
+		<div class="container">
+			<div class="row">
+				<section id="main" class="col-sm-9">
+					{% block main %}{% endblock %}
+				</section>
+				<aside id="sidebar" class="col-sm-3">
+					<section class="sidebar sidebar-right">
+						{% block sidebar %}{% endblock %}
+					</section>
+				</aside>
+			</div>
+		</div><!-- Container end -->
+	</div><!-- container end -->
+	<div class="gap-40"></div>
+{% endblock %}
+
+{% block footer %}
+	<!-- Footer start -->
+	<footer id="footer" class="footer">
+		{% include '_footer.html.twig' %}
+	</footer><!-- Footer end -->
+{% endblock %}
+
+{% block copyright %}
+	<!-- Copyright start -->
+	<section id="copyright" class="copyright angle">
+		{% include '_copyright.html.twig' %}
+	</section>
+{% endblock %}

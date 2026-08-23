@@ -1,61 +1,42 @@
-<header id="header" class="fixed-top header" role="banner">
-	<a class="navbar-brand navbar-bg" href="/"><img class="img-fluid float-right" src="/images/logo.png" alt="logo"></a>
-		<div class="container">
-			<nav class="navbar navbar-expand-lg navbar-dark">
-				<button class="navbar-toggler ml-auto border-0 rounded-0 text-white" type="button" data-toggle="collapse"
-						data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="fa fa-bars"></span>
-				</button>
-
-				<div class="collapse navbar-collapse text-center" id="navigation">
-					<ul class="navbar-nav ml-auto">
-						<li class="nav-item active">
-							<a class="nav-link" href="/">Home</a>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="{{ path('app_media_index') }}" role="button" data-toggle="dropdown" aria-haspopup="true"
-							   aria-expanded="false">
-								Média
-							</a>
-							<div class="dropdown-menu">
-								<a class="dropdown-item" href="{{ path('app_music_index') }}">Musiques</a>
-								<a class="dropdown-item" href="{{ path('app_video_index') }}">Vidéo</a>
-							</div>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-							   aria-expanded="false">
-								Costumes
-							</a>
-							<div class="dropdown-menu">
-								<a class="dropdown-item" href="{{ path('app_index') }}">Costumes <small>Coming soon</small></a>
-								<a class="dropdown-item" href="{{ path('app_clothes_piece_index') }}">Pièces</a>
-							</div>
-						</li>
-
-						<li class="nav-item active">
-							<a class="nav-link" href="{{ path('app_document_index') }}">Documents</a>
-						</li>
-
-						{% if is_granted('ROLE_ADMIN') %}
-							<li class="nav-item active">
-								<a class="nav-link" href="{{ path('admin_dashboard') }}">Admin</a>
-							</li>
-						{% endif %}
-
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-							   aria-expanded="false">
-								Mon compte
-							</a>
-							<div class="dropdown-menu">
-								<a class="dropdown-item" href="{{ path('app_user_show') }}">Mes informations personnelles</a>
-								<a class="dropdown-item" href="{{ path('user_edit') }}">{{ "user.edit_user.action" | trans }}</a>
-								<a class="dropdown-item" href="{{ path('security_logout') }}">Me déconnecter</a>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</nav>
-		</div>
-</header>
+<nav>
+    <a class="nav-logo" href="/">Clap'<span>Sabots</span></a>
+    <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="/">Accueil</a></li>
+        <li class="dropdown"><a href="#">Le Groupe</a>
+            <div class="dropdown-menu">
+                <a href="{{ path('app_history') }}">Histoire & Qui sommes-nous</a>
+                <a href="{{ path('app_giants') }}">Nos géants</a>
+                <a href="{{ path('app_references') }}">Références</a>
+                <a href="{{ path('app_friends') }}">L'AmiClap</a>
+            </div>
+        </li>
+        <li class="dropdown"><a href="#">Sections</a>
+            <div class="dropdown-menu">
+                <a href="{{ path('app_sections_list') }}">Toutes les sections</a>
+                {% for section in nav_sections() %}
+                    {% if section.slug %}
+                        <a href="{{ path('app_sections_show', {slug: section.slug}) }}">{{ section.name }}{% if section.ageRange %} ({{ section.ageRange }}){% endif %}</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </li>
+        <li class="dropdown"><a href="#">Activités</a>
+            <div class="dropdown-menu">
+                <a href="{{ path('app_shows') }}">Spectacles & animations</a>
+                <a href="{{ path('app_workshops') }}">Stages avec chorégraphe</a>
+                <a href="{{ path('app_trips') }}">Voyages & échanges culturels</a>
+            </div>
+        </li>
+        <li><a href="{{ path('app_agenda_list') }}">Agenda</a></li>
+        <li><a href="{{ path('app_medias') }}">Médias</a></li>
+        <li><a href="{{ path('app_blog_list') }}">Blog</a></li>
+        <li><a href="{{ path('app_contact') }}">Contact</a></li>
+        {% if is_granted('ROLE_USER') %}
+            <li><a href="{{ path('app_user_show') }}">Mon Espace</a></li>
+            <li><a href="{{ path('security_logout') }}" style="background:#5c3d2e!important">Déconnexion</a></li>
+        {% else %}
+            <li><a href="{{ path('security_login') }}" id="btn-login">Connexion</a></li>
+        {% endif %}
+    </ul>
+</nav>

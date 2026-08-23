@@ -7,7 +7,7 @@ namespace Infra\Symfony\Controller;
 use Infra\Symfony\Persistance\Doctrine\Entity\Dance;
 use Infra\Symfony\Persistance\Doctrine\Repository\DanceRepository;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/dance')]
 class DanceController extends BaseController

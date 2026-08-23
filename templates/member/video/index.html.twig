@@ -1,0 +1,24 @@
+{% extends 'old/layout.html.twig' %}
+
+{% block banner_title %}Videos{% endblock %}
+{% block title %}Videos{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-3 heading">
+            <span class="title-icon classic pull-left"><i class="fa fa-film"></i></span>
+            <h2 class="title classic">Vidéos</h2>
+        </div>
+        <div class="col-md-9">
+            {{ include('video/_form_simple.html.twig') }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {{ include('video/_form_filter.html.twig') }}
+        </div>
+    </div>
+
+    {% include '_grid.html.twig' %}
+
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'layout.html.twig' %}
+
+{% block banner_title %}Références{% endblock %}
+{% block title %}Nos références – Clap'Sabots{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        .ref-map-wrap { border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--c-border);box-shadow:var(--shadow-lg);margin-top:32px }
+        #ref-map { height:520px }
+        .map-pin { width:14px;height:14px;border-radius:50%;background:var(--c-red);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35) }
+        .map-pin.intl { background:var(--c-brown) }
+        .leaflet-popup-content-wrapper { border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.18) }
+        .leaflet-popup-content { margin:12px 14px;font-family:Inter,sans-serif }
+        .popup-name { font-weight:600;font-size:.88rem;color:#2c2218;margin-bottom:4px }
+        .popup-loc  { font-size:.78rem;color:#7a6a58 }
+        .popup-year { font-size:.78rem;font-weight:700;color:#b83227;margin-top:4px }
+        .popup-desc { font-size:.75rem;color:#7a6a58;margin-top:4px;font-style:italic }
+
+        .ref-timeline { position:relative }
+        .ref-year-group { margin-bottom:4px }
+        .ref-year-label { font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--c-red);padding:10px 0 4px;border-top:1px solid var(--c-border);margin-top:4px }
+        .ref-entries { display:flex;flex-direction:column;gap:6px;padding-bottom:8px }
+        .ref-entry { display:flex;align-items:flex-start;gap:10px;background:var(--c-card);border:1px solid var(--c-border);border-radius:var(--r);padding:10px 14px;transition:border-color .2s }
+        .ref-entry:hover { border-color:rgba(184,50,39,.3) }
+        .ref-entry-icon { font-size:1.1rem;flex-shrink:0;margin-top:1px }
+        .ref-entry-body { flex:1;min-width:0 }
+        .ref-entry-name { font-weight:600;font-size:.85rem;color:var(--c-text) }
+        .ref-entry-loc  { font-size:.76rem;color:var(--c-muted);margin-top:2px }
+        .ref-entry-desc { font-size:.74rem;color:var(--c-muted);font-style:italic;margin-top:2px }
+        .ref-entry-badge { flex-shrink:0;font-size:.68rem;font-weight:700;padding:2px 7px;border-radius:20px;background:var(--c-red-lt);color:var(--c-red);white-space:nowrap;align-self:flex-start }
+        .ref-entry-badge.intl { background:#f0ebe5;color:var(--c-brown) }
+        .map-legend { display:flex;gap:16px;padding:10px 14px;font-size:.78rem;color:var(--c-muted);background:var(--c-bg);border-top:1px solid var(--c-border) }
+        .legend-dot { width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:middle }
+        @media(max-width:600px){ #ref-map{height:340px} }
+    </style>
+{% endblock %}
+
+{% block main %}
+<section class="section">
+    <div class="container">
+        <p class="hero-eyebrow">Nos références</p>
+        <h1 class="display">Là où nous avons dansé</h1>
+        <p class="lead" style="max-width:620px;margin-top:8px">Depuis 1982, Clap'Sabots a représenté la Belgique partout en Europe et au-delà — des fêtes de village du Brabant Wallon aux festivals internationaux de folklore.</p>
+
+        <div class="ref-map-wrap">
+            <div id="ref-map"></div>
+            <div class="map-legend">
+                <span><span class="legend-dot" style="background:#b83227"></span>Belgique</span>
+                <span><span class="legend-dot" style="background:#5c3d2e"></span>International</span>
+            </div>
+        </div>
+
+        <h2 class="section-title mt-48">Historique</h2>
+
+        <div class="ref-timeline mt-24">
+            {% set current_year = null %}
+            {% for ref in references|sort((a, b) => b.year <=> a.year) %}
+                {% if ref.year != current_year %}
+                    {% if current_year is not null %}</div></div>{% endif %}
+                    {% set current_year = ref.year %}
+                    <div class="ref-year-group">
+                    <div class="ref-year-label">{{ ref.year }}</div>
+                    <div class="ref-entries">
+                {% endif %}
+                {% set is_intl = ref.country != 'Belgique' %}
+                <div class="ref-entry">
+                    <div class="ref-entry-icon">{{ ref.icon }}</div>
+                    <div class="ref-entry-body">
+                        <div class="ref-entry-name">{{ ref.name }}</div>
+                        <div class="ref-entry-loc">📍 {{ ref.city }}, {{ ref.country }}</div>
+                        {% if ref.desc %}<div class="ref-entry-desc">{{ ref.desc }}</div>{% endif %}
+                    </div>
+                    <span class="ref-entry-badge {{ is_intl ? 'intl' : '' }}">{{ is_intl ? 'International' : 'Belgique' }}</span>
+                </div>
+            {% endfor %}
+            {% if current_year is not null %}</div></div>{% endif %}
+        </div>
+    </div>
+</section>
+
+<script>
+const REFS = {{ references|json_encode|raw }};
+
+const map = L.map('ref-map');
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
+    maxZoom: 18,
+}).addTo(map);
+
+const bounds = [];
+
+REFS.forEach(r => {
+    if (r.lat == null || r.lng == null) return;
+    const isIntl = r.country !== 'Belgique';
+    const pin = L.divIcon({
+        className: '',
+        html: `<div class="map-pin${isIntl ? ' intl' : ''}"></div>`,
+        iconSize: [14, 14],
+        iconAnchor: [7, 7],
+        popupAnchor: [0, -10],
+    });
+
+    const desc = r.desc ? `<div class="popup-desc">${r.desc}</div>` : '';
+    L.marker([r.lat, r.lng], { icon: pin })
+        .addTo(map)
+        .bindPopup(
+            `<div class="popup-name">${r.icon} ${r.name}</div>
+             <div class="popup-loc">📍 ${r.city}, ${r.country}</div>
+             <div class="popup-year">📅 ${r.year}</div>${desc}`,
+            { maxWidth: 240, minWidth: 180 }
+        );
+    bounds.push([r.lat, r.lng]);
+});
+
+if (bounds.length) {
+    map.fitBounds(bounds, { padding: [32, 32] });
+}
+</script>
+{% endblock %}
