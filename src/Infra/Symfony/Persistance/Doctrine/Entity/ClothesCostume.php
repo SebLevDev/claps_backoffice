@@ -41,7 +41,7 @@ class ClothesCostume implements \Stringable
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $city = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     private $gender;
 
     #[ORM\ManyToOne(targetEntity: ClothesOpportunity::class)]

@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Infra\EasyAdmin\Controller;
 
 use Domain\MemberShip\Service\PdfInsurance;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use EasyCorp\Bundle\EasyAdminBundle\Factory\FieldFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Infra\Symfony\Persistance\Doctrine\Entity\ClubYear;
@@ -33,6 +35,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
+#[AdminRoute(path: '/memberships', name: 'membership')]
 class MemberShipCrudController extends AbstractCrudController
 {
     public function __construct(private readonly CsvService $csvService, private readonly EntityManagerInterface $entityManager)
@@ -80,7 +83,7 @@ class MemberShipCrudController extends AbstractCrudController
             ->add(EntityFilter::new('sections'));
     }
 
-    public function createEntity(string $entityFqcn)
+    public function createEntity(string $entityFqcn): object
     {
         $clubYear = $this->entityManager->getRepository(ClubYear::class)->findCurrentYear();
 
@@ -135,24 +138,33 @@ class MemberShipCrudController extends AbstractCrudController
             ->addOrderBy('member.birthdate', 'DESC');
     }
 
-    public function export(Request $request)
+    #[AdminRoute(path: '/export', name: 'export')]
+    public function export(Request $request, FieldFactory $fieldFactory)
     {
         $context = $request->attributes->get(EA::CONTEXT_REQUEST_ATTRIBUTE);
-        $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
-        $filters = $this->container->get(FilterFactory::class)->create($context->getCrud()->getFiltersConfig(), $fields, $context->getEntity());
+        $fieldFactory = $this->container->get(FieldFactory::class);
+        $configuredFields = $this->configureFields(Crud::PAGE_INDEX);
+        $processedFields = $fieldFactory->processFields($context->getEntity(), $configuredFields);
+        $fields = new FieldCollection($processedFields);
+        $filters = $this->container->get(FilterFactory::class)->create(
+            $context->getCrud()->getFiltersConfig(),
+            $fields,
+            $context->getEntity()
+        );
         $members = $this->createIndexQueryBuilder($context->getSearch(), $context->getEntity(), $fields, $filters)
             ->getQuery()
             ->getResult();
 
         $data = [];
         foreach ($members as $member) {
-            /** @var $member MemberShip */
+            /** @var MemberShip $member */
             $data[] = $member->getExportData();
         }
 
         return $this->csvService->export($data, 'export_members_'.date_create()->format('d-m-y').'.csv');
     }
 
+    #[AdminRoute(path: '/download-insurance', name: 'generateInsuranceDocument')]
     public function generateInsuranceDocument(AdminContext $context): BinaryFileResponse
     {
         $memberShip = $context->getEntity()->getInstance();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Infra\EasyAdmin\Controller;
 
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use Infra\EasyAdmin\Filter\CountryFilter;
 use Infra\Symfony\Persistance\Doctrine\Entity\ClothesPiece;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -23,6 +24,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 
+#[AdminRoute(path: '/clothes/pieces', name: 'clothesPiece')]
 class ClothesPieceCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string

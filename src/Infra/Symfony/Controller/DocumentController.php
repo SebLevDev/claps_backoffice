@@ -6,7 +6,7 @@ namespace Infra\Symfony\Controller;
 
 use Infra\Symfony\Persistance\Doctrine\Repository\DocumentCategoryRepository;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/documents')]
 class DocumentController extends BaseController

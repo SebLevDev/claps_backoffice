@@ -14,7 +14,7 @@ class CountryFilterType extends AbstractType
         return ChoiceFilterType::class;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'value_type_options' => [

@@ -9,7 +9,7 @@ use Infra\Symfony\Persistance\Doctrine\Entity\Member;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/member')]
 #[IsGranted('ROLE_USER')]

@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Domain\Event\Enum\EventTypeEnum;
 use Infra\Symfony\Persistance\Doctrine\Repository\EventRepository;
 
 #[ApiResource]
@@ -31,6 +32,9 @@ class Event implements \Stringable
 
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isHighlight = false;
+
+    #[ORM\Column(type: Types::STRING, enumType: EventTypeEnum::class, nullable: true)]
+    private ?EventTypeEnum $type = null;
 
     #[ORM\OneToMany(targetEntity: Video::class, mappedBy: 'event', cascade: ['persist'])]
     private $videos;
@@ -94,6 +98,18 @@ class Event implements \Stringable
     public function setVenue(?string $venue): self
     {
         $this->venue = $venue;
+
+        return $this;
+    }
+
+    public function getType(): ?EventTypeEnum
+    {
+        return $this->type;
+    }
+
+    public function setType(?EventTypeEnum $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

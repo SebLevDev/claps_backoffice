@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Infra\EasyAdmin\Controller;
 
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use Infra\Symfony\Persistance\Doctrine\Entity\Barcode;
+use Infra\Symfony\Persistance\Doctrine\Entity\BlogArticle;
 use Infra\Symfony\Persistance\Doctrine\Entity\ClothesColor;
 use Infra\Symfony\Persistance\Doctrine\Entity\ClothesCostume;
 use Infra\Symfony\Persistance\Doctrine\Entity\ClothesOpportunity;
@@ -23,9 +25,12 @@ use Infra\Symfony\Persistance\Doctrine\Entity\Event;
 use Infra\Symfony\Persistance\Doctrine\Entity\LoginHistory;
 use Infra\Symfony\Persistance\Doctrine\Entity\Member;
 use Infra\Symfony\Persistance\Doctrine\Entity\MemberFamily;
+use Infra\Symfony\Persistance\Doctrine\Entity\MediaPhoto;
 use Infra\Symfony\Persistance\Doctrine\Entity\MemberShip;
 use Infra\Symfony\Persistance\Doctrine\Entity\Playlist;
+use Infra\Symfony\Persistance\Doctrine\Entity\Reference;
 use Infra\Symfony\Persistance\Doctrine\Entity\Section;
+use Infra\Symfony\Persistance\Doctrine\Entity\SectionImage;
 use Infra\Symfony\Persistance\Doctrine\Entity\User;
 use Infra\Symfony\Persistance\Doctrine\Entity\Video;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -36,13 +41,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
+#[AdminDashboard(routePath: '/admin', routeName: 'admin_dashboard')]
 class DashboardController extends AbstractDashboardController
 {
-    /**
-     * @Route("/admin", name="admin_dashboard")
-     */
     public function index(): Response
     {
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
@@ -85,56 +88,61 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         $submenuAdmin = [
-            MenuItem::linkToCrud('Club', 'fa fa-building', Club::class),
-            MenuItem::linkToCrud('ClubYear', 'fa fa-calendar-alt', ClubYear::class),
-            MenuItem::linkToCrud('Section', 'fa fa-list', Section::class),
-            MenuItem::linkToCrud('User', 'fa fa-user-circle-o', User::class),
-            MenuItem::linkToCrud('Login History', 'fa fa-user-circle-o', LoginHistory::class),
+            MenuItem::linkTo(ClubCrudController::class, 'Club', 'fa fa-building'),
+            MenuItem::linkTo(ClubYearCrudController::class, 'Années', 'fa fa-calendar-alt'),
+            MenuItem::linkTo(SectionCrudController::class, 'Sections', 'fa fa-list'),
+            MenuItem::linkTo(SectionImageCrudController::class, 'Photos des sections', 'fa fa-images'),
+            MenuItem::linkTo(UserCrudController::class, 'Users', 'fa fa-user-circle-o'),
+            MenuItem::linkTo(LoginHistoryCrudController::class, 'Login History', 'fa fa-user-circle-o'),
         ];
 
         $now = new \DateTimeImmutable();
         $submenuMember = [
-            MenuItem::linkToCrud('Members', 'fa fa-user', Member::class),
-            MenuItem::linkToCrud('MemberShip '.$now->format('Y'), 'fa fa-address-card', MemberShip::class),
-            MenuItem::linkToCrud('Families', 'fa fa-users', MemberFamily::class),
-            MenuItem::linkToRoute('Addresses map', 'fa fa-map', 'admin_dashboard_addressmap'),
+            MenuItem::linkTo(MemberCrudController::class, 'Members', 'fa fa-user'),
+            MenuItem::linkTo(MemberShipCrudController::class, 'MemberShip', 'fa fa-address-card'),
+            MenuItem::linkTo(MemberFamilyCrudController::class, 'Familles', 'fa fa-users'),
         ];
 
         $submenuDocument = [
-            MenuItem::linkToCrud('Documents', 'fa fa-file', DocumentFile::class),
-            MenuItem::linkToCrud('Categories', 'fa fa-sitemap', DocumentCategory::class),
+            MenuItem::linkTo(DocumentFileCrudController::class, 'Documents', 'fa fa-file'),
+            MenuItem::linkTo(DocumentCategoryCrudController::class, 'Categories', 'fa fa-sitemap'),
         ];
 
         $submenuDance = [
-            MenuItem::linkToCrud('Dances', 'fa fa-file', Dance::class),
+            MenuItem::linkTo(DanceCrudController::class, 'Danses', 'fa fa-file'),
         ];
 
         $submenuClothe = [
-            MenuItem::linkToCrud('Costumes', 'fa fa-user-tie', ClothesCostume::class),
-            MenuItem::linkToCrud('Pieces', 'fa fa-tshirt', ClothesPiece::class),
-            MenuItem::linkToCrud('Stock', 'fa fa-cubes', ClothesPieceStock::class),
-            MenuItem::linkToCrud('Types', 'fa fa-filter', ClothesType::class),
-            MenuItem::linkToCrud('Opportunity', 'fa fa-glass-cheers', ClothesOpportunity::class),
-            MenuItem::linkToCrud('Seasons', 'fa fa-cloud-sun', ClothesSeason::class),
-            MenuItem::linkToCrud('Textures', 'fa fa-feather', ClothesTexture::class),
-            MenuItem::linkToCrud('Zones', 'fa fa-puzzle-piece', ClothesTypeZone::class),
-            MenuItem::linkToCrud('Color', 'fa fa-paint-brush', ClothesColor::class),
+            MenuItem::linkTo(ClothesCostumeCrudController::class, 'Costumes', 'fa fa-user-tie'),
+            MenuItem::linkTo(ClothesPieceCrudController::class, 'Pièces', 'fa fa-tshirt'),
+            MenuItem::linkTo(ClothesPieceStockCrudController::class, 'Stock', 'fa fa-cubes'),
+            MenuItem::linkTo(ClothesTypeCrudController::class, 'Types', 'fa fa-filter'),
+            MenuItem::linkTo(ClothesOpportunityCrudController::class, 'Opportunités', 'fa fa-glass-cheers'),
+            MenuItem::linkTo(ClothesSeasonCrudController::class, 'Saisons', 'fa fa-cloud-sun'),
+            MenuItem::linkTo(ClothesTextureCrudController::class, 'Textures', 'fa fa-feather'),
+            MenuItem::linkTo(ClothesTypeZoneCrudController::class, 'Zones', 'fa fa-puzzle-piece'),
+            MenuItem::linkTo(ClothesColorCrudController::class,'Couleurs', 'fa fa-paint-brush'),
         ];
 
         $submenuMedia = [
-            MenuItem::linkToCrud('Video', 'fa fa-film', Video::class),
+            MenuItem::linkTo(VideoCrudController::class, 'Vidéos', 'fa fa-film'),
+            MenuItem::linkTo(MediaPhotoCrudController::class, 'Photos', 'fa fa-images'),
             MenuItem::linkToDashboard('Music <small>(soon)</small>', 'fa fa-music'),
-            MenuItem::linkToCrud('Playlist', 'fa fa-list', Playlist::class),
+            MenuItem::linkTo(PlaylistCrudController::class, 'Playlist', 'fa fa-list'),
         ];
 
         $submenuEvent = [
-            MenuItem::linkToCrud('Event', 'fa fa-calendar-alt', Event::class),
-            MenuItem::linkToCrud('Barcode', 'fa fa-barcode', Barcode::class),
-            MenuItem::linkToDashboard('Reservation <small>(soon)</small>', 'fa fa-ticket-alt'),
+            MenuItem::linkTo(EventCrudController::class, 'Evenements', 'fa fa-calendar-alt'),
+            MenuItem::linkTo(BarcodeCrudController::class, 'Codes à barres', 'fa fa-barcode'),
         ];
 
         $submenuMarketing = [
             MenuItem::linkToDashboard('Newsletter <small>(soon)</small>', 'fa fa-paper-plane'),
+        ];
+
+        $submenuWebsite = [
+            MenuItem::linkTo(BlogArticleCrudController::class, 'Articles de blog', 'fa fa-newspaper'),
+            MenuItem::linkTo(ReferenceCrudController::class, 'Références', 'fa fa-globe'),
         ];
 
         if ($this->isGranted('ROLE_SUPER_ADMIN')) {
@@ -147,6 +155,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::subMenu('Costumes', 'fas fa-tshirt')->setSubItems($submenuClothe);
         yield MenuItem::subMenu('Medias', 'fas fa-photo-video')->setSubItems($submenuMedia);
         yield MenuItem::subMenu('Event', 'fa fa-calendar-alt')->setSubItems($submenuEvent);
+        yield MenuItem::subMenu('Site public', 'fas fa-globe')->setSubItems($submenuWebsite);
         yield MenuItem::subMenu('Marketing', 'fas fa-bullhorn')->setSubItems($submenuMarketing);
     }
 }

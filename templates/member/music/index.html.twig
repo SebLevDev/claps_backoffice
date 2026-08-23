@@ -1,0 +1,29 @@
+{% extends 'old/layout.html.twig' %}
+
+{% block banner_title %}Music{% endblock %}
+{% block title %}Music{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-6 heading">
+            <span class="title-icon classic pull-left"><i class="fa fa-file-sound-o"></i></span>
+            <h2 class="title classic">Music</h2>
+        </div>
+        <div class="col-md-6">
+        </div>
+    </div>
+
+    <div class="error-page text-center">
+        <div class="error-message">
+            <h3>Encore un peu de patience !</h3>
+        </div>
+        <div class="error-body">
+            Cette page est toujorus en cour de développement.<br>
+            <a href="/" class="btn btn-outline-primary blank">
+                <i class="fa fa-arrow-circle-left">&nbsp;</i>
+                Retour
+            </a>
+        </div>
+    </div>
+
+{% endblock %}

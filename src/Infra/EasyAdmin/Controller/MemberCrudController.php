@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Infra\EasyAdmin\Controller;
 
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -28,6 +29,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Infra\Symfony\Service\CsvService;
 use Symfony\Component\HttpFoundation\Request;
 
+#[AdminRoute(path: '/members', name: 'member')]
 class MemberCrudController extends AbstractCrudController
 {
     public function __construct(
@@ -41,7 +43,7 @@ class MemberCrudController extends AbstractCrudController
         return Member::class;
     }
 
-    public function createEntity(string $entityFqcn)
+    public function createEntity(string $entityFqcn): object
     {
         $address = new Address();
         $address->setCountry('BE');
@@ -102,7 +104,7 @@ class MemberCrudController extends AbstractCrudController
         return [
             FormField::addTab('member.crud.form.personal'),
 
-            FormField::addPanel('member.crud.form.personal'),
+            FormField::addFieldset('member.crud.form.personal'),
             IdField::new('id')->onlyOnDetail(),
             TextField::new('firstName', 'member.properties.firstname'),
             TextField::new('lastName', 'member.properties.lastname'),
@@ -120,16 +122,16 @@ class MemberCrudController extends AbstractCrudController
                     'Mutualité Neutre' => 'MN'
                 ]),
 
-            FormField::addPanel('member.crud.form.contact')->collapsible(),
+            FormField::addFieldset('member.crud.form.contact')->collapsible(),
             EmailField::new('email', 'member.properties.email'),
             TelephoneField::new('phone', 'member.properties.phone'),
             TelephoneField::new('mobilePhone', 'member.properties.mobilePhone'),
 
-            FormField::addPanel('member.crud.form.families')->collapsible(),
+            FormField::addFieldset('member.crud.form.families')->collapsible(),
             AssociationField::new('families', 'member.properties.families')
                 ->setTemplatePath('admin/field/property_family.html.twig'),
 
-            FormField::addPanel('member.crud.form.address')->collapsible(),
+            FormField::addFieldset('member.crud.form.address')->collapsible(),
             TextField::new('address.street', 'address.properties.street')->hideOnIndex(),
             TextField::new('address.streetNumber', 'address.properties.streetNumber')->hideOnIndex(),
             TextField::new('address.streetBox', 'address.properties.streetBox')->hideOnIndex(),
@@ -143,7 +145,7 @@ class MemberCrudController extends AbstractCrudController
                 ->onlyOnDetail(),
 
             FormField::addTab('member.crud.form.bodyMeasurement'),
-            FormField::addPanel('member.crud.form.bodyMeasurement'),
+            FormField::addFieldset('member.crud.form.bodyMeasurement'),
             IntegerField::new('bodyMeasurement.neck', 'body_measurement.properties.neck')->hideOnIndex()->setHelp("cm"),
             IntegerField::new('bodyMeasurement.bust', 'body_measurement.properties.bust')->hideOnIndex()->setHelp("cm"),
             IntegerField::new('bodyMeasurement.underBust', 'body_measurement.properties.underBust')->hideOnIndex()->setHelp("cm"),
@@ -169,6 +171,7 @@ class MemberCrudController extends AbstractCrudController
         ];
     }
 
+    #[AdminRoute(path: '/export', name: 'export')]
     public function export(Request $request)
     {
         $context = $request->attributes->get(EA::CONTEXT_REQUEST_ATTRIBUTE);

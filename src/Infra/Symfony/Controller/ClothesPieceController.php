@@ -9,7 +9,7 @@ use Infra\Symfony\Form\Type\SearchVideoType;
 use Infra\Symfony\Persistance\Doctrine\Entity\ClothesPiece;
 use Infra\Symfony\Persistance\Doctrine\Repository\ClothesPieceRepository;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/clothes/pieces')]
 class ClothesPieceController extends BaseController

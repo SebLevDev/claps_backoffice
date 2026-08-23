@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SearchClothesPieceType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $countries = $options['countries'];
         $countriesChoice = [];
@@ -47,19 +47,11 @@ class SearchClothesPieceType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'data_class' => ClothesPiece::class,
             'countries' => []
         ));
-    }
-
-    public function getBlockPrefix() {
-        return '';
-    }
-
-    public function getName() {
-        return '';
     }
 }

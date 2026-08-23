@@ -1,4 +1,4 @@
-{% extends 'layout_rightcolumn.html.twig' %}
+{% extends 'old/layout_rightcolumn.html.twig' %}
 
 {% block body_id 'user_login' %}
 
@@ -22,8 +22,6 @@
         {% if csrf_token_intention|default(false) %}
             <input type="hidden" name="_csrf_token" value="{{ csrf_token(csrf_token_intention) }}">
         {% endif %}
-
-        <input type="hidden" name="{{ target_path_parameter|default('_target_path') }}" value="{{ target_path|default(ea is defined ? path(ea.dashboardRouteName) : '/') }}" />
 
         <div class="form-group">
             <label class="form-control-label required" for="username">{{ _username_label }}</label>

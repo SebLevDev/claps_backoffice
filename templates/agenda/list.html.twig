@@ -1,0 +1,66 @@
+{% extends 'layout.html.twig' %}
+
+{% set type_labels = {spectacle: 'Spectacle', stage: 'Stage', voyage: 'Voyage', cours: 'Cours'} %}
+
+{% block banner_title %}Agenda{% endblock %}
+{% block title %}Agenda – Clap'Sabots{% endblock %}
+
+{% block main %}
+<section class="section">
+    <div class="container">
+        <p class="hero-eyebrow">Calendrier</p>
+        <h1 class="display">Agenda</h1>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin:24px 0">
+            <a href="{{ path('app_agenda_list') }}" class="pill {{ currentType == 'tous' ? 'active' : '' }}">Tous</a>
+            {% for type in types %}
+            <a href="{{ path('app_agenda_list', {type: type}) }}" class="pill {{ currentType == type ? 'active' : '' }}">
+                {{ type_labels[type] ?? type|capitalize }}
+            </a>
+            {% endfor %}
+        </div>
+
+        <div>
+            {% if events is empty %}
+                <p class="text-muted">Aucun événement pour ce filtre.</p>
+            {% else %}
+                {% for event in events %}
+                    {% include 'agenda/_list-item.html.twig' %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="section bg-alt" style="padding-top:0">
+    <div class="container">
+        <div class="agenda-ref-cta">
+            <div class="agenda-ref-cta-stats">
+                <div class="agenda-ref-stat">
+                    <span class="agenda-ref-stat-num">40+</span>
+                    <span class="agenda-ref-stat-label">ans de scène</span>
+                </div>
+                <div class="agenda-ref-stat-divider"></div>
+                <div class="agenda-ref-stat">
+                    <span class="agenda-ref-stat-num">20+</span>
+                    <span class="agenda-ref-stat-label">pays visités</span>
+                </div>
+                <div class="agenda-ref-stat-divider"></div>
+                <div class="agenda-ref-stat">
+                    <span class="agenda-ref-stat-num">50+</span>
+                    <span class="agenda-ref-stat-label">festivals</span>
+                </div>
+            </div>
+            <div class="agenda-ref-cta-body">
+                <p class="hero-eyebrow">Nos aventures</p>
+                <h2 style="font-family:'Playfair Display',serif;font-size:1.6rem;margin:6px 0 10px">Découvrez où Clap'Sabots a dansé</h2>
+                <p style="color:var(--c-muted);font-size:.9rem;line-height:1.7;max-width:480px">De l'URSS au Canada, de la Grèce à la Hongrie — explorez 40 ans de participations à des festivals de folklore en Europe et au-delà, sur une carte interactive.</p>
+                <a href="{{ path('app_references') }}" class="btn btn-primary mt-20">
+                    Voir l'historique &rarr;
+                </a>
+            </div>
+            <div class="agenda-ref-cta-globe">🗺️</div>
+        </div>
+    </div>
+</section>
+{% endblock %}

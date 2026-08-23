@@ -8,17 +8,8 @@
 	{% include '_header.html.twig' %}
 {% endblock %}
 
-{% block banner %}
-	{% include '_banner.html.twig' %}
-{% endblock %}
-
 {% block container %}
-	<section id="main-container" class="portfolio-static">
-		<div class="container">
-			{% block main %}{% endblock %}
-		</div><!-- Container end -->
-	</section><!-- container end -->
-	<div class="gap-40"></div>
+	{% block main %}{% endblock %}
 {% endblock %}
 
 {% block footer %}

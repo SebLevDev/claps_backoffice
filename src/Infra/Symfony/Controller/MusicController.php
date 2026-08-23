@@ -8,7 +8,7 @@ use Infra\Symfony\Persistance\Doctrine\Entity\Video;
 use Infra\Symfony\Form\Type\SearchVideoType;
 use Infra\Symfony\Persistance\Doctrine\Repository\VideoRepository;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/music')]
 class MusicController extends BaseController

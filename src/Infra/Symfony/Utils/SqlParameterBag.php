@@ -7,22 +7,21 @@ use Symfony\Component\HttpFoundation\Request;
 
 class SqlParameterBag extends ParameterBag
 {
-    public final const ASC  = 'ASC';
-    public final const DESC = 'DESC';
+    public final const string ASC = 'ASC';
+    public final const string DESC = 'DESC';
 
-    public final const LIMIT     = 'limit';
-    public final const OFFSET    = 'offset';
-    public final const ORDER     = 'order';
-    public final const ORDERBY   = 'orderby';
-    public final const PAGE      = 'page';
+    public final const string LIMIT = 'limit';
+    public final const string OFFSET = 'offset';
+    public final const string ORDER = 'order';
+    public final const string ORDERBY = 'orderby';
+    public final const string PAGE = 'page';
 
-    public final const MIN_PAGE = 1;
-    public final const MIN_OFFSET = 0;
-    public final const MAX_LIMIT = 1000;
+    public final const int MIN_PAGE = 1;
+    public final const int MIN_OFFSET = 0;
+    public final const int MAX_LIMIT = 1000;
 
     /**
      * @param array $parameters An array of parameters
-     * @param int $returnType
      */
     public function __construct(array $parameters = [])
     {
@@ -33,20 +32,18 @@ class SqlParameterBag extends ParameterBag
      * @param mixed $key
      * @param mixed|null $value
      * @param mixed|null $defaultValue
-     * @return SqlParameterBag
      */
-    public function set($key, $value = null, $defaultValue = null)
+    public function set($key, $value = null, mixed $defaultValue = null): void
     {
         if ($value === null) {
             $value = $defaultValue;
         }
 
         parent::set($key, $value);
-        return $this;
     }
 
 
-    public function setRequest(Request $request):SqlParameterBag
+    public function setRequest(Request $request): self
     {
         foreach ($request->query AS $key => $value) {
             switch(strtolower((string) $key)) {
@@ -70,10 +67,7 @@ class SqlParameterBag extends ParameterBag
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getLimit()
+    public function getLimit(): ?int
     {
         return ($limit = $this->getInt(self::LIMIT))
             ? $limit
@@ -83,7 +77,7 @@ class SqlParameterBag extends ParameterBag
     /**
      * @param int $value
      */
-    public function setLimit($value):SqlParameterBag
+    public function setLimit(int $value): self
     {
         $value = abs($value);
         $value = ($value > self::MAX_LIMIT) ? self::MAX_LIMIT : $value;
@@ -101,7 +95,7 @@ class SqlParameterBag extends ParameterBag
     /**
      * @param int $value
      */
-    public function setOffset($value = self::MIN_OFFSET):SqlParameterBag
+    public function setOffset(int $value = self::MIN_OFFSET): self
     {
         if ($value)
             $this->set(self::OFFSET, abs($value));
@@ -109,7 +103,7 @@ class SqlParameterBag extends ParameterBag
         return $this;
     }
 
-    public function setOrder(string $value):SqlParameterBag
+    public function setOrder(string $value): self
     {
         foreach(explode(",",$value) AS $order) {
             $this->setOrderBy($order);
@@ -121,14 +115,14 @@ class SqlParameterBag extends ParameterBag
     /**
      * @return array
      */
-    public function getOrderBy()
+    public function getOrderBy(): array
     {
         return ($this->hasOrderBy())
             ? $this->get(self::ORDERBY)
             : array();
     }
 
-    public function setOrderBy(string $value):SqlParameterBag
+    public function setOrderBy(string $value): self
     {
         @[$order, $by] = explode(':',$value);
 
@@ -182,7 +176,7 @@ class SqlParameterBag extends ParameterBag
     /**
      * @param int $value
      */
-    public function setPage($value = self::MIN_PAGE):SqlParameterBag
+    public function setPage(int $value = self::MIN_PAGE): self
     {
         if (!$value || $value <= 0)
             $value = self::MIN_PAGE;
