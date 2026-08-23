@@ -4,11 +4,15 @@
 {% block title %}{{ section.title }} – Clap'Sabots{% endblock %}
 
 {% block main %}
-<section class="section">
+<div class="page-banner">
     <div class="container" style="max-width:800px">
         <p class="hero-eyebrow">Section</p>
         <h1 class="display">{{ section.title }}</h1>
+    </div>
+</div>
 
+<section class="section">
+    <div class="container" style="max-width:800px">
         {% if section.images is defined and section.images|length > 0 %}
         <div class="section-gallery mt-24">
             {% for img in section.images %}
@@ -26,7 +30,7 @@
             <div class="card"><div class="card-body"><h3>👤 Encadrement</h3><p class="text-muted mt-8">{{ section.encad }}</p></div></div>
         </div>
 
-        <div class="card mt-16" style="border-color:rgba(184,50,39,.2)">
+        <div class="card mt-16" style="border-color:rgba(234,96,69,.2)">
             <div class="card-body"><h3>📍 Lieu des cours</h3><p class="text-muted mt-8">Stade Gaston Reiff — Rue Ernest Laurent 215, 1420 Braine-l'Alleud</p></div>
         </div>
 

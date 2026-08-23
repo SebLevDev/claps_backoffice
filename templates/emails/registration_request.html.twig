@@ -1,0 +1,17 @@
+<h1>Nouvelle demande d'inscription — Clap'Sabots</h1>
+
+<p><strong>Nom :</strong> {{ registrationRequest.firstName }} {{ registrationRequest.lastName }}</p>
+{% if registrationRequest.birthDate %}
+    <p><strong>Date de naissance :</strong> {{ registrationRequest.birthDate|date('d/m/Y') }}</p>
+{% endif %}
+{% if registrationRequest.section %}
+    <p><strong>Section souhaitée :</strong> {{ registrationRequest.section }}</p>
+{% endif %}
+<p><strong>E-mail :</strong> {{ registrationRequest.email }}</p>
+{% if registrationRequest.phone %}
+    <p><strong>Téléphone :</strong> {{ registrationRequest.phone }}</p>
+{% endif %}
+{% if registrationRequest.additionalInfo %}
+    <p><strong>Informations complémentaires :</strong></p>
+    <p style="white-space:pre-line">{{ registrationRequest.additionalInfo }}</p>
+{% endif %}

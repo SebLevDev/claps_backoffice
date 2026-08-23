@@ -6,11 +6,15 @@
 {% block title %}Agenda – Clap'Sabots{% endblock %}
 
 {% block main %}
-<section class="section">
+<div class="page-banner">
     <div class="container">
         <p class="hero-eyebrow">Calendrier</p>
         <h1 class="display">Agenda</h1>
+    </div>
+</div>
 
+<section class="section">
+    <div class="container">
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin:24px 0">
             <a href="{{ path('app_agenda_list') }}" class="pill {{ currentType == 'tous' ? 'active' : '' }}">Tous</a>
             {% for type in types %}
@@ -53,7 +57,7 @@
             </div>
             <div class="agenda-ref-cta-body">
                 <p class="hero-eyebrow">Nos aventures</p>
-                <h2 style="font-family:'Playfair Display',serif;font-size:1.6rem;margin:6px 0 10px">Découvrez où Clap'Sabots a dansé</h2>
+                <h2 style="font-family:'Lato',sans-serif;font-size:1.6rem;margin:6px 0 10px">Découvrez où Clap'Sabots a dansé</h2>
                 <p style="color:var(--c-muted);font-size:.9rem;line-height:1.7;max-width:480px">De l'URSS au Canada, de la Grèce à la Hongrie — explorez 40 ans de participations à des festivals de folklore en Europe et au-delà, sur une carte interactive.</p>
                 <a href="{{ path('app_references') }}" class="btn btn-primary mt-20">
                     Voir l'historique &rarr;

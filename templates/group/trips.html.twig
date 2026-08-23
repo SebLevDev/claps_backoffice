@@ -4,12 +4,16 @@
 {% block title %}Voyages & échanges – Clap'Sabots{% endblock %}
 
 {% block main %}
-<section class="section">
+<div class="page-banner">
     <div class="container" style="max-width:900px">
         <p class="hero-eyebrow">Échanges culturels</p>
         <h1 class="display">Voyages & échanges</h1>
         <p class="lead">De la Bulgarie à Israël, de l'Arménie à l'Angleterre — à chaque voyage, des liens d'amitié se tissent.</p>
+    </div>
+</div>
 
+<section class="section">
+    <div class="container" style="max-width:900px">
         <div class="grid-2 mt-32">
             {% for trip in trips %}
             <div class="card">
