@@ -1,16 +1,15 @@
-{% extends 'old/layout.html.twig' %}
+{% extends 'member/_layout.html.twig' %}
 
-{% block banner_title %}Médias{% endblock %}
-{% block title %}Média{% endblock %}
+{% block title %}Médias – Clap'Sabots{% endblock %}
+{% block member_eyebrow %}Médias{% endblock %}
+{% block member_title %}Médias{% endblock %}
 
-{% block main %}
-    <div class="row">
-        <div class="col-md-12 heading">
-            <span class="title-icon classic pull-left"><i class="fa fa-film"></i></span>
-            <h2 class="title classic">Vidéos</h2>
-            <a href="{{ path('app_video_index') }}" class="widget-title">Tout regarder</a>
-        </div>
-    </div>
-    {% include '../video/_grid.html.twig' %}
-
+{% block member_main %}
+<div class="flex-between mb-16">
+    <h2 class="section-title" style="margin-bottom:0">Vidéos</h2>
+    <a href="{{ path('app_video_index') }}" class="text-muted" style="font-size:.85rem">Tout regarder →</a>
+</div>
+<div class="media-grid">
+    {% include 'member/video/_grid.html.twig' %}
+</div>
 {% endblock %}

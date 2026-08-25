@@ -1,106 +1,58 @@
-{% extends 'old/layout.html.twig' %}
+{% extends 'member/_layout.html.twig' %}
 
-{% block banner_title %}Accueil{% endblock %}
-{% block title %}Accueil{% endblock %}
+{% block title %}Mon espace – Clap'Sabots{% endblock %}
+{% block member_eyebrow %}Bienvenue{% endblock %}
+{% block member_title %}Mon espace{% endblock %}
 
-{% block main %}
-    <div id="feature-center" class="feature-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay=".3s" style="visibility: visible;-webkit-animation-delay: .5s; -moz-animation-delay: .5s; animation-delay: .5s;">
-                    <div class="feature-center-content text-center">
-                        <span class="feature-center-icon">
-                             <a href="{{ path('app_user_show') }}">
-                                 <i class="fa fa-user"></i>
-                             </a>
-                        </span>
-                        <h3>Mes infos</h3>
-                        <p>Accède à tes informations personnelles, modifie celle-ci pour qu'elle soit toujours à jours.</p>
-                    </div>
-                </div>
-
-                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay=".6s" style="visibility: visible;-webkit-animation-delay: .8s; -moz-animation-delay: .8s; animation-delay: .8s;">
-                    <div class="feature-center-content text-center">
-                        <span class="feature-center-icon">
-                            <a href="{{ path('app_document_index') }}">
-                                <i class="fa fa-file-pdf-o"></i>
-                            </a>
-                        </span>
-                        <h3>Documents</h3>
-                        <p>Liste de tous les documents officiels ou pratiques (assurances, PV, ...)</p>
-                    </div>
-                </div>
-
-                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay="0.9s" style="visibility: visible;-webkit-animation-delay: 1.4s; -moz-animation-delay: 1.4s; animation-delay: 1.4s;">
-                    <div class="feature-center-content text-center">
-                        <span class="feature-center-icon">
-                             <a href="{{ path('app_dance_index') }}">
-                                <i class="fa fa-star"></i>
-                             </a>
-                        </span>
-                        <h3>Danses</h3>
-                        <p>Retrouvez toutes les informations sur notre répertoire de danses</p>
-                    </div>
-                </div>
-            </div>
-            <!--/ 1st row end -->
-
-            <div class="gap-40"></div>
-
-            <div class="row">
-                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay="0.3s" style="visibility: visible;-webkit-animation-delay: 1.1s; -moz-animation-delay: 1.1s; animation-delay: 1.1s;">
-                    <div class="feature-center-content text-center">
-                        <span class="feature-center-icon">
-                            <a href="{{ path('app_video_index') }}">
-                                <i class="fa fa-film"></i>
-                            </a>
-                        </span>
-                        <h3>Vidéos</h3>
-                        <p>Liste des vidéos de nos derniers spectacles, des stages ou apprentissage de danses.</p>
-                    </div>
-                </div>
-
-                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay=".6s" style="visibility: visible;-webkit-animation-delay: .8s; -moz-animation-delay: .8s; animation-delay: .8s;">
-                    <div class="feature-center-content text-center">
-                        <span class="feature-center-icon">
-                            <a href="{{ path('app_music_index') }}">
-                                <i class="fa fa-file-sound-o"></i>
-                            </a>
-                        </span>
-                        <h3>Musiques</h3>
-                        <p>Liste de toutes les musiques des danses pratiqués : spectacles, animations, ...</p>
-                    </div>
-                </div>
-
-                <div class="col-xs-6 col-sm-4 wow fadeInDown animated" data-wow-delay="0.9s" style="visibility: visible;-webkit-animation-delay: 1.1s; -moz-animation-delay: 1.1s; animation-delay: 1.1s;">
-                    <div class="feature-center-content text-center">
-                        <span class="feature-center-icon">
-                            <a href="{{ path('app_clothes_piece_index') }}">
-                                <i class="fa fa-scissors"></i>
-                            </a>
-                        </span>
-                        <h3>Costumes</h3>
-                        <p>Liste des différentes costumes par pays avec les différentes pièces qui les composes.</p>
-                    </div>
-                </div>
-            </div>
-            <!--/ 2nd row end -->
+{% block member_main %}
+<div class="grid-3 mb-32">
+    <a href="{{ path('app_user_show') }}" class="card">
+        <div class="card-body text-center">
+            <div style="font-size:2.2rem">👤</div>
+            <h3 class="mt-8">Mes infos</h3>
+            <p class="text-muted mt-8" style="font-size:.85rem">Accède à tes informations personnelles et modifie-les.</p>
         </div>
-        <!--/ Container end -->
-    </div>
-
-    <section class="feature-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 heading">
-                    <span class="title-icon classic pull-left"><i class="fa fa-film"></i></span>
-                    <h2 class="title classic">Dernières vidéos</h2>
-                    <a href="{{ path('app_video_index') }}" class="widget-title">Toutes les vidéos</a>
-                </div>
-            </div>
-
-            {% include 'video/_grid.html.twig' %}
+    </a>
+    <a href="{{ path('app_document_index') }}" class="card">
+        <div class="card-body text-center">
+            <div style="font-size:2.2rem">📄</div>
+            <h3 class="mt-8">Documents</h3>
+            <p class="text-muted mt-8" style="font-size:.85rem">Tous les documents officiels et pratiques (assurances, PV...)</p>
         </div>
-    </section>
+    </a>
+    <a href="{{ path('app_dance_index') }}" class="card">
+        <div class="card-body text-center">
+            <div style="font-size:2.2rem">💃</div>
+            <h3 class="mt-8">Danses</h3>
+            <p class="text-muted mt-8" style="font-size:.85rem">Le répertoire de danses du groupe.</p>
+        </div>
+    </a>
+    <a href="{{ path('app_video_index') }}" class="card">
+        <div class="card-body text-center">
+            <div style="font-size:2.2rem">🎬</div>
+            <h3 class="mt-8">Vidéos</h3>
+            <p class="text-muted mt-8" style="font-size:.85rem">Les vidéos de nos spectacles, stages et apprentissages.</p>
+        </div>
+    </a>
+    <a href="{{ path('app_music_index') }}" class="card">
+        <div class="card-body text-center">
+            <div style="font-size:2.2rem">🎵</div>
+            <h3 class="mt-8">Musiques</h3>
+            <p class="text-muted mt-8" style="font-size:.85rem">Les musiques des danses pratiquées.</p>
+        </div>
+    </a>
+    <a href="{{ path('app_clothes_piece_index') }}" class="card">
+        <div class="card-body text-center">
+            <div style="font-size:2.2rem">✂️</div>
+            <h3 class="mt-8">Costumes</h3>
+            <p class="text-muted mt-8" style="font-size:.85rem">Les costumes par pays et leurs pièces.</p>
+        </div>
+    </a>
+</div>
 
+<h2 class="section-title">Dernières vidéos</h2>
+<a href="{{ path('app_video_index') }}" class="text-muted" style="font-size:.85rem">Toutes les vidéos →</a>
+<div class="media-grid mt-16">
+    {% include 'member/video/_grid.html.twig' %}
+</div>
 {% endblock %}

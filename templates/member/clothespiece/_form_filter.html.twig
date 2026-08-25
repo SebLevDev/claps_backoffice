@@ -1,22 +1,13 @@
-<div id="fitler_clothesPiece" class="widget-title">
-    <div class="collapse" id="collapseClothesPieceFilter">
-        <form class="card card-body" action="{{ path('app_clothes_piece_index') }}">
-            <div class="row">
-                <div class="col-md-3">
-                    <h4 class="title-border">Pays</h4>
-                    {{ form_widget(searchClothesPieceform.country) }}
-                </div>
-
-                <div class="col-md-3">
-                    <h4 class="title-border">Section</h4>
-                    {{ form_widget(searchClothesPieceform.sections) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-right">
-                    <button type="submit" class="btn btn-primary solid" style="margin-top: 10px;">Valider</button>
-                </div>
-            </div>
-        </form>
+<form class="filter-form" action="{{ path('app_clothes_piece_index') }}">
+    <div class="grid-2">
+        <div>
+            <h4>Pays</h4>
+            {{ form_widget(searchClothesPieceform.country) }}
+        </div>
+        <div>
+            <h4>Section</h4>
+            {{ form_widget(searchClothesPieceform.sections) }}
+        </div>
     </div>
-</div>
+    <button type="submit" class="btn btn-primary btn-sm">Filtrer</button>
+</form>

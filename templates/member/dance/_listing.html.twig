@@ -1,5 +1,5 @@
-
-<table style="width: 100%">
+<div style="overflow-x:auto">
+<table class="data-table">
     <thead>
         <tr>
             <th>Nom</th>
@@ -7,32 +7,20 @@
             <th>Région</th>
             <th>Vidéo</th>
             <th>Stage</th>
-            <th>Musique</th>
-            <th>Costume</th>
         </tr>
     </thead>
+    <tbody>
     {% for dance in dances %}
     <tr>
-        <td>
-            <a href="{{ path('app_dance_show', { 'id': dance.id }) }}">
-                {{ dance.name }}
-            </a>
-        </td>
+        <td><a href="{{ path('app_dance_show', { 'id': dance.id }) }}">{{ dance.name }}</a></td>
         <td>{{ dance.country|country }}</td>
         <td>{{ dance.region }}</td>
-        <td>
-            {% if dance.videosOfPerformance|length > 0 %}
-                <i class="fa fa-film"></i>
-            {% endif %}
-        </td>
-        <td>
-            {% if dance.videosOfWorkShop|length > 0 %}
-                <i class="fa fa-film"></i>
-            {% endif %}
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>{% if dance.videosOfPerformance|length > 0 %}🎬{% endif %}</td>
+        <td>{% if dance.videosOfWorkShop|length > 0 %}🎬{% endif %}</td>
     </tr>
+    {% else %}
+    <tr><td colspan="5" class="text-muted">Aucune danse trouvée.</td></tr>
     {% endfor %}
+    </tbody>
 </table>
+</div>

@@ -1,47 +1,35 @@
-{% extends 'old/layout.html.twig' %}
+{% extends 'member/_layout.html.twig' %}
 
-{% block banner_title %}{{ piece.name|e }}{% endblock %}
-{% block title %}{{ piece.name|e }}{% endblock %}
+{% block title %}{{ piece.name|e }} – Clap'Sabots{% endblock %}
+{% block member_eyebrow %}Pièce de costume{% endblock %}
+{% block member_title %}{{ piece.name|e }}{% endblock %}
 
-{% block main %}
-    <div class="row">
-        <!-- Portfolio item slider start -->
-        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <figure class="m-0 effect-oscar">
-                {% if piece.image %}
-                    <img src="{{ piece.image|e }}" alt="{{ piece.name|e }}">
-                {% else %}
-                    <img src="http://placehold.jp/255x383.png?text=non%20disponible" alt="{{ piece.name|e }}">
-                {% endif %}
-            </figure>
-        </div>
-        <!-- Portfolio item slider end -->
-
-        <!-- sidebar start -->
-        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <div class="sidebar">
-                <div class="portfolio-desc">
-                    <h3 class="widget-title">Description</h3>
-                    <p>{{ piece.name }}</p>
-
-                    {% if piece.country is not null %}
-                        <h3 class="widget-title">Pays</h3>
-                        <p>{{ piece.country|country }}</p>
-                    {% endif %}
-
-                    {% if piece.sections|length > 0 %}
-                    <h3 class="widget-title">Section</h3>
-                    <p>
-                        {% for section in piece.sections %}
-                            <a href="{{ path('app_video_search', { 'sections': section.id }) }}">{{ section }}</a>
-                            {% if not loop.last %},{% endif %}
-                        {% endfor %}
-                    </p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        <!-- sidebar end -->
+{% block member_main %}
+<div class="grid-2" style="grid-template-columns:1fr 2fr;align-items:start">
+    <div class="card" style="overflow:hidden">
+        {% if piece.image %}
+            <img src="{{ piece.image|e }}" alt="{{ piece.name|e }}" style="width:100%;display:block">
+        {% else %}
+            <img src="https://via.placeholder.com/400x600?text=Pas+d%27image" alt="{{ piece.name|e }}" style="width:100%;display:block">
+        {% endif %}
     </div>
 
+    <div class="card">
+        <div class="card-body">
+            {% if piece.country is not null %}
+                <h3>Pays</h3>
+                <p class="text-muted mt-8">{{ piece.country|country }}</p>
+            {% endif %}
+
+            {% if piece.sections|length > 0 %}
+                <h3 class="mt-24">Section</h3>
+                <p class="text-muted mt-8">
+                    {% for section in piece.sections %}
+                        <a href="{{ path('app_video_search', { 'sections': section.id }) }}">{{ section }}</a>{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                </p>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}

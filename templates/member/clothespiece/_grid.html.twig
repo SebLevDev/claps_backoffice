@@ -1,29 +1,15 @@
-<div class="row">
-    {% for piece in pieces %}
-        <div class="col-sm-2 col-xs-6 portfolio-static-item">
-            <div class="grid">
-                <a href="{{ path('app_clothes_piece_show', {'id': piece.id }) }}">
-                    <figure class="m-0 effect-oscar">
-                        {% if piece.image %}
-                            <img src="{{ piece.image|e }}" alt="{{ piece.name|e }}">
-                        {% else %}
-                            <img src="http://placehold.jp/255x383.png?text=non%20disponible" alt="{{ piece.name|e }}">
-                        {% endif %}
-                    </figure>
-                </a>
-                <div class="portfolio-static-desc">
-                    <h3><a href="{{ path('app_clothes_piece_show', {'id': piece.id }) }}">{{ piece.name|e }}</a></h3>
-
-                   <span>
-                       <a href="#">
-                           <img src="/bundles/easyadmin/images/flags/{{ piece.country }}.png" class="country-flag" style="height:15px" alt="{{ piece.country|country }}">
-                           {{ piece.country|country }}
-                       </a>
-                   </span>
-                </div>
-            </div>
-            <!--/ grid end -->
+{% for piece in pieces %}
+    <a href="{{ path('app_clothes_piece_show', {'id': piece.id }) }}" class="media-card">
+        {% if piece.image %}
+            <img src="{{ piece.image|e }}" alt="{{ piece.name|e }}">
+        {% else %}
+            <img src="https://via.placeholder.com/300x400?text=Pas+d%27image" alt="{{ piece.name|e }}">
+        {% endif %}
+        <div class="media-card-body">
+            <h3>{{ piece.name|e }}</h3>
+            <span><img src="/bundles/easyadmin/images/flags/{{ piece.country }}.png" class="country-flag" style="height:13px" alt="">{{ piece.country|country }}</span>
         </div>
-        <!--/ item 1 end -->
-    {% endfor %}
-</div>
+    </a>
+{% else %}
+    <p class="text-muted">Aucune pièce trouvée.</p>
+{% endfor %}

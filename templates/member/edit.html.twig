@@ -1,54 +1,33 @@
-{% extends '../old/layout_rightcolumn.html.twig' %}
+{% extends 'member/_layout.html.twig' %}
 
-{% block body_id 'member_edit' %}
+{% block title %}{{ 'member.edit_member.title'|trans({'%name%': member.firstname }, 'messages') }} – Clap'Sabots{% endblock %}
+{% block member_eyebrow %}Mon compte{% endblock %}
+{% block member_title %}{{ 'member.edit_member.title'|trans({'%name%': member.firstname }, 'messages') }}{% endblock %}
 
-{% block main %}
-    <h1>{{ 'member.edit_member.title'|trans({'%name%': member.firstname }, 'messages') }}</h1>
+{% block member_main %}
+{{ form_start(form) }}
 
-    {{ form_start(form) }}
+<h3 class="title-border">{{ 'member.crud.form.personal'|trans }}</h3>
+{{ form_row(form.firstname) }}
+{{ form_row(form.lastname) }}
+{{ form_row(form.birthdate) }}
+{{ form_row(form.sex) }}
+{{ form_row(form.niss) }}
+{{ form_row(form.insurer) }}
 
-    <fieldset>
-        <h3 class="title-border">{{ 'member.crud.form.personal'|trans  }}</h3>
-        {{ form_row(form.firstname) }}
-        {{ form_row(form.lastname) }}
-        {{ form_row(form.birthdate) }}
-        {{ form_row(form.sex) }}
-        {{ form_row(form.niss) }}
-        {{ form_row(form.insurer) }}
-    </fieldset>
-    <div class="gap-20"></div>
+<h3 class="title-border mt-24">{{ 'member.crud.form.contact'|trans }}</h3>
+{{ form_row(form.email) }}
+{{ form_row(form.phone) }}
+{{ form_row(form.mobilePhone) }}
 
-    <fieldset>
-        <h3 class="title-border">{{ 'member.crud.form.contact'|trans  }}</h3>
-        {{ form_row(form.email) }}
-        {{ form_row(form.phone) }}
-        {{ form_row(form.mobilePhone) }}
-    </fieldset>
-    <div class="gap-20"></div>
+<h3 class="title-border mt-24">{{ 'member.crud.form.address'|trans }}</h3>
+{{ form_row(form.address.street) }}
+{{ form_row(form.address.streetNumber) }}
+{{ form_row(form.address.streetBox) }}
+{{ form_row(form.address.zipCode) }}
+{{ form_row(form.address.city) }}
+{{ form_row(form.address.country) }}
 
-    <fieldset>
-        <h3 class="title-border">{{ 'member.crud.form.address'|trans  }}</h3>
-        {{ form_row(form.address.street) }}
-        {{ form_row(form.address.streetNumber) }}
-        {{ form_row(form.address.streetBox) }}
-        {{ form_row(form.address.zipCode) }}
-        {{ form_row(form.address.city) }}
-        {{ form_row(form.address.country) }}
-    </fieldset>
-    <div class="gap-20"></div>
-
-    <button type="submit" class="btn btn-primary">
-        <i class="fa fa-save" aria-hidden="true"></i> {{ 'action.save'|trans }}
-    </button>
-    {{ form_end(form) }}
-{% endblock %}
-
-{% block sidebar %}
-    <div class="section widget widget-user">
-        <a href="{{ path('app_user_show') }}" class="btn btn-user btn-outline-primary">
-            <i class="fa fa-user" aria-hidden="true"></i> {{ 'user.edit_user.action'|trans }}
-        </a>
-    </div>
-
-    {{ parent() }}
+<button type="submit" class="btn btn-primary mt-16">💾 {{ 'action.save'|trans }}</button>
+{{ form_end(form) }}
 {% endblock %}

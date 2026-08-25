@@ -1,16 +1,10 @@
-<div class="row">
-    {% for playlist in playlists %}
-        <div class="col-sm-3 portfolio-static-item">
-            <div class="grid">
-                <figure class="m-0 effect-oscar">
-                    <img src="https://img.youtube.com/vi/46546/0.jpg" alt="{{ playlist.name|e }}">
-                </figure>
-                <div class="portfolio-static-desc">
-                    <h3>{{ playlist.name|e }}</h3>
-                </div>
-            </div>
-            <!--/ grid end -->
+{% for playlist in playlists %}
+    <div class="media-card video">
+        <img src="https://img.youtube.com/vi/46546/0.jpg" alt="{{ playlist.name|e }}">
+        <div class="media-card-body">
+            <h3>{{ playlist.name|e }}</h3>
         </div>
-        <!--/ item 1 end -->
-    {% endfor %}
-</div>
+    </div>
+{% else %}
+    <p class="text-muted">Aucune playlist trouvée.</p>
+{% endfor %}

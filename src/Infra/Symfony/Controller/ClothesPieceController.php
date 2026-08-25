@@ -23,7 +23,7 @@ class ClothesPieceController extends BaseController
         ]);
         $pieces = $clothesPieceRepository->filterAll($this->getSqlParameterBag());
 
-        return $this->render('clothespiece/index.html.twig', [
+        return $this->render('member/clothespiece/index.html.twig', [
             'pieces' => $pieces,
             'searchClothesPieceform' => $form->createView(),
             'breadcrumb' => null
@@ -33,7 +33,7 @@ class ClothesPieceController extends BaseController
     #[Route('/{id}', name:'app_clothes_piece_show', requirements: ['id' => '\d+'])]
     public function showAction(ClothesPiece $piece): Response
     {
-        return $this->render('clothespiece/show.html.twig', [
+        return $this->render('member/clothespiece/show.html.twig', [
             'piece' => $piece,
         ]);
     }

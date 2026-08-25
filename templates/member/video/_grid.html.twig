@@ -1,19 +1,11 @@
-<div class="row">
-    {% for video in videos %}
-        <div class="col-sm-3 portfolio-static-item">
-            <div class="grid">
-                <a href="{{ path('app_video_show', {'id': video.id }) }}">
-                    <figure class="m-0 effect-oscar">
-                        <img src="https://img.youtube.com/vi/{{ video.youtubeId }}/0.jpg" alt="{{ video.name|e }}">
-                    </figure>
-                </a>
-                <div class="portfolio-static-desc">
-                    <h3><a href="{{ path('app_video_show', {'id': video.id }) }}">{{ video.name|e }}</a></h3>
-                    <span><a href="#">{{ video.country|country }}</a></span>
-                </div>
-            </div>
-            <!--/ grid end -->
+{% for video in videos %}
+    <a href="{{ path('app_video_show', {'id': video.id }) }}" class="media-card video">
+        <img src="https://img.youtube.com/vi/{{ video.youtubeId }}/0.jpg" alt="{{ video.name|e }}">
+        <div class="media-card-body">
+            <h3>{{ video.name|e }}</h3>
+            {% if video.country is not null %}<span>🌍 {{ video.country|country }}</span>{% endif %}
         </div>
-        <!--/ item 1 end -->
-    {% endfor %}
-</div>
+    </a>
+{% else %}
+    <p class="text-muted">Aucune vidéo trouvée.</p>
+{% endfor %}

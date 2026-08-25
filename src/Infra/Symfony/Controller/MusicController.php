@@ -16,7 +16,7 @@ class MusicController extends BaseController
     #[Route('/', name:'app_music_index')]
     public function indexAction(): Response
     {
-        return $this->render('music/index.html.twig', [
+        return $this->render('member/music/index.html.twig', [
             'breadcrumb' => $this->getBreadcurmb()
         ]);
     }

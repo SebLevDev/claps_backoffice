@@ -1,52 +1,30 @@
-{% extends 'old/layout.html.twig' %}
+{% extends 'member/_layout.html.twig' %}
 
-{% block banner_title %}Music{% endblock %}
-{% block title %}Music{% endblock %}
+{% block title %}Documents – Clap'Sabots{% endblock %}
+{% block member_eyebrow %}Vie du club{% endblock %}
+{% block member_title %}Documents{% endblock %}
 
-{% block main %}
-    <div class="row">
-        <div class="col-md-6 heading">
-            <span class="title-icon classic pull-left"><i class="fa fa-file"></i></span>
-            <h2 class="title classic">Documents</h2>
+{% block member_main %}
+{% for category in categories %}
+    <div class="accordion-item {% if loop.first %}open{% endif %}">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <h4>{{ category.icon ? '📁 ' : '' }}{{ category.name }}</h4>
+            <span class="accordion-arrow">▾</span>
         </div>
-        <div class="col-md-6">
-        </div>
-    </div>
-
-    <div class="row landing-tab">
-        <div class="col-md-4">
-            <div class="nav flex-column nav-pills border-md-right h-100 mr-lg-5 mb-3 mb-md-0" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                {% for category in categories %}
-                    <a class="animated fadeIn nav-link  py-2 py-lg-4  {% if loop.first %}active{% endif %} d-flex align-items-center" data-toggle="pill" href="#tabDocCategory_{{ category.id }}" role="tab" aria-selected="true">
-                        <i class="fa fa-{{ category.icon }} mr-4"></i>
-                        <span class="h4 mb-0 font-weight-bold">{{ category.name }}</span>
-                    </a>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="tab-content" id="v-pills-tabContent">
-                {% for category in categories %}
-                    <div class="tab-pane pl-md-5 fade show {% if loop.first %}active{% endif %} animated px-3  fadeInLeft" id="tabDocCategory_{{ category.id }}" role="tabpanel">
-                        <div class="widget widget-categories">
-                            <h3>{{ category.name }}</h3>
-                            <ul class="category-list clearfix">
-                                {% for document in category.documentFiles %}
-                                    {% if document.document != ''  %}
-                                        <li>
-                                            <a href="{{ path_documents ~ '/' ~ document.document }}" target="_blank">{{ document.name }}</a>
-                                            {% if document.updatedAt != null  %}
-                                                <span class="posts-count"> ({{ document.updatedAt|date('d/m/Y') }})</span>
-                                            {% endif %}
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        </div>
+        <div class="accordion-body">
+            {% for document in category.documentFiles %}
+                {% if document.document != '' %}
+                    <div class="flex-between mb-8">
+                        <a href="{{ path_documents ~ '/' ~ document.document }}" target="_blank">{{ document.name }}</a>
+                        {% if document.updatedAt != null %}<span class="text-muted" style="font-size:.78rem">{{ document.updatedAt|date('d/m/Y') }}</span>{% endif %}
                     </div>
-                {% endfor %}
-            </div>
+                {% endif %}
+            {% else %}
+                <p class="text-muted">Aucun document dans cette catégorie.</p>
+            {% endfor %}
         </div>
     </div>
-
+{% else %}
+    <p class="text-muted">Aucun document disponible.</p>
+{% endfor %}
 {% endblock %}
