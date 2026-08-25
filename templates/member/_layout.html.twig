@@ -1,0 +1,44 @@
+{% extends 'layout.html.twig' %}
+
+{% set member_route = app.request.attributes.get('_route') %}
+
+{% block main %}
+<div class="member-layout">
+    <aside class="member-sidebar">
+        <div class="sidebar-section">Mon compte</div>
+        <a href="{{ path('app_user_show') }}" class="sidebar-item {{ member_route == 'app_user_show' ? 'active' }}">👤 Mes informations</a>
+        <a href="{{ path('user_edit') }}" class="sidebar-item {{ member_route == 'user_edit' ? 'active' }}">✏️ Modifier le profil</a>
+        <a href="{{ path('user_change_password') }}" class="sidebar-item {{ member_route == 'user_change_password' ? 'active' }}">🔒 Mot de passe</a>
+
+        <div class="sidebar-section">Médias</div>
+        <a href="{{ path('app_video_index') }}" class="sidebar-item {{ member_route in ['app_video_index', 'app_video_show', 'app_video_search'] ? 'active' }}">🎬 Vidéos</a>
+        <a href="{{ path('app_music_index') }}" class="sidebar-item {{ member_route == 'app_music_index' ? 'active' }}">🎵 Musique</a>
+        <a href="{{ path('app_playlist_index') }}" class="sidebar-item {{ member_route == 'app_playlist_index' ? 'active' }}">📻 Playlist</a>
+
+        <div class="sidebar-section">Danses & costumes</div>
+        <a href="{{ path('app_dance_index') }}" class="sidebar-item {{ member_route in ['app_dance_index', 'app_dance_show'] ? 'active' }}">💃 Danses</a>
+        <a href="{{ path('app_clothes_piece_index') }}" class="sidebar-item {{ member_route in ['app_clothes_piece_index', 'app_clothes_piece_show'] ? 'active' }}">✂️ Pièces de costume</a>
+        <a href="{{ path('app_clothes_costume_index') }}" class="sidebar-item {{ member_route == 'app_clothes_costume_index' ? 'active' }}">🎽 Costumes</a>
+
+        <div class="sidebar-section">Vie du club</div>
+        <a href="{{ path('app_document_index') }}" class="sidebar-item {{ member_route == 'app_document_index' ? 'active' }}">📄 Documents</a>
+        <a href="{{ path('app_event_index') }}" class="sidebar-item {{ member_route == 'app_event_index' ? 'active' }}">🏆 Événements</a>
+        <a href="{{ path('app_barcode_index') }}" class="sidebar-item {{ member_route == 'app_barcode_index' ? 'active' }}">🎟️ Scanner billets</a>
+
+        {% if is_granted('ROLE_ADMIN') %}
+        <div class="sidebar-section">Administration</div>
+        <a href="{{ path('admin_dashboard') }}" class="sidebar-item">⚙️ Back-office</a>
+        {% endif %}
+
+        <div class="sidebar-section"></div>
+        <a href="{{ path('security_logout') }}" class="sidebar-item">🚪 Déconnexion</a>
+    </aside>
+    <div class="member-main">
+        <div class="member-page-head">
+            <p class="hero-eyebrow">{% block member_eyebrow %}Espace membre{% endblock %}</p>
+            <h1>{% block member_title %}{% endblock %}</h1>
+        </div>
+        {% block member_main %}{% endblock %}
+    </div>
+</div>
+{% endblock %}
