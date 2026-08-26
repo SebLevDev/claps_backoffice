@@ -19,6 +19,7 @@ ENV MAILER_SENDER_NAME="Claps"
 ENV MAILER_SENDER_ADDR="no-reply@claps.be"
 ENV MAILER_DSN="null://null"
 ENV DATABASE_URL="mysql://dummy:dummy@127.0.0.1:3306/dummy"
+ENV TRUSTED_PROXIES=46.224.115.2, 127.0.0.1,REMOTE_ADDR
 
 # 5. Installation des dépendances SANS exécuter les scripts post-install
 RUN composer install --no-dev --prefer-dist --no-progress --no-interaction --optimize-autoloader --no-scripts
