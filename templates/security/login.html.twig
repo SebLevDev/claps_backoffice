@@ -37,7 +37,7 @@
                     <div class="form-group">
                         <div class="flex-between">
                             <label for="password" style="margin-bottom:0">{{ _password_label }}</label>
-                            <a href="{{ path('app_forgot_password_request') }}" class="text-muted" style="font-size:.78rem">Mot de passe oublié ?</a>
+                            <a href="{{ path('app_forgot_password_request') }}" class="text-muted" style="font-size:.78rem" tabindex="-1">Mot de passe oublié ?</a>
                         </div>
                         <input type="password" id="password" name="{{ password_parameter|default('_password') }}" required autocomplete="current-password" class="mt-8">
                     </div>
