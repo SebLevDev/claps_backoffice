@@ -13,7 +13,12 @@ if ($_SERVER['APP_DEBUG']) {
 }
 
 if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? $_ENV['TRUSTED_PROXIES'] ?? false) {
-    Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
+    // Request::HEADER_X_FORWARDED_ALL a été supprimé de Symfony HttpFoundation ;
+    // on reconstruit l'équivalent (tous les en-têtes X-Forwarded-*, sauf Host).
+    Request::setTrustedProxies(
+        explode(',', $trustedProxies),
+        Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_PROTO | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PREFIX
+    );
 }
 
 if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false) {
