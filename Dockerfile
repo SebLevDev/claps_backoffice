@@ -1,14 +1,7 @@
 FROM dunglas/frankenphp:1-php8.4-alpine
 
 # 1. Installation des extensions PHP pré-compilées (instantané, évite la compilation C++)
-RUN apk add --no-cache \
-    icu-dev \
-    libzip-dev \
-    php84-pdo_mysql \
-    php84-intl \
-    php84-zip \
-    php84-opcache \
-    php84-bcmath \
+RUN install-php-extensions pdo_mysql intl zip opcache bcmath
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
