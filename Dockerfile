@@ -13,11 +13,18 @@ COPY . .
 # Dépendances Composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV APP_ENV=prod
-RUN composer install --no-dev --prefer-dist --no-progress --no-interaction --optimize-autoloader
+ENV APP_SECRET=ad8cf8588af84194be6905c7165352e2
+ENV MAILER_SENDER_NAME="Claps"
+ENV MAILER_SENDER_ADDR="no-reply@claps.be"
+ENV MAILER_DSN="null://null"
+ENV DATABASE_URL="mysql://dummy:dummy@127.0.0.1:3306/dummy"
 
-# Permissions Symfony propres (FrankenPHP s'exécute sous www-data par défaut en prod)
-RUN mkdir -p var/cache var/log && chown -R www-data:www-data var
+# 5. Installation des dépendances SANS exécuter les scripts post-install
+RUN composer install --no-dev --prefer-dist --no-progress --no-interaction --optimize-autoloader --no-scripts
 
+# 6. Création des répertoires et permissions pour www-data
+RUN mkdir -p var/cache var/log public/build \
+    && chown -R www-data:www-data /app
 USER www-data
 
 # Pré-chauffage du cache
