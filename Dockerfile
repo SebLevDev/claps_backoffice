@@ -12,6 +12,7 @@ COPY . .
 
 # Dépendances Composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV APP_ENV=prod
 RUN composer install --no-dev --prefer-dist --no-progress --no-interaction --optimize-autoloader
 
 # Permissions Symfony propres (FrankenPHP s'exécute sous www-data par défaut en prod)
