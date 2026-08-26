@@ -1,28 +1,31 @@
-{% extends '../old/layout_rightcolumn.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block body_id 'user_register' %}
+{% block title %}Créer un compte – Clap'Sabots{% endblock %}
 
 {% block main %}
-    <h1>{{ 'user.register.title'|trans }}</h1>
-
-    <div class="alert alert-info" role="alert">{{ 'user.register.info'|trans }}</div>
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-
-    <button type="submit" class="btn btn-primary">
-        <i class="fa fa-save" aria-hidden="true"></i> {{ 'user.register.action'|trans }}
-    </button>
-    {{ form_end(form) }}
-{% endblock %}
-
-{% block sidebar %}
-    <div class="section widget widget-user">
-        <h2>{{ 'user.register.alreadyRegistered'|trans }}</h2>
-        <a href="{{ path('security_login') }}" class="btn btn-lg btn-block btn-default">
-            <i class="fa fa-user"></i> {{ 'user.login.action'|trans }}
-        </a>
+<div class="page-banner" style="padding:48px 0 64px">
+    <div class="container" style="max-width:440px">
+        <p class="hero-eyebrow">Espace membre</p>
+        <h1 class="display" style="font-size:2rem;margin-bottom:0">Créer un compte</h1>
     </div>
+</div>
 
-    {{ parent() }}
+<section class="section" style="padding-top:48px">
+    <div class="container auth-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="notice mb-24">ℹ️ {{ 'user.register.info'|trans }}</div>
+
+                {{ form_start(form, {'attr': {'class': 'auth-form'}}) }}
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-primary mt-8" style="width:100%;justify-content:center">{{ 'user.register.action'|trans }}</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+        <p class="text-center text-muted mt-24" style="font-size:.9rem">
+            {{ 'user.register.alreadyRegistered'|trans }} <a href="{{ path('security_login') }}">{{ 'user.login.action'|trans }}</a>
+        </p>
+    </div>
+</section>
 {% endblock %}

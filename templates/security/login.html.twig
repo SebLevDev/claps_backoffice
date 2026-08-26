@@ -1,80 +1,55 @@
-{% extends 'old/layout_rightcolumn.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block body_id 'user_login' %}
+{% block title %}Connexion – Clap'Sabots{% endblock %}
 
 {% block main %}
-    {% set _username_label = username_label is defined ? username_label|trans : 'login_page.username'|trans({}, 'EasyAdminBundle') %}
-    {% set _password_label = password_label is defined ? password_label|trans : 'login_page.password'|trans({}, 'EasyAdminBundle') %}
-    {% set _forgot_password_label = forgot_password_label is defined ? forgot_password_label|trans : 'login_page.forgot_password'|trans({}, 'EasyAdminBundle') %}
-    {% set _remember_me_label = remember_me_label is defined ? remember_me_label|trans : 'login_page.remember_me'|trans({}, 'EasyAdminBundle') %}
-    {% set _sign_in_label = sign_in_label is defined ? sign_in_label|trans : 'login_page.sign_in'|trans({}, 'EasyAdminBundle') %}
+{% set _username_label = username_label is defined ? username_label|trans : 'login_page.username'|trans({}, 'EasyAdminBundle') %}
+{% set _password_label = password_label is defined ? password_label|trans : 'login_page.password'|trans({}, 'EasyAdminBundle') %}
+{% set _sign_in_label = sign_in_label is defined ? sign_in_label|trans : 'login_page.sign_in'|trans({}, 'EasyAdminBundle') %}
 
-    <h1>{{ 'user.login.title'|trans }}</h1>
-
-    {% if error|default(false) %}
-        <div class="w-100 alert alert-danger rounded mb-3">
-            <i class="fas fa-times-circle mr-1"></i>
-            {{ error.messageKey|trans(error.messageData, 'security') }}
-        </div>
-    {% endif %}
-
-    <form method="post" action="{{ action|default('') }}">
-        {% if csrf_token_intention|default(false) %}
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token(csrf_token_intention) }}">
-        {% endif %}
-
-        <div class="form-group">
-            <label class="form-control-label required" for="username">{{ _username_label }}</label>
-            <div class="form-widget">
-                <input type="text" id="username" name="{{ username_parameter|default('_username') }}" class="form-control" value="{{ last_username|default('') }}" required autofocus autocomplete="username">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="form-control-label required" for="password">{{ _password_label }}</label>
-            <div class="form-widget">
-                <input type="password" id="password" name="{{ password_parameter|default('_password') }}" class="form-control" required autocomplete="current-password">
-            </div>
-
-            {% if forgot_password_enabled|default(false) %}
-                <div class="form-text">
-                    <a href="{{ forgot_password_path|default('#') }}">{{ _forgot_password_label }}</a>
-                </div>
-            {% endif %}
-        </div>
-
-        {% if remember_me_enabled|default(false) %}
-            <div class="form-group">
-                <input class="form-check-input" type="checkbox" id="remember_me" name="{{ remember_me_parameter|default('_remember_me') }}" {{ remember_me_checked|default(false) ? 'checked' }}>
-                <label class="form-check-label" for="remember_me">
-                    {{ _remember_me_label }}
-                </label>
-            </div>
-        {% endif %}
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-lg btn-block" onclick="this.form.submit(); this.disabled=true;">{{ _sign_in_label }}</button>
-        </div>
-        <div class="form-group text-center">
-            <a href="{{ path('app_forgot_password_request') }}">{{ "user.login.forgot_password"|trans }}</a>
-        </div>
-    </form>
-
-    <script type="text/javascript">
-        const loginForm = document.querySelector('form');
-        loginForm.addEventListener('submit', function () {
-            loginForm.querySelector('button[type="submit"]').setAttribute('disabled', 'disabled');
-        }, false);
-    </script>
-{% endblock %}
-
-{% block sidebar %}
-    <div class="section widget widget-user">
-        <h2>{{ 'user.login.notRegistered'|trans }}</h2>
-        <a href="{{ path('security_register') }}" class="btn btn-lg btn-block btn-default">
-            <i class="fa fa-user"></i> {{ 'user.register.action'|trans }}
-        </a>
+<div class="page-banner" style="padding:48px 0 64px">
+    <div class="container" style="max-width:440px">
+        <p class="hero-eyebrow">Espace membre</p>
+        <h1 class="display" style="font-size:2rem;margin-bottom:0">Connexion</h1>
     </div>
+</div>
 
-    {{ parent() }}
+<section class="section" style="padding-top:48px">
+    <div class="container auth-card">
+        <div class="card">
+            <div class="card-body">
+                {% if error|default(false) %}
+                    <div class="notice mb-24" style="background:var(--c-red-lt);border-color:rgba(234,96,69,.3);color:var(--c-red-dk)">
+                        ⚠️ {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
+
+                <form method="post" action="{{ action|default('') }}" class="auth-form">
+                    {% if csrf_token_intention|default(false) %}
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token(csrf_token_intention) }}">
+                    {% endif %}
+
+                    <div class="form-group">
+                        <label for="username">{{ _username_label }}</label>
+                        <input type="text" id="username" name="{{ username_parameter|default('_username') }}" value="{{ last_username|default('') }}" required autofocus autocomplete="username">
+                    </div>
+
+                    <div class="form-group">
+                        <div class="flex-between">
+                            <label for="password" style="margin-bottom:0">{{ _password_label }}</label>
+                            <a href="{{ path('app_forgot_password_request') }}" class="text-muted" style="font-size:.78rem">Mot de passe oublié ?</a>
+                        </div>
+                        <input type="password" id="password" name="{{ password_parameter|default('_password') }}" required autocomplete="current-password" class="mt-8">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-8" style="width:100%;justify-content:center">{{ _sign_in_label }}</button>
+                </form>
+            </div>
+        </div>
+
+        <p class="text-center text-muted mt-24" style="font-size:.9rem">
+            Pas encore de compte ? <a href="{{ path('security_register') }}">Créer un compte</a>
+        </p>
+    </div>
+</section>
 {% endblock %}

@@ -251,20 +251,31 @@
         .member-main{padding:20px 16px}
     }
 
-    /* ─── MEMBER FORMS (form_row/form_widget natif Symfony) ─── */
-    .member-main form { max-width:640px; }
-    .member-main form > div { margin-bottom:18px; }
-    .member-main label { display:block; font-size:.78rem; font-weight:600; color:var(--c-muted); text-transform:uppercase; letter-spacing:.08em; margin-bottom:7px; }
+    /* ─── FORMULAIRES NATIFS SYMFONY (member area + pages d'authentification) ─── */
+    .member-main form, .auth-form { max-width:640px; }
+    .member-main form > div, .auth-form > div { margin-bottom:18px; }
+    .member-main label, .auth-form label { display:block; font-size:.78rem; font-weight:600; color:var(--c-muted); text-transform:uppercase; letter-spacing:.08em; margin-bottom:7px; }
     .member-main input[type=text], .member-main input[type=email], .member-main input[type=password],
     .member-main input[type=date], .member-main input[type=tel], .member-main input[type=search],
-    .member-main select, .member-main textarea {
+    .member-main select, .member-main textarea,
+    .auth-form input[type=text], .auth-form input[type=email], .auth-form input[type=password],
+    .auth-form input[type=date], .auth-form input[type=tel], .auth-form input[type=search],
+    .auth-form select, .auth-form textarea {
         width:100%; background:#fff; border:1.5px solid var(--c-border); border-radius:var(--r); color:var(--c-text);
         padding:10px 13px; font-size:.9rem; font-family:inherit;
     }
-    .member-main input:focus, .member-main select:focus, .member-main textarea:focus { outline:none; border-color:var(--c-red); box-shadow:0 0 0 3px rgba(234,96,69,.1); }
-    .member-main fieldset { border:none; margin:0 0 8px; padding:0; }
+    .member-main input:focus, .member-main select:focus, .member-main textarea:focus,
+    .auth-form input:focus, .auth-form select:focus, .auth-form textarea:focus { outline:none; border-color:var(--c-red); box-shadow:0 0 0 3px rgba(234,96,69,.1); }
+    .member-main fieldset, .auth-form fieldset { border:none; margin:0 0 8px; padding:0; }
     .member-main fieldset + .gap-20, .member-main .gap-20 { height:20px; }
     .member-main h3.title-border { font-family:'Lato',sans-serif; font-size:1.05rem; font-weight:700; color:var(--c-text); margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid var(--c-border); display:flex; align-items:center; gap:8px; }
+    .member-main .help, .auth-form .help { display:block; font-size:.78rem; color:var(--c-muted); margin-top:-10px; margin-bottom:14px; }
+
+    /* ─── AUTH (login / register) ─── */
+    .auth-card { max-width:440px; margin:0 auto; }
+    .auth-card .card-body { padding:32px; }
+    .auth-form label { margin-top:14px; }
+    .auth-form label:first-child { margin-top:0; }
 
     /* ─── MEMBER MEDIA GRID (vidéos, pièces, costumes, playlists) ─── */
     .media-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:18px; }
