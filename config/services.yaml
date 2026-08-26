@@ -4,6 +4,17 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    # Fallbacks pour que `bin/console` (cache:warmup, assets:install...) puisse tourner
+    # même quand ces variables d'environnement ne sont pas définies — typiquement pendant
+    # le build Docker. Une vraie variable d'environnement définie côté Coolify prend
+    # TOUJOURS le dessus sur ces valeurs par défaut.
+    env(APP_NAME): "Clap'Sabots"
+    env(APP_SECRET): 'set-a-real-secret-via-coolify-env-vars'
+    env(TRUSTED_PROXIES): '127.0.0.1,127.0.0.2'
+    env(MAILER_DSN): 'null://null'
+    env(MAILER_SENDER_NAME): "Clap'Sabots"
+    env(MAILER_SENDER_ADDR): 'contact@clapsabots.be'
+
     locale: 'fr'
     app.path.clothespiece_images: /uploads/images/clothespieces
     app.path.documents: /uploads/documents
