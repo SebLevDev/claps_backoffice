@@ -29,7 +29,6 @@ RUN mkdir -p var/cache var/log public/build \
     && chown -R www-data:www-data /app
 USER www-data
 
-RUN composer dump-env prod
 # Pré-chauffage du cache
 RUN php bin/console cache:warmup --env=prod
 
