@@ -7,7 +7,6 @@ namespace Infra\Symfony\Controller;
 use Infra\Symfony\Utils\SqlParameterBag;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class BaseController extends AbstractController
@@ -18,9 +17,7 @@ class BaseController extends AbstractController
     {
         $this->sqlParameterBag  = new SqlParameterBag();
 
-        /** @var Request|null request */
         if ($request = $requestStack->getCurrentRequest()) {
-            $this->request = $request;
             $this->sqlParameterBag->setRequest($request);
         }
     }
