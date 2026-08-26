@@ -20,7 +20,7 @@ class DanceController extends BaseController
             'name' => 'ASC'
         ]);
 
-        return $this->render('dance/index.html.twig', [
+        return $this->render('member/dance/index.html.twig', [
             'dances' => $dances,
             'breadcrumb' => $this->getBreadcurmb()
         ]);
@@ -29,7 +29,7 @@ class DanceController extends BaseController
     #[Route('/{id}', name:'app_dance_show', requirements: ['id' => '\d+'])]
     public function showAction(Dance $dance): Response
     {
-        return $this->render('dance/show.html.twig', [
+        return $this->render('member/dance/show.html.twig', [
             'dance' => $dance,
             'breadcrumb' => $this->getBreadcurmb()
         ]);

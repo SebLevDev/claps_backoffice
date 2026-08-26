@@ -17,7 +17,7 @@ class MediaController extends AbstractController
     {
         $videos = $videoRepository->findLastVideos();
 
-        return $this->render('media/index.html.twig', [
+        return $this->render('member/media/index.html.twig', [
             'videos' => $videos,
             'breadcrumb' => $this->getBreadcurmb()
         ]);

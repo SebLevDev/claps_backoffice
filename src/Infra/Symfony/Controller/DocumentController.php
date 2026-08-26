@@ -16,7 +16,7 @@ class DocumentController extends BaseController
     {
         $categories = $documentCategoryRepository->findAll();
 
-        return $this->render('document/index.html.twig', [
+        return $this->render('member/document/index.html.twig', [
             'categories' => $categories,
             'breadcrumb' => $this->getBreadcurmb()
         ]);

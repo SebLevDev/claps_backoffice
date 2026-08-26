@@ -25,7 +25,7 @@ class VideoController extends BaseController
         ]);
         $videos = $videoRepository->findLastVideos(500);
 
-        return $this->render('video/index.html.twig', [
+        return $this->render('member/video/index.html.twig', [
             'videos' => $videos,
             'searchVideoform' => $form->createView(),
             'breadcrumb' => $this->getBreadcurmb()
@@ -38,7 +38,7 @@ class VideoController extends BaseController
         $form = $this->createForm(SearchVideoType::class);
         $videos = $videoRepository->filterAll($this->getSqlParameterBag());
 
-        return $this->render('video/search.html.twig', [
+        return $this->render('member/video/search.html.twig', [
             'videos' => $videos,
             'searchVideoform' => $form->createView(),
             'breadcrumb' => $this->getBreadcurmb()
@@ -48,7 +48,7 @@ class VideoController extends BaseController
     #[Route('/{id}', name:'app_video_show', requirements: ['id' => '\d+'])]
     public function showAction(Video $video): Response
     {
-        return $this->render('video/show.html.twig', [
+        return $this->render('member/video/show.html.twig', [
             'video' => $video,
             'breadcrumb' => $this->getBreadcurmb()
         ]);

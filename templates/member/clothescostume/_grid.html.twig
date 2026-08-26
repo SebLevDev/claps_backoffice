@@ -1,23 +1,15 @@
-<div class="row">
-    {% for piece in pieces %}
-        <div class="col-sm-3 portfolio-static-item">
-            <div class="grid">
-                <a href="{{ path('app_clothes_piece_show', {'id': piece.id}) }}">
-                    <figure class="m-0 effect-oscar">
-                        {% if piece.image is not null %}
-                            <img src="/uploads/images/clothespieces/{{ piece.image }}" alt="{{ piece.name|e }}">
-                        {% else %}
-                            <img src="https://via.placeholder.com/400x600" alt="{{ piece.name|e }}">
-                        {% endif %}
-                    </figure>
-                </a>
-                <div class="portfolio-static-desc">
-                    <h3><a href="">{{ piece.name|e }}</a></h3>
-                    <span><a href="#">{{ piece.country|country }}</a></span>
-                </div>
-            </div>
-            <!--/ grid end -->
+{% for piece in pieces %}
+    <div class="media-card">
+        {% if piece.image is not null %}
+            <img src="/uploads/images/clothespieces/{{ piece.image }}" alt="{{ piece.name|e }}">
+        {% else %}
+            <img src="https://via.placeholder.com/400x600?text=Pas+d%27image" alt="{{ piece.name|e }}">
+        {% endif %}
+        <div class="media-card-body">
+            <h3>{{ piece.name|e }}</h3>
+            <span>{{ piece.country|country }}</span>
         </div>
-        <!--/ item 1 end -->
-    {% endfor %}
-</div>
+    </div>
+{% else %}
+    <p class="text-muted">Aucun costume trouvé.</p>
+{% endfor %}

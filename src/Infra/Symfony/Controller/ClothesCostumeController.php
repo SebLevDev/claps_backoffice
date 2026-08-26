@@ -17,7 +17,7 @@ class ClothesCostumeController extends BaseController
     {
         $costumes = $clothesCostumeRepository->findAll();
 
-        return $this->render('clothescostume/index.html.twig', [
+        return $this->render('member/clothescostume/index.html.twig', [
             'costumes' => $costumes,
             'breadcrumb' => null
         ]);

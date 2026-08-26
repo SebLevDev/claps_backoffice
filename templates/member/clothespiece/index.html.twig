@@ -1,24 +1,14 @@
-{% extends 'old/layout.html.twig' %}
+{% extends 'member/_layout.html.twig' %}
 
-{% block banner_title %}Pièces costumes{% endblock %}
-{% block title %}Pièces costumes{% endblock %}
+{% block title %}Pièces de costumes – Clap'Sabots{% endblock %}
+{% block member_eyebrow %}Danses & costumes{% endblock %}
+{% block member_title %}Pièces de costumes{% endblock %}
 
-{% block main %}
-    <div class="row">
-        <div class="col-md-6 heading">
-            <span class="title-icon classic pull-left"><i class="fa fa-cut"></i></span>
-            <h2 class="title classic">Pièces de costumes</h2>
-        </div>
-        <div class="col-md-6">
-            {{ include('clothespiece/_form_simple.html.twig') }}
-        </div>
+{% block member_main %}
+    {% include 'member/clothespiece/_form_simple.html.twig' %}
+    {% include 'member/clothespiece/_form_filter.html.twig' %}
+
+    <div class="media-grid">
+        {% include 'member/clothespiece/_grid.html.twig' %}
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            {{ include('clothespiece/_form_filter.html.twig') }}
-        </div>
-    </div>
-
-    {% include '_grid.html.twig' %}
-
 {% endblock %}

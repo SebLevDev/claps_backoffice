@@ -17,7 +17,7 @@ class EventController extends BaseController
     {
         $events = $eventRepository->findBy([], ['date' => 'DESC']);
 
-        return $this->render('event/index.html.twig', [
+        return $this->render('member/event/index.html.twig', [
             'events' => $events,
             'breadcrumb' => $this->getBreadcurmb()
         ]);

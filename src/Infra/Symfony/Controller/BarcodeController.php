@@ -22,7 +22,7 @@ class BarcodeController extends AbstractController
     #[Route('/barcode', name:'app_barcode_index')]
     public function indexAction(): Response
     {
-        return $this->render('barcode/index.html.twig', []);
+        return $this->render('member/barcode/index.html.twig', []);
     }
 
     #[Route('/barcode/scan', name:'app_barcode_scan')]

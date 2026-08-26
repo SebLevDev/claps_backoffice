@@ -1,42 +1,43 @@
+{% set route = app.request.attributes.get('_route') %}
 <nav>
-    <a class="nav-logo" href="/">Clap'<span>Sabots</span></a>
+    <a class="nav-logo" href="{{ path('app_index') }}">Clap'<span>Sabots</span></a>
     <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
     <ul class="nav-links" id="navLinks">
-        <li><a href="/">Accueil</a></li>
-        <li class="dropdown"><a href="#">Le Groupe</a>
+        <li><a href="{{ path('app_index') }}" class="{{ route == 'app_index' ? 'active' }}">Accueil</a></li>
+        <li class="dropdown"><a href="#" class="{{ route in ['app_history', 'app_giants', 'app_references', 'app_friends'] ? 'active' }}">Le Groupe</a>
             <div class="dropdown-menu">
-                <a href="{{ path('app_history') }}">Histoire & Qui sommes-nous</a>
-                <a href="{{ path('app_giants') }}">Nos géants</a>
-                <a href="{{ path('app_references') }}">Références</a>
-                <a href="{{ path('app_friends') }}">L'AmiClap</a>
+                <a href="{{ path('app_history') }}" class="{{ route == 'app_history' ? 'active' }}">Histoire & Qui sommes-nous</a>
+                <a href="{{ path('app_giants') }}" class="{{ route == 'app_giants' ? 'active' }}">Nos géants</a>
+                <a href="{{ path('app_references') }}" class="{{ route == 'app_references' ? 'active' }}">Références</a>
+                <a href="{{ path('app_friends') }}" class="{{ route == 'app_friends' ? 'active' }}">L'AmiClap</a>
             </div>
         </li>
-        <li class="dropdown"><a href="#">Sections</a>
+        <li class="dropdown"><a href="#" class="{{ route in ['app_sections_list', 'app_sections_show'] ? 'active' }}">Sections</a>
             <div class="dropdown-menu">
-                <a href="{{ path('app_sections_list') }}">Toutes les sections</a>
+                <a href="{{ path('app_sections_list') }}" class="{{ route == 'app_sections_list' ? 'active' }}">Toutes les sections</a>
                 {% for section in nav_sections() %}
                     {% if section.slug %}
-                        <a href="{{ path('app_sections_show', {slug: section.slug}) }}">{{ section.name }}{% if section.ageRange %} ({{ section.ageRange }}){% endif %}</a>
+                        <a href="{{ path('app_sections_show', {slug: section.slug}) }}" class="{{ route == 'app_sections_show' and app.request.attributes.get('slug') == section.slug ? 'active' }}">{{ section.name }}{% if section.ageRange %} ({{ section.ageRange }}){% endif %}</a>
                     {% endif %}
                 {% endfor %}
             </div>
         </li>
-        <li class="dropdown"><a href="#">Activités</a>
+        <li class="dropdown"><a href="#" class="{{ route in ['app_shows', 'app_workshops', 'app_trips'] ? 'active' }}">Activités</a>
             <div class="dropdown-menu">
-                <a href="{{ path('app_shows') }}">Spectacles & animations</a>
-                <a href="{{ path('app_workshops') }}">Stages avec chorégraphe</a>
-                <a href="{{ path('app_trips') }}">Voyages & échanges culturels</a>
+                <a href="{{ path('app_shows') }}" class="{{ route == 'app_shows' ? 'active' }}">Spectacles & animations</a>
+                <a href="{{ path('app_workshops') }}" class="{{ route == 'app_workshops' ? 'active' }}">Stages avec chorégraphe</a>
+                <a href="{{ path('app_trips') }}" class="{{ route == 'app_trips' ? 'active' }}">Voyages & échanges culturels</a>
             </div>
         </li>
-        <li><a href="{{ path('app_agenda_list') }}">Agenda</a></li>
-        <li><a href="{{ path('app_medias') }}">Médias</a></li>
-        <li><a href="{{ path('app_blog_list') }}">Blog</a></li>
-        <li><a href="{{ path('app_contact') }}">Contact</a></li>
+        <li><a href="{{ path('app_agenda_list') }}" class="{{ route == 'app_agenda_list' ? 'active' }}">Agenda</a></li>
+        <li><a href="{{ path('app_medias') }}" class="{{ route == 'app_medias' ? 'active' }}">Médias</a></li>
+        <li><a href="{{ path('app_blog_list') }}" class="{{ route in ['app_blog_list', 'app_blog_show'] ? 'active' }}">Blog</a></li>
+        <li><a href="{{ path('app_contact') }}" class="{{ route == 'app_contact' ? 'active' }}">Contact</a></li>
         {% if is_granted('ROLE_USER') %}
-            <li><a href="{{ path('app_user_show') }}">Mon Espace</a></li>
-            <li><a href="{{ path('security_logout') }}" style="background:var(--c-brown)!important">Déconnexion</a></li>
+            <li><a href="{{ path('app_user_show') }}" class="btn btn-outline">Mon Espace</a></li>
+            <li><a href="{{ path('security_logout') }}" class="btn btn-primary btn-dark">Déconnexion</a></li>
         {% else %}
-            <li><a href="{{ path('security_login') }}" id="btn-login">Connexion</a></li>
+            <li><a href="{{ path('security_login') }}" class="btn btn-primary">Connexion</a></li>
         {% endif %}
     </ul>
 </nav>

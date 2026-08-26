@@ -1,62 +1,27 @@
-
 {% for video in videos %}
-    <div class="row">
-        <div class="col-sm-3">
-            <div class="grid">
-                <a href="{{ path('app_video_show', {'id': video.id }) }}">
-                    <figure class="m-0 effect-oscar">
-                        <img src="https://img.youtube.com/vi/{{ video.youtubeId }}/0.jpg" alt="{{ video.name|e }}">
-                    </figure>
-                </a>
-            </div>
-            <!--/ grid end -->
-        </div>
-        <div class="col-sm-9">
-            <div class="portfolio-static-desc">
-                <h3 style="font-size: 24px"><a href="{{ path('app_video_show', {'id': video.id }) }}">{{ video.name|e }}</a></h3>
-                <div class="video-meta meta-line1">
-                    {% if video.event is not null %}
-                        <span class="video-meta meta-event">
-                            <i class="fa fa-calendar"></i> <a href="{{ path('app_video_search', { 'event': video.event.id }) }}">{{ video.event }}</a>
-                            {% if video.event.date is not null %}
-                                <span>•</span>
-                                <span>{{ video.event.date|date('d/m/y') }}</span>
-                            {% endif %}
-                        </span>
-                    {% endif %}
-                </div>
-
-                <div class="video-meta meta-line2">
-                    {% if video.country is not null %}
-                        <span class="video-meta meta-country">
-                            <i class="fa fa-flag"></i> <a href="{{ path('app_video_search', { 'country': video.country }) }}">{{ video.country|country }}</a>
-                        </span>                        &nbsp;
-                    {% endif %}
-
-                    {% if video.sections|length > 0 %}
-                        <span class="video-meta meta-sections">
-                            <i class="fa fa-users"></i>
-                            {% for section in video.sections %}
-                                <a href="{{ path('app_video_search', { 'sections': section.id }) }}">{{ section }}</a>
-                                {% if not loop.last %},{% endif %}
-                            {% endfor %}
-                        </span>
-                    {% endif %}
-                </div>
-
-                <div class="video-meta meta-line2">
-                    {% if video.country is not null %}
-                        <div class="video-meta meta-tags"><i class="fa fa-tags"></i> <a href="#">Spectacles</a></div>
-                    {% endif %}
-                </div>
-
-                <div class="video-meta meta-desc">
-                    {# <p>{{ video.description }}</p> #}
-                </div>
+    <div class="card mb-16" style="display:flex;flex-direction:row;align-items:stretch">
+        <a href="{{ path('app_video_show', {'id': video.id }) }}" style="flex-shrink:0;width:220px">
+            <img src="https://img.youtube.com/vi/{{ video.youtubeId }}/0.jpg" alt="{{ video.name|e }}" style="width:100%;height:100%;object-fit:cover;display:block">
+        </a>
+        <div class="card-body">
+            <h3><a href="{{ path('app_video_show', {'id': video.id }) }}">{{ video.name|e }}</a></h3>
+            <div class="video-meta">
+                {% if video.event is not null %}
+                    <span>📅 <a href="{{ path('app_video_search', { 'event': video.event.id }) }}">{{ video.event }}</a>{% if video.event.date is not null %} · {{ video.event.date|date('d/m/y') }}{% endif %}</span>
+                {% endif %}
+                {% if video.country is not null %}
+                    <span>🌍 <a href="{{ path('app_video_search', { 'country': video.country }) }}">{{ video.country|country }}</a></span>
+                {% endif %}
+                {% if video.sections|length > 0 %}
+                    <span>👥
+                        {% for section in video.sections %}
+                            <a href="{{ path('app_video_search', { 'sections': section.id }) }}">{{ section }}</a>{% if not loop.last %},{% endif %}
+                        {% endfor %}
+                    </span>
+                {% endif %}
             </div>
         </div>
     </div>
 {% else %}
-    <p>Aucune vidéo trouvé</p>
-    <!--/ item 1 end -->
+    <p class="text-muted">Aucune vidéo trouvée.</p>
 {% endfor %}

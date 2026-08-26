@@ -54,8 +54,9 @@
     .dropdown-menu { display:none; position:absolute; top:100%; left:0; background:#fff; border:1px solid var(--c-border); border-radius:var(--r); min-width:210px; z-index:200; overflow:hidden; box-shadow:var(--shadow-lg); }
     .dropdown:hover .dropdown-menu { display:block; }
     .dropdown-menu a { display:block; padding:10px 16px; border-radius:0; text-transform:none; font-size:.82rem; }
-    #btn-login { margin-left:10px; background:var(--c-red)!important; color:#fff!important; border-radius:6px; padding:7px 15px!important; font-weight:600!important; }
-    #btn-login:hover { background:var(--c-red-dk)!important; }
+    .nav-links .btn { margin-left:10px; padding:9px 18px; font-size:.78rem; }
+    .nav-links .btn-dark::before { background:var(--c-brown); }
+    .nav-links .btn-dark:hover::before { background:#11151d; }
     .hamburger { display:none; background:none; border:none; cursor:pointer; padding:8px; margin-left:auto; }
     .hamburger span { display:block; width:22px; height:2px; background:var(--c-red); margin:5px 0; border-radius:2px; transition:.3s; }
     @media(max-width:860px) {
@@ -64,7 +65,7 @@
         .nav-links.open{display:flex}
         .nav-links a{padding:10px 14px}
         .dropdown-menu{position:static;border:none;background:var(--c-red-lt);margin-left:12px;box-shadow:none}
-        #btn-login{margin-left:0}
+        .nav-links .btn{margin-left:0;justify-content:center}
     }
 
     /* ─── PAGES ─── */
@@ -231,10 +232,13 @@
     .tab-panel.active { display:block; }
 
     /* ─── MEMBER SPACE ─── */
+    .member-layout { display:flex; margin-top:var(--nav-h); }
     .member-sidebar { width:220px; flex-shrink:0; background:var(--c-surface); border-right:1px solid var(--c-border); padding:24px 0; min-height:calc(100vh - var(--nav-h)); box-shadow:2px 0 8px rgba(28,34,47,.05); }
-    .member-layout { display:flex; }
-    .member-main { flex:1; padding:32px 28px; overflow:auto; background:var(--c-bg); }
-    .sidebar-item { display:flex; align-items:center; gap:10px; padding:10px 20px; cursor:pointer; font-size:.85rem; color:var(--c-muted); transition:all .2s; border-left:3px solid transparent; }
+    .member-main { flex:1; padding:32px 28px; overflow:auto; background:var(--c-bg); min-width:0; }
+    .member-page-head { margin-bottom:24px; }
+    .member-page-head .hero-eyebrow { margin-bottom:6px; }
+    .member-page-head h1 { font-family:'Lato',sans-serif; font-size:clamp(1.4rem,2.6vw,1.9rem); color:var(--c-text); margin-bottom:0; }
+    .sidebar-item { display:flex; align-items:center; gap:10px; padding:10px 20px; cursor:pointer; font-size:.85rem; color:var(--c-muted); text-decoration:none; transition:all .2s; border-left:3px solid transparent; }
     .sidebar-item:hover { color:var(--c-text); background:var(--c-red-lt); }
     .sidebar-item.active { color:var(--c-red); border-left-color:var(--c-red); background:var(--c-red-lt); }
     .sidebar-section { padding:16px 20px 6px; font-size:.65rem; text-transform:uppercase; letter-spacing:.15em; color:var(--c-muted); }
@@ -246,6 +250,40 @@
         .sidebar-section{display:none}
         .member-main{padding:20px 16px}
     }
+
+    /* ─── MEMBER FORMS (form_row/form_widget natif Symfony) ─── */
+    .member-main form { max-width:640px; }
+    .member-main form > div { margin-bottom:18px; }
+    .member-main label { display:block; font-size:.78rem; font-weight:600; color:var(--c-muted); text-transform:uppercase; letter-spacing:.08em; margin-bottom:7px; }
+    .member-main input[type=text], .member-main input[type=email], .member-main input[type=password],
+    .member-main input[type=date], .member-main input[type=tel], .member-main input[type=search],
+    .member-main select, .member-main textarea {
+        width:100%; background:#fff; border:1.5px solid var(--c-border); border-radius:var(--r); color:var(--c-text);
+        padding:10px 13px; font-size:.9rem; font-family:inherit;
+    }
+    .member-main input:focus, .member-main select:focus, .member-main textarea:focus { outline:none; border-color:var(--c-red); box-shadow:0 0 0 3px rgba(234,96,69,.1); }
+    .member-main fieldset { border:none; margin:0 0 8px; padding:0; }
+    .member-main fieldset + .gap-20, .member-main .gap-20 { height:20px; }
+    .member-main h3.title-border { font-family:'Lato',sans-serif; font-size:1.05rem; font-weight:700; color:var(--c-text); margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid var(--c-border); display:flex; align-items:center; gap:8px; }
+
+    /* ─── MEMBER MEDIA GRID (vidéos, pièces, costumes, playlists) ─── */
+    .media-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:18px; }
+    .media-card { background:var(--c-card); border:1px solid var(--c-border); border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow); transition:transform .2s,box-shadow .2s; text-decoration:none; display:block; }
+    .media-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-lg); }
+    .media-card img { width:100%; aspect-ratio:3/4; object-fit:cover; display:block; background:#eceef1; }
+    .media-card.video img { aspect-ratio:16/9; }
+    .media-card-body { padding:12px 14px; }
+    .media-card-body h3 { font-size:.88rem; margin-bottom:4px; color:var(--c-text); }
+    .media-card-body span { font-size:.76rem; color:var(--c-muted); display:flex; align-items:center; gap:5px; }
+    .media-card-body img.country-flag { border-radius:2px; }
+    .search-bar { display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; margin-bottom:20px; }
+    .search-bar input[type=search] { flex:1; min-width:180px; max-width:280px; }
+    .filter-form { background:var(--c-surface); border:1px solid var(--c-border); border-radius:var(--r-lg); padding:20px; margin-bottom:24px; }
+    .filter-form .grid-2, .filter-form .grid-3, .filter-form .grid-4 { margin-bottom:16px; }
+    .filter-form h4 { font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:var(--c-muted); margin-bottom:8px; }
+    .video-meta { font-size:.8rem; color:var(--c-muted); display:flex; flex-wrap:wrap; gap:10px; margin-top:6px; }
+    .video-meta a { color:var(--c-muted); }
+    .video-meta a:hover { color:var(--c-red); }
 
     /* ─── FORM ─── */
     .form-group { margin-bottom:20px; }

@@ -1,32 +1,21 @@
-<div id="fitler_video" class="widget-title">
-    <div class="collapse" id="collapseVideoFilter">
-        <form class="card card-body" action="{{ path('app_video_search') }}">
-            <div class="row">
-                <div class="col-md-3">
-                    <h4 class="title-border">Événement</h4>
-                    {{ form_widget(searchVideoform.event) }}
-                </div>
-
-                <div class="col-md-3">
-                    <h4 class="title-border">Pays</h4>
-                    {{ form_widget(searchVideoform.country) }}
-                </div>
-
-                <div class="col-md-3">
-                    <h4 class="title-border">Section</h4>
-                    {{ form_widget(searchVideoform.sections) }}
-                </div>
-
-                <div class="col-md-3">
-                    <h4 class="title-border">Tags</h4>
-                    {{ form_widget(searchVideoform.tag) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-right">
-                    <button type="submit" class="btn btn-primary solid" style="margin-top: 10px;">Valider</button>
-                </div>
-            </div>
-        </form>
+<form class="filter-form" action="{{ path('app_video_search') }}">
+    <div class="grid-4">
+        <div>
+            <h4>Événement</h4>
+            {{ form_widget(searchVideoform.event) }}
+        </div>
+        <div>
+            <h4>Pays</h4>
+            {{ form_widget(searchVideoform.country) }}
+        </div>
+        <div>
+            <h4>Section</h4>
+            {{ form_widget(searchVideoform.sections) }}
+        </div>
+        <div>
+            <h4>Tags</h4>
+            {{ form_widget(searchVideoform.tag) }}
+        </div>
     </div>
-</div>
+    <button type="submit" class="btn btn-primary btn-sm">Filtrer</button>
+</form>

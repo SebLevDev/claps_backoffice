@@ -17,7 +17,7 @@ class PlaylistController extends AbstractController
     {
         $playlists = $playlistRepository->findAll();
 
-        return $this->render('playlist/index.html.twig', [
+        return $this->render('member/playlist/index.html.twig', [
             'playlists' => $playlists
         ]);
     }

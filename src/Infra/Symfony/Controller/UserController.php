@@ -42,7 +42,7 @@ class UserController extends BaseController
         }
         $familyMembers = array_unique($familyMembers);
 
-        return $this->render('user/show.html.twig', [
+        return $this->render('member/user/show.html.twig', [
             'user' => $user,
             'familyMembers' => $familyMembers,
             'families' => $families,
@@ -70,7 +70,7 @@ class UserController extends BaseController
             return $this->redirectToRoute('user_edit');
         }
 
-        return $this->render('user/edit.html.twig', [
+        return $this->render('member/user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
@@ -93,7 +93,7 @@ class UserController extends BaseController
             return $this->redirectToRoute('security_logout');
         }
 
-        return $this->render('user/change_password.html.twig', [
+        return $this->render('member/user/change_password.html.twig', [
             'form' => $form->createView(),
         ]);
     }

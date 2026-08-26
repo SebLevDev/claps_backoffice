@@ -1,16 +1,11 @@
-{% extends 'old/layout.html.twig' %}
+{% extends 'member/_layout.html.twig' %}
 
-{% block banner_title %}Playlist{% endblock %}
-{% block title %}Playlist{% endblock %}
+{% block title %}Playlist – Clap'Sabots{% endblock %}
+{% block member_eyebrow %}Médias{% endblock %}
+{% block member_title %}Playlist{% endblock %}
 
-{% block main %}
-    <div class="row">
-        <div class="col-md-12 heading">
-            <span class="title-icon classic pull-left"><i class="fa fa-list"></i></span>
-            <h2 class="title classic">Playlist</h2>
-        </div>
-    </div>
-
-    {% include '_grid.html.twig' %}
-
+{% block member_main %}
+<div class="media-grid">
+    {% include 'member/playlist/_grid.html.twig' %}
+</div>
 {% endblock %}

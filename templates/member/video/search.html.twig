@@ -1,24 +1,12 @@
-{% extends 'old/layout.html.twig' %}
+{% extends 'member/_layout.html.twig' %}
 
-{% block banner_title %}Video{% endblock %}
-{% block title %}Video{% endblock %}
+{% block title %}Recherche vidéos – Clap'Sabots{% endblock %}
+{% block member_eyebrow %}Médias{% endblock %}
+{% block member_title %}Vidéos{% endblock %}
 
-{% block main %}
-    <div class="row">
-        <div class="col-md-3 heading">
-            <span class="title-icon classic pull-left"><i class="fa fa-film"></i></span>
-            <h2 class="title classic">Vidéos</h2>
-        </div>
-        <div class="col-md-9">
-            {{ include('video/_form_simple.html.twig') }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            {{ include('video/_form_filter.html.twig') }}
-        </div>
-    </div>
+{% block member_main %}
+    {% include 'member/video/_form_simple.html.twig' %}
+    {% include 'member/video/_form_filter.html.twig' %}
 
-    {% include '_listing.html.twig' %}
-
+    {% include 'member/video/_listing.html.twig' %}
 {% endblock %}
