@@ -1,5 +1,4 @@
-# Utilise FrankenPHP officiel avec PHP 8.4
-FROM dunglas/frankenphp:latest-php8.4-alpine
+FROM dunglas/frankenphp
 
 # Installation des extensions nécessaires
 RUN install-php-extensions pdo_mysql intl zip opcache bcmath
