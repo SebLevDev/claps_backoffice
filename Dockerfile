@@ -32,4 +32,5 @@ USER www-data
 # Pré-chauffage du cache
 RUN php bin/console cache:warmup --env=prod
 
+ENV SERVER_NAME=":80"
 USER root
