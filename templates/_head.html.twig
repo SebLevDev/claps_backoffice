@@ -96,6 +96,10 @@
        découpe diagonale du bandeau (qui reste au-dessus grâce à son z-index). */
     .banner-photo { display:block; position:relative; width:100%; height:clamp(220px,42vh,420px); object-fit:cover; object-position:center 35%; margin-top:-36px; }
     @media(max-width:600px) { .banner-photo { margin-top:-18px; } }
+    /* Photo encadrée dans le corps d'une page (légende optionnelle en dessous) */
+    .inline-figure { margin:0 auto; max-width:720px; }
+    .inline-figure img { display:block; width:100%; border-radius:var(--r-lg); box-shadow:var(--shadow-lg); }
+    .inline-figure figcaption { margin-top:10px; font-size:.82rem; color:var(--c-muted); text-align:center; }
 
     /* ─── TYPOGRAPHY ─── */
     .hero-eyebrow { font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--c-red); font-weight:600; margin-bottom:14px; }
