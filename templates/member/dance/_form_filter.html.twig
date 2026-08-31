@@ -1,0 +1,14 @@
+<form class="filter-form" action="{{ path('app_dance_index') }}">
+    <div class="grid-2">
+        <div>
+            <h4>Pays</h4>
+            {{ form_widget(searchDanceForm.country) }}
+        </div>
+        <div style="display:flex;align-items:flex-end">
+            <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--c-text);text-transform:none;letter-spacing:0;font-weight:400">
+                {{ form_widget(searchDanceForm.hasWorkshopVideo) }} Avec vidéo de stage
+            </label>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-sm">Filtrer</button>
+</form>

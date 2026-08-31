@@ -1,13 +1,21 @@
-{% for piece in pieces %}
-    <div class="media-card">
-        {% if piece.image is not null %}
-            <img src="/uploads/images/clothespieces/{{ piece.image }}" alt="{{ piece.name|e }}">
-        {% else %}
-            <img src="https://via.placeholder.com/400x600?text=Pas+d%27image" alt="{{ piece.name|e }}">
+{% for costume in costumes %}
+    {% set costumeImage = null %}
+    {% for costumePiece in costume.clothesCostumePieces %}
+        {% if costumeImage is null and costumePiece.piece.image is not empty %}
+            {% set costumeImage = costumePiece.piece.image %}
         {% endif %}
-        <div class="media-card-body">
-            <h3>{{ piece.name|e }}</h3>
-            <span>{{ piece.country|country }}</span>
+    {% endfor %}
+    <div class="costume-card">
+        <div class="costume-thumb">
+            {% if costumeImage %}
+                <img src="{{ costumeImage }}" alt="{{ costume.name|e }}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='🎽'">
+            {% else %}
+                🎽
+            {% endif %}
+        </div>
+        <div class="costume-info">
+            <h4>{{ costume.name|e }}</h4>
+            <p>{{ costume.country|country }}</p>
         </div>
     </div>
 {% else %}

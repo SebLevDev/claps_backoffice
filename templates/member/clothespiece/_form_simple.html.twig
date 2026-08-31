@@ -1,4 +1,4 @@
 <form action="{{ path('app_clothes_piece_index') }}" class="search-bar">
-    <input type="search" name="search" placeholder="Rechercher une pièce…" value="{{ app.request.get('search') }}">
+    <input type="search" name="search" placeholder="Rechercher une pièce…" value="{{ app.request.query.get('search') }}">
     <button type="submit" class="btn btn-primary btn-sm">Rechercher</button>
 </form>

@@ -35,7 +35,10 @@ class VideoController extends BaseController
     #[Route('/search', name:'app_video_search')]
     public function searchAction(VideoRepository $videoRepository): Response
     {
-        $form = $this->createForm(SearchVideoType::class);
+        $countries = $videoRepository->getCountryList();
+        $form = $this->createForm(SearchVideoType::class, null, [
+            'countries' => $countries
+        ]);
         $videos = $videoRepository->filterAll($this->getSqlParameterBag());
 
         return $this->render('member/video/search.html.twig', [

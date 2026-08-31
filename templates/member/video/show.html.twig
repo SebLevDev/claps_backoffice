@@ -28,7 +28,7 @@
 
             {% if video.country is not null %}
                 <h3 class="mt-24">Pays</h3>
-                <p class="mt-8"><a href="{{ path('app_video_search', { 'country': video.country }) }}">{{ video.country|country }}</a></p>
+                <p class="mt-8"><a href="{{ path('app_video_search', { 'country': video.country }) }}">{{ video.country|countryFlag }} {{ video.country|country }}</a></p>
             {% endif %}
 
             {% if video.event is not null %}

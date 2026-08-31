@@ -1,0 +1,4 @@
+<form action="{{ path('app_dance_index') }}" class="search-bar">
+    <input type="search" name="search" placeholder="Rechercher une danse…" value="{{ app.request.query.get('search') }}">
+    <button type="submit" class="btn btn-primary btn-sm">Rechercher</button>
+</form>

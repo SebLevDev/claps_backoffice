@@ -5,5 +5,8 @@
 {% block member_title %}Danses{% endblock %}
 
 {% block member_main %}
+    {% include 'member/dance/_form_simple.html.twig' %}
+    {% include 'member/dance/_form_filter.html.twig' %}
+
     {% include 'member/dance/_listing.html.twig' %}
 {% endblock %}

@@ -13,7 +13,6 @@
         <div class="sidebar-section">Médias</div>
         <a href="{{ path('app_video_index') }}" class="sidebar-item {{ member_route in ['app_video_index', 'app_video_show', 'app_video_search'] ? 'active' }}">🎬 Vidéos</a>
         <a href="{{ path('app_music_index') }}" class="sidebar-item {{ member_route == 'app_music_index' ? 'active' }}">🎵 Musique</a>
-        <a href="{{ path('app_playlist_index') }}" class="sidebar-item {{ member_route == 'app_playlist_index' ? 'active' }}">📻 Playlist</a>
 
         <div class="sidebar-section">Danses & costumes</div>
         <a href="{{ path('app_dance_index') }}" class="sidebar-item {{ member_route in ['app_dance_index', 'app_dance_show'] ? 'active' }}">💃 Danses</a>
@@ -23,7 +22,6 @@
         <div class="sidebar-section">Vie du club</div>
         <a href="{{ path('app_document_index') }}" class="sidebar-item {{ member_route == 'app_document_index' ? 'active' }}">📄 Documents</a>
         <a href="{{ path('app_event_index') }}" class="sidebar-item {{ member_route == 'app_event_index' ? 'active' }}">🏆 Événements</a>
-        <a href="{{ path('app_barcode_index') }}" class="sidebar-item {{ member_route == 'app_barcode_index' ? 'active' }}">🎟️ Scanner billets</a>
 
         {% if is_granted('ROLE_ADMIN') %}
         <div class="sidebar-section">Administration</div>

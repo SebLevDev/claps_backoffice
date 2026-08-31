@@ -30,10 +30,7 @@ class ChangePasswordType extends AbstractType
                 'type' => PasswordType::class,
                 'constraints' => [
                     new NotBlank(),
-                    new Length([
-                        'min' => 6,
-                        'max' => 64,
-                    ]),
+                    new Length(min: 6, max: 64),
                 ],
                 'first_options' => [
                     'label' => 'user.change_password.form.label.new_password.first',

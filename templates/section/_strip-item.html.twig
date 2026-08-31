@@ -1,9 +1,13 @@
-<a class="section-card" href="{{ path('app_sections_show', {slug: section.slug}) }}">
-	{% if section.images is not empty %}
-		<img src="{{ section.images[0] }}" alt="{{ section.title }}" onerror="this.style.display='none'">
-	{% endif %}
-	<div class="section-card-overlay">
-		<h4>{{ section.title }}</h4>
-		<p>{{ section.age }}</p>
+<a class="circle-grid-item" href="{{ path('app_sections_show', {slug: section.slug}) }}">
+	<div class="circle-grid-photo">
+		<div class="circle-grid-mask">
+			{% if section.images is not empty %}
+				<img src="{{ section.images[0] }}" alt="{{ section.title }}" onerror="this.outerHTML='💃'">
+			{% else %}
+				💃
+			{% endif %}
+		</div>
+		<span class="circle-grid-tag">{{ section.title }}</span>
 	</div>
+	<p class="circle-grid-meta">{{ section.age }}</p>
 </a>

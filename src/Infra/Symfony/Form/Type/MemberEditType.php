@@ -14,7 +14,6 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -24,11 +23,10 @@ class MemberEditType extends AbstractType
     {
         $builder
             ->add('firstname', TextType::class, [
-                'label' => new TranslatableMessage('order.status', ['%order_id%' => 32], 'store'),
-                'help' => new TranslatableMessage('order.status', ['%order_id%' => 32], 'store'),
+                'label' => 'member.properties.firstname',
                 'constraints' => [
                     new NotBlank(),
-                    new Length(['min' => 30]),
+                    new Length(min: 2, max: 100),
                 ],
             ])
             ->add('lastname', TextType::class, [
@@ -38,15 +36,11 @@ class MemberEditType extends AbstractType
                 'label' => 'member.properties.birthdate',
             ])
             ->add('sex', ChoiceType::class, [
-                'label' => new TranslatableMessage('order.status', ['%order_id%' => 32], 'store'),
-                'help' => new TranslatableMessage('order.status', ['%order_id%' => 32], 'store'),
+                'label' => 'member.properties.sex',
                 'choices' => [
-                    'sex.m' => 'M',
-                    'sex.f' => 'F',
+                    'Male' => 'M',
+                    'Female' => 'F',
                 ],
-                'choice_label' => function ($choice, $key, $value) {
-                    return new TranslatableMessage($key, false === $choice ? [] : ['%company%' => $value], 'store');
-                },
             ])
             ->add('niss', TextType::class, [
                 'label' => 'member.properties.niss',

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Infra\Symfony\Controller;
 
+use Infra\Symfony\Form\Type\SearchDanceType;
 use Infra\Symfony\Persistance\Doctrine\Entity\Dance;
 use Infra\Symfony\Persistance\Doctrine\Repository\DanceRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,16 +13,29 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/dance')]
 class DanceController extends BaseController
 {
+    private const int DEFAULT_LIMIT = 25;
+
     #[Route('/', name:'app_dance_index')]
     public function indexAction(DanceRepository $danceRepository): Response
     {
-        $dances = $danceRepository->findBy([], [
-            'country' => 'ASC',
-            'name' => 'ASC'
+        $countries = $danceRepository->getCountryList();
+        $form = $this->createForm(SearchDanceType::class, null, [
+            'countries' => $countries
         ]);
+
+        $params = $this->getSqlParameterBag();
+        if (!$params->getLimit()) {
+            $params->setLimit(self::DEFAULT_LIMIT);
+        }
+
+        $dances = $danceRepository->filterAll($params);
+        $total = $danceRepository->countAll($params);
 
         return $this->render('member/dance/index.html.twig', [
             'dances' => $dances,
+            'searchDanceForm' => $form->createView(),
+            'currentPage' => $params->getPage(),
+            'totalPages' => $params->getPageCount($total),
             'breadcrumb' => $this->getBreadcurmb()
         ]);
     }

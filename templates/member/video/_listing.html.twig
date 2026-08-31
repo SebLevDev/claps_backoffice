@@ -10,7 +10,7 @@
                     <span>📅 <a href="{{ path('app_video_search', { 'event': video.event.id }) }}">{{ video.event }}</a>{% if video.event.date is not null %} · {{ video.event.date|date('d/m/y') }}{% endif %}</span>
                 {% endif %}
                 {% if video.country is not null %}
-                    <span>🌍 <a href="{{ path('app_video_search', { 'country': video.country }) }}">{{ video.country|country }}</a></span>
+                    <span><a href="{{ path('app_video_search', { 'country': video.country }) }}">{{ video.country|countryFlag }} {{ video.country|country }}</a></span>
                 {% endif %}
                 {% if video.sections|length > 0 %}
                     <span>👥

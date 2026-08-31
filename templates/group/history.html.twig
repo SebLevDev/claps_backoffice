@@ -15,24 +15,36 @@
 <section class="section">
     <div class="container" style="max-width:800px">
         <div class="grid-2 mt-24">
-            <div>
-                <h3>Notre mission</h3>
-                <p class="text-muted mt-8" style="font-size:.9rem;line-height:1.75">Transmettre et faire vivre le patrimoine de la danse populaire — qu'elle vienne de Belgique, d'Europe ou d'ailleurs — dans un esprit de partage, de convivialité et de respect des traditions.</p>
+            <div class="icon-box icon-box-left">
+                <div class="icon-box-mark">🎯</div>
+                <div>
+                    <h3>Notre mission</h3>
+                    <p>Transmettre et faire vivre le patrimoine de la danse populaire — qu'elle vienne de Belgique, d'Europe ou d'ailleurs — dans un esprit de partage, de convivialité et de respect des traditions.</p>
+                </div>
             </div>
             <div>
                 <h3>Nos valeurs</h3>
-                <p class="text-muted mt-8" style="font-size:.9rem;line-height:1.75">Ouverture sur le monde, intergénérationnel, authenticité du répertoire, accueil de tous les profils — débutants comme chevronnés, jeunes et moins jeunes.</p>
+                <ul class="icon-list mt-16">
+                    <li>Ouverture sur le monde</li>
+                    <li>Esprit intergénérationnel</li>
+                    <li>Authenticité du répertoire</li>
+                    <li>Accueil de tous les profils, débutants comme chevronnés</li>
+                </ul>
             </div>
         </div>
 
-        <div class="card mt-32" style="border-color:rgba(234,96,69,.2)">
+        <div class="divider-icon"><span class="divider-icon-mark">💃</span></div>
+
+        <div class="card" style="border-color:rgba(234,96,69,.2)">
             <div class="card-body">
                 <h3>📍 Nous trouver</h3>
                 <p class="text-muted mt-8">Stade Gaston Reiff — Rue Ernest Laurent 215, 1420 Braine-l'Alleud<br>📧 contact@clapsabots.be</p>
             </div>
         </div>
 
-        <h2 class="section-title mt-32">Histoire du groupe</h2>
+        <hr class="divider-diagonal divider-diagonal-sm">
+
+        <h2 class="section-title">Histoire du groupe</h2>
 
         <div class="accordion-item">
             <div class="accordion-header" onclick="toggleAccordion(this)"><h4>🌱 Les débuts (années 1980)</h4><span class="accordion-arrow">▼</span></div>
@@ -42,10 +54,25 @@
             <div class="accordion-header" onclick="toggleAccordion(this)"><h4>🌍 L'ouverture internationale (années 1990-2000)</h4><span class="accordion-arrow">▼</span></div>
             <div class="accordion-body">Le groupe s'ouvre progressivement aux répertoires du monde entier : Balkans, Israël, Arménie, Scandinavie… Les premiers échanges culturels à l'étranger voient le jour.</div>
         </div>
-        <div class="accordion-item">
+        <div class="accordion-item open">
             <div class="accordion-header" onclick="toggleAccordion(this)"><h4>🏆 Aujourd'hui</h4><span class="accordion-arrow">▼</span></div>
-            <div class="accordion-body">Avec plus de 150 membres répartis en 6 sections, Clap'Sabots est l'un des groupes de danse traditionnelle les plus actifs de la région wallonne.</div>
+            <div class="accordion-body">
+                <p>Avec plus de 150 membres répartis en 6 sections, Clap'Sabots est l'un des groupes de danse traditionnelle les plus actifs de la région wallonne.</p>
+            </div>
         </div>
     </div>
 </section>
+
+<section class="section bg-dark diagonal-top">
+    <div class="container text-center">
+        <p class="hero-eyebrow">En chiffres</p>
+        <h2 class="section-title">Clap'Sabots aujourd'hui</h2>
+        <div class="hero-stats" style="justify-content:center;border-top:none;margin-top:32px;padding-top:0">
+            <div><div class="stat-n">40+</div><div class="stat-l">Années de danse</div></div>
+            <div><div class="stat-n">6</div><div class="stat-l">Sections actives</div></div>
+            <div><div class="stat-n">150+</div><div class="stat-l">Membres</div></div>
+        </div>
+    </div>
+</section>
+<div class="scallop-edge scallop-dark"></div>
 {% endblock %}

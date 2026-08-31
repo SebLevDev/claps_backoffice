@@ -24,3 +24,23 @@
     </tbody>
 </table>
 </div>
+
+{% if totalPages is defined and totalPages > 1 %}
+<div class="pagination">
+    {% if currentPage > 1 %}
+        <a href="{{ path('app_dance_index', app.request.query.all|merge({page: currentPage - 1})) }}" class="pagination-btn">← Précédent</a>
+    {% else %}
+        <button class="pagination-btn" disabled>← Précédent</button>
+    {% endif %}
+
+    {% for i in 1..totalPages %}
+        <a href="{{ path('app_dance_index', app.request.query.all|merge({page: i})) }}" class="pagination-btn {{ i == currentPage ? 'active' : '' }}">{{ i }}</a>
+    {% endfor %}
+
+    {% if currentPage < totalPages %}
+        <a href="{{ path('app_dance_index', app.request.query.all|merge({page: currentPage + 1})) }}" class="pagination-btn">Suivant →</a>
+    {% else %}
+        <button class="pagination-btn" disabled>Suivant →</button>
+    {% endif %}
+</div>
+{% endif %}

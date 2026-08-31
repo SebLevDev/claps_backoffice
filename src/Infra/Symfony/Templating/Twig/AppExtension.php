@@ -26,6 +26,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('getClassName', [$this, 'getClassName']),
             new TwigFilter('localizedDate', [$this, 'localizedDate'], ['needs_environment' => true]),
             new TwigFilter('country', [$this, 'country']),
+            new TwigFilter('countryFlag', [$this, 'countryFlag']),
             new TwigFilter('languageName', [$this, 'languageName']),
         ];
     }
@@ -141,6 +142,27 @@ class AppExtension extends AbstractExtension
         }
 
         return Countries::getName($country_code);
+    }
+
+    /**
+     * Convertit un code pays ISO 3166-1 alpha-2 (ex: "BE", "FR") en émoji drapeau (🇧🇪, 🇫🇷),
+     * en combinant les deux "regional indicator symbols" Unicode correspondant aux lettres du code.
+     * N'a besoin d'aucune image/police additionnelle, s'affiche nativement partout.
+     */
+    public function countryFlag(?string $country_code): string
+    {
+        $country_code = strtoupper(trim((string) $country_code));
+
+        if (!preg_match('/^[A-Z]{2}$/', $country_code)) {
+            return '';
+        }
+
+        $flag = '';
+        foreach (str_split($country_code) as $letter) {
+            $flag .= mb_chr(0x1F1E6 + (\ord($letter) - \ord('A')), 'UTF-8');
+        }
+
+        return $flag;
     }
 
     public function languageName(string $language_code, string $output_language = 'en'): string

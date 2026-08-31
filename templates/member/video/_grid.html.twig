@@ -3,7 +3,7 @@
         <img src="https://img.youtube.com/vi/{{ video.youtubeId }}/0.jpg" alt="{{ video.name|e }}">
         <div class="media-card-body">
             <h3>{{ video.name|e }}</h3>
-            {% if video.country is not null %}<span>🌍 {{ video.country|country }}</span>{% endif %}
+            {% if video.country is not null %}<span>{{ video.country|countryFlag }} {{ video.country|country }}</span>{% endif %}
         </div>
     </a>
 {% else %}

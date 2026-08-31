@@ -13,6 +13,24 @@
 
 <section class="section">
     <div class="container" style="max-width:700px">
+        <div class="icon-box-grid mb-32">
+            <div class="icon-box">
+                <div class="icon-box-mark">📍</div>
+                <h3 style="font-size:.95rem">Adresse</h3>
+                <p>Stade Gaston Reiff<br>Rue Ernest Laurent 215<br>1420 Braine-l'Alleud</p>
+            </div>
+            <div class="icon-box">
+                <div class="icon-box-mark">✉️</div>
+                <h3 style="font-size:.95rem">Email</h3>
+                <p><a href="mailto:contact@clapsabots.be" style="color:inherit">contact@clapsabots.be</a></p>
+            </div>
+            <div class="icon-box">
+                <div class="icon-box-mark">📅</div>
+                <h3 style="font-size:.95rem">Cours</h3>
+                <p>Toute l'année, sous réserve de places disponibles</p>
+            </div>
+        </div>
+
         {% for message in app.flashes('success') %}
             <div class="notice mb-16">✅ {{ message }}</div>
         {% endfor %}
@@ -97,4 +115,5 @@
         </div>
     </div>
 </section>
+<div class="scallop-edge scallop-dark"></div>
 {% endblock %}

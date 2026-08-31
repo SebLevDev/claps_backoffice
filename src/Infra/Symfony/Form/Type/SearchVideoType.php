@@ -65,7 +65,17 @@ class SearchVideoType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => Video::class,
-            'countries' => []
+            'countries' => [],
+            'csrf_protection' => false,
         ));
+    }
+
+    public function getBlockPrefix(): string
+    {
+        // Formulaire sans préfixe : les champs sont soumis en GET sous forme de
+        // paramètres plats (?country=BE&event=3&...) au lieu de search_video[country]=BE,
+        // pour matcher les clés lues par VideoRepository::filterAllQueryBuilder() (SqlParameterBag)
+        // et les liens de filtre directs générés dans _grid.html.twig / _listing.html.twig.
+        return '';
     }
 }

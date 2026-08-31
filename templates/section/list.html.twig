@@ -12,13 +12,14 @@
     </div>
 </div>
 
-<section class="section">
+<section class="section bg-dark">
     <div class="container">
-        <div class="grid-2 mt-32">
+        <div class="circle-grid mt-32">
             {% for section in sections %}
-                {% include 'section/_card.html.twig' %}
+                {% include 'section/_strip-item.html.twig' %}
             {% endfor %}
         </div>
     </div>
 </section>
+<div class="scallop-edge scallop-dark"></div>
 {% endblock %}

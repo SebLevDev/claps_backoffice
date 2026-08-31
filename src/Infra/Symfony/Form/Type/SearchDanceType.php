@@ -1,21 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Infra\Symfony\Form\Type;
 
-use Infra\Symfony\Persistance\Doctrine\Entity\ClothesPiece;
-use Infra\Symfony\Persistance\Doctrine\Entity\Event;
-use Infra\Symfony\Persistance\Doctrine\Entity\Section;
-use Infra\Symfony\Persistance\Doctrine\Entity\Video;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Infra\Symfony\Persistance\Doctrine\Entity\Dance;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Intl\Countries;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SearchClothesPieceType extends AbstractType
+class SearchDanceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -31,35 +28,31 @@ class SearchClothesPieceType extends AbstractType
 
         $builder
             ->setMethod('GET')
-            ->add('sections', EntityType::class, [
-                'class' => Section::class,
-                'query_builder' => fn(EntityRepository $er) => $er->createQueryBuilder('section')
-                    ->orderBy('section.id', 'ASC'),
-                'attr' => ['class' => 'form-control'],
-                'multiple' => false,
-                'required' => false
-            ])
             ->add('country', ChoiceType::class, [
                 'choices' => $countriesChoice,
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
+            ])
+            ->add('hasWorkshopVideo', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Avec vidéo de stage',
             ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
-            'data_class' => ClothesPiece::class,
+        $resolver->setDefaults([
+            'data_class' => Dance::class,
             'countries' => [],
             'csrf_protection' => false,
-        ));
+        ]);
     }
 
     public function getBlockPrefix(): string
     {
-        // Formulaire sans préfixe : champs soumis en GET à plat (?country=BE&sections=3)
-        // pour matcher les clés lues par ClothesPieceRepository::filterAllQueryBuilder() (SqlParameterBag).
+        // Formulaire sans préfixe : champs soumis en GET à plat (?country=BE&hasWorkshopVideo=1)
+        // pour matcher les clés lues par DanceRepository::filterAllQueryBuilder() (SqlParameterBag).
         return '';
     }
 }
