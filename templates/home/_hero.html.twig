@@ -1,21 +1,16 @@
-<!-- HERO -->
-<section id="hero">
-	<div class="hero-img-side"></div>
-	<div class="container">
-		<div class="hero-content">
-			<div class="hero-badge">Braine-l'Alleud · Fondé en 1981</div>
-			<h1 class="display">La danse du monde,<br><em style="color:var(--c-red)">ici, ensemble.</em></h1>
-			<p class="lead">Cours, stages, spectacles, voyages — venez pratiquer la danse traditionnelle et populaire de tous horizons avec l'Ensemble Clap'Sabots.</p>
-			<div class="hero-actions">
-				<a href="{{ path('app_sections_list') }}" class="btn btn-primary">Nos sections →</a>
-				<a href="{{ path('app_agenda_list') }}" class="btn btn-outline">Voir l'agenda</a>
-			</div>
-			<div class="hero-stats">
-				<div><div class="stat-n">40+</div><div class="stat-l">Années de danse</div></div>
-				<div><div class="stat-n">6</div><div class="stat-l">Sections actives</div></div>
-				<div><div class="stat-n">150+</div><div class="stat-l">Membres</div></div>
-				<div><div class="stat-n">30+</div><div class="stat-l">Pays explorés</div></div>
-			</div>
-		</div>
+{# HERO — vidéo plein écran en boucle + baseline et 1 CTA en superposition.
+   Fichiers dans public/videos/ (dérivés de ClapSabots-Presentation.mp4, extrait ~1:12, filigrane tvcom flouté) :
+     - hero.mp4         (1600×900, ~14 s, sans son)
+     - hero-poster.jpg  (image d'attente + fallback mobile / prefers-reduced-motion) #}
+<section id="hero" style="background-image:url('{{ asset('videos/hero-poster.jpg') }}')">
+	<video class="hero-video" autoplay muted loop playsinline preload="auto"
+	       poster="{{ asset('videos/hero-poster.jpg') }}">
+		<source src="{{ asset('videos/hero.mp4') }}" type="video/mp4">
+	</video>
+	<div class="hero-overlay"></div>
+	<div class="hero-content">
+		<p class="hero-eyebrow">Braine-l'Alleud · Danses traditionnelles depuis 1977</p>
+		<h1 class="display">La danse du monde,<br><em>ici, ensemble.</em></h1>
+		<a href="{{ path('app_sections_list') }}" class="btn btn-primary">Nos sections →</a>
 	</div>
 </section>
