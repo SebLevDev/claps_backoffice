@@ -8,53 +8,54 @@
     <div class="container" style="max-width:900px">
         <p class="hero-eyebrow">Activités</p>
         <h1 class="display">Spectacles & animations</h1>
-        <p class="lead">En tant que membre, participez à des galas, fêtes de village, animations scolaires et événements culturels tout au long de l'année.</p>
+        <p class="lead">Du gala annuel aux prestations sur mesure, des animations scolaires aux festivals internationaux — Clap'Sabots monte sur scène toute l'année.</p>
     </div>
 </div>
 
 <section class="section">
     <div class="container" style="max-width:900px">
-        <div class="divider-icon" style="margin-top:0"><span class="divider-icon-mark">🎭</span></div>
-
         <div class="grid-2">
-            <div class="card">
+            <a href="{{ path('app_shows_gala') }}" class="card card-link">
                 <div class="card-img-placeholder">
-                    <img src="{{ asset('images/clapsabots/scene-ensemble.jpg') }}" alt="Gala" onerror="this.parentElement.innerHTML='🎪'">
+                    <img src="{{ asset('images/clapsabots/scene-ensemble.jpg') }}" alt="Gala annuel" onerror="this.parentElement.innerHTML='🎪'">
                 </div>
                 <div class="card-body">
                     <h3>Gala annuel</h3>
                     <p class="text-muted mt-8" style="font-size:.85rem">Le grand rendez-vous où toutes les sections se retrouvent sur scène.</p>
+                    <span class="card-more">En savoir plus →</span>
                 </div>
-            </div>
-            <div class="card">
+            </a>
+            <a href="{{ path('app_shows_prestations') }}" class="card card-link">
                 <div class="card-img-placeholder">
-                    <img src="{{ asset('images/clapsabots/couples-chapeaux.jpg') }}" alt="Fêtes locales" onerror="this.parentElement.innerHTML='🏘️'">
+                    <img src="{{ asset('images/clapsabots/couples-chapeaux.jpg') }}" alt="Spectacles & prestations" onerror="this.parentElement.innerHTML='🎭'">
                 </div>
                 <div class="card-body">
-                    <h3>Fêtes locales</h3>
-                    <p class="text-muted mt-8" style="font-size:.85rem">Animations dans les communes, braderies, marchés.</p>
+                    <h3>Spectacles</h3>
+                    <p class="text-muted mt-8" style="font-size:.85rem">Des prestations de qualité pour toutes les occasions : fêtes de village, braderies et marchés, mais aussi événements culturels et manifestations d'envergure.</p>
+                    <span class="card-more">En savoir plus →</span>
                 </div>
-            </div>
-            <div class="card">
+            </a>
+            <a href="{{ path('app_shows_ecoles') }}" class="card card-link">
                 <div class="card-img-placeholder">
                     <img src="{{ asset('images/clapsabots/enfants-tambourins.jpg') }}" alt="Animations scolaires" onerror="this.parentElement.innerHTML='🏫'">
                 </div>
                 <div class="card-body">
                     <h3>Animations scolaires</h3>
-                    <p class="text-muted mt-8" style="font-size:.85rem">Initiation aux danses du monde pour les classes primaires.</p>
+                    <p class="text-muted mt-8" style="font-size:.85rem">Découvrir la culture traditionnelle par le jeu et le mouvement, de la maternelle au primaire.</p>
+                    <span class="card-more">En savoir plus →</span>
                 </div>
-            </div>
-            <div class="card">
+            </a>
+            <a href="{{ path('app_shows_festivals') }}" class="card card-link">
                 <div class="card-img-placeholder">
                     <img src="{{ asset('images/clapsabots/couronnes-fleurs.jpg') }}" alt="Festivals" onerror="this.parentElement.innerHTML='🌍'">
                 </div>
                 <div class="card-body">
                     <h3>Festivals</h3>
-                    <p class="text-muted mt-8" style="font-size:.85rem">Représentation dans des festivals nationaux et internationaux.</p>
+                    <p class="text-muted mt-8" style="font-size:.85rem">Représentation dans des festivals de folklore, nationaux et internationaux.</p>
+                    <span class="card-more">En savoir plus →</span>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </section>
-<div class="scallop-edge scallop-dark"></div>
 {% endblock %}

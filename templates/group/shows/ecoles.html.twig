@@ -1,0 +1,65 @@
+{% extends 'layout.html.twig' %}
+
+{% block banner_title %}Écoles{% endblock %}
+{% block title %}Animations dans les écoles – Clap'Sabots{% endblock %}
+
+{% block main %}
+<div class="page-banner">
+    <div class="container" style="max-width:820px">
+        <p class="hero-eyebrow">Jeune public</p>
+        <h1 class="display">Animations dans les écoles</h1>
+        <p class="lead">Faire découvrir la danse et la culture traditionnelles aux enfants, de la maternelle au primaire, par le jeu, le rythme et le mouvement.</p>
+    </div>
+</div>
+<img class="banner-photo" src="{{ asset('images/clapsabots/enfants-tambourins.jpg') }}" alt="Jeunes danseurs de Clap'Sabots">
+
+<section class="section">
+    <div class="container" style="max-width:820px">
+
+        <h2 class="section-title" style="margin-top:0">Le but</h2>
+        <div class="blog-content mt-8">
+            <p>Découvrir d'autres pays et d'autres cultures à travers leurs danses, leurs musiques et leurs costumes&nbsp;: la danse traditionnelle est une porte d'entrée concrète et joyeuse vers l'ouverture au monde.</p>
+            <p>C'est aussi un formidable outil de <strong>psychomotricité</strong>&nbsp;: en apprenant une ronde ou une farandole, l'enfant travaille le rythme, la coordination, la latéralisation, l'orientation dans l'espace, l'écoute et la vie de groupe — sans même s'en rendre compte.</p>
+        </div>
+
+        <h2 class="section-title mt-32">Ce que l'enfant y travaille</h2>
+        <ul class="icon-list mt-8">
+            <li>Le sens du rythme et l'écoute de la musique</li>
+            <li>La coordination et la latéralité (gauche / droite, tour, changement de sens)</li>
+            <li>La motricité globale&nbsp;: sauts, pas chassés, déplacements</li>
+            <li>L'orientation dans l'espace et par rapport aux autres</li>
+            <li>La concentration et la mémoire (retenir un enchaînement)</li>
+            <li>La coopération&nbsp;: se donner la main, tenir une ronde, avancer ensemble</li>
+        </ul>
+
+        <hr class="divider-diagonal">
+
+        <h2 class="section-title">Comment ça se passe</h2>
+        <div class="blog-content mt-8">
+            <p>Un intervenant du groupe se déplace dans la classe ou la salle de gym, avec la musique. La séance commence par un échauffement en musique, puis l'apprentissage progressif d'une danse simple adaptée à l'âge, et se termine par une ronde tous ensemble.</p>
+            <p>Le contenu s'adapte à la maternelle comme au primaire, en séance unique ou en petit cycle. Aucun prérequis, aucun matériel particulier n'est demandé à l'école.</p>
+        </div>
+
+        <hr class="divider-diagonal">
+
+        <h2 class="section-title">En images</h2>
+        <div class="section-gallery mt-16">
+            <div class="section-gallery-item"><img src="{{ asset('images/clapsabots/enfants-tambourins.jpg') }}" alt="Enfants dansant avec des tambourins"></div>
+            <div class="section-gallery-item"><img src="{{ asset('images/clapsabots/g-kids-red.jpg') }}" alt="Jeunes danseurs en costumes"></div>
+            <div class="section-gallery-item"><img src="{{ asset('images/clapsabots/g-kids-wide.jpg') }}" alt="Groupe d'enfants sur scène"></div>
+        </div>
+
+        <hr class="divider-diagonal">
+
+        <div class="card" style="border-color:rgba(234,96,69,.2)">
+            <div class="card-body">
+                <h3>Organiser une animation</h3>
+                <p class="text-muted mt-8" style="font-size:.9rem">Enseignant·e, direction, association de parents&nbsp;: contactez-nous pour construire une intervention adaptée à vos classes.</p>
+                <a href="{{ path('app_contact') }}" class="btn btn-primary mt-16">Nous contacter</a>
+                <a href="{{ path('app_medias') }}" class="btn btn-outline mt-16" style="margin-left:8px">Voir les médias</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

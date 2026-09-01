@@ -1,0 +1,76 @@
+{% extends 'layout.html.twig' %}
+
+{% block banner_title %}Prestations{% endblock %}
+{% block title %}Nous inviter en spectacle – Clap'Sabots{% endblock %}
+
+{% block main %}
+<div class="page-banner">
+    <div class="container" style="max-width:820px">
+        <p class="hero-eyebrow">Nous inviter</p>
+        <h1 class="display">Spectacles & prestations</h1>
+        <p class="lead">Fête de village, inauguration, événement culturel ou d'entreprise, maison de repos, marché de Noël&nbsp;: Clap'Sabots se déplace et adapte sa prestation à votre occasion, petite ou grande.</p>
+    </div>
+</div>
+<img class="banner-photo" src="{{ asset('images/clapsabots/couples-chapeaux.jpg') }}" alt="Danseurs de Clap'Sabots en représentation">
+
+<section class="section">
+    <div class="container" style="max-width:820px">
+
+        <div class="blog-content">
+            <p>Nous proposons des prestations modulables&nbsp;: d'une courte apparition dynamique à un véritable spectacle de scène, avec plusieurs tableaux et changements de costumes. La musique peut être diffusée ou jouée en direct par nos musiciens.</p>
+            <p>Selon vos contraintes, nous adaptons le nombre de danseurs, la durée, le répertoire et la formule (scène, podium, déambulation).</p>
+        </div>
+
+        <h2 class="section-title mt-32">Trois formules</h2>
+        <div class="icon-box-grid mt-16">
+            <div class="icon-box">
+                <h3 style="font-size:.95rem">Format court</h3>
+                <p>15 à 20 min — une ou deux danses marquantes, idéal en ouverture ou en intermède.</p>
+            </div>
+            <div class="icon-box">
+                <h3 style="font-size:.95rem">Format spectacle</h3>
+                <p>45 à 60 min — plusieurs pays, plusieurs sections, musique live possible.</p>
+            </div>
+            <div class="icon-box">
+                <h3 style="font-size:.95rem">Déambulation & animation</h3>
+                <p>Rondes, farandoles et invitation du public à danser, en extérieur comme en intérieur.</p>
+            </div>
+        </div>
+
+        <hr class="divider-diagonal">
+
+        <h2 class="section-title">Besoins techniques minimum</h2>
+        <p class="section-sub">À adapter selon le lieu — nous en discutons ensemble à la réservation.</p>
+        <ul class="icon-list mt-8">
+            <li>Une surface plane, propre et non glissante d'environ 6&nbsp;×&nbsp;5&nbsp;m (idéalement plus)</li>
+            <li>Un accès électrique (220&nbsp;V) à proximité pour la sonorisation</li>
+            <li>Un espace fermé pour se changer et entreposer les costumes</li>
+            <li>Un accès véhicule pour le déchargement du matériel et des costumes</li>
+            <li>En extérieur&nbsp;: un sol stable et une solution de repli en cas de pluie</li>
+        </ul>
+
+        <hr class="divider-diagonal">
+
+        <h2 class="section-title">En images</h2>
+        <div class="section-gallery mt-16">
+            <div class="section-gallery-item"><img src="{{ asset('images/clapsabots/couples-chapeaux.jpg') }}" alt="Prestation en couples"></div>
+            <div class="section-gallery-item"><img src="{{ asset('images/clapsabots/g-charro.jpg') }}" alt="Danse de couple"></div>
+            <div class="section-gallery-item"><img src="{{ asset('images/clapsabots/g-leap.jpg') }}" alt="Solo dynamique"></div>
+            <div class="section-gallery-item"><img src="{{ asset('images/clapsabots/scene-ensemble.jpg') }}" alt="Ensemble sur scène"></div>
+            <div class="section-gallery-item"><img src="{{ asset('images/clapsabots/g-men-line.jpg') }}" alt="Ligne de danseurs"></div>
+            <div class="section-gallery-item"><img src="{{ asset('images/clapsabots/echanges-polynesie.jpg') }}" alt="Répertoire international"></div>
+        </div>
+
+        <hr class="divider-diagonal">
+
+        <div class="card" style="border-color:rgba(234,96,69,.2)">
+            <div class="card-body">
+                <h3>Demander une prestation</h3>
+                <p class="text-muted mt-8" style="font-size:.9rem">Dites-nous la date, le lieu et le type d'événement&nbsp;: nous vous proposons une formule et un devis. Dans le formulaire, choisissez le sujet «&nbsp;Demande de prestation&nbsp;».</p>
+                <a href="{{ path('app_contact') }}" class="btn btn-primary mt-16">Demander une prestation</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

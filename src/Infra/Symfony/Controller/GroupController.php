@@ -59,6 +59,30 @@ class GroupController extends AbstractController
         return $this->render('group/shows.html.twig');
     }
 
+    #[Route('/shows/gala', name: 'app_shows_gala')]
+    public function showsGalaAction(): Response
+    {
+        return $this->render('group/shows/gala.html.twig');
+    }
+
+    #[Route('/shows/prestations', name: 'app_shows_prestations')]
+    public function showsPrestationsAction(): Response
+    {
+        return $this->render('group/shows/prestations.html.twig');
+    }
+
+    #[Route('/shows/ecoles', name: 'app_shows_ecoles')]
+    public function showsEcolesAction(): Response
+    {
+        return $this->render('group/shows/ecoles.html.twig');
+    }
+
+    #[Route('/shows/festivals', name: 'app_shows_festivals')]
+    public function showsFestivalsAction(): Response
+    {
+        return $this->render('group/shows/festivals.html.twig');
+    }
+
     #[Route('/workshops', name: 'app_workshops')]
     public function workshopsAction(): Response
     {

@@ -154,6 +154,10 @@
     .card-img-placeholder { width:100%; height:200px; object-fit:cover; display:flex; align-items:center; justify-content:center; background:#eceef1; overflow:hidden; }
     .card-img-placeholder img { width:100%; height:100%; object-fit:cover; }
     .card-body { padding:20px; }
+    /* Carte entièrement cliquable */
+    .card-link { display:block; text-decoration:none; color:inherit; }
+    .card-more { display:inline-block; margin-top:14px; color:var(--c-red); font-size:.82rem; font-weight:600; }
+    .card-link:hover .card-more { text-decoration:underline; }
     .card-tag { display:inline-block; background:var(--c-red-lt); color:var(--c-red); font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:3px 10px; border-radius:99px; margin-bottom:10px; }
     .grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
     .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
@@ -202,9 +206,10 @@
         .diagonal-top-rev{ clip-path:polygon(0 18px,100% 0,100% 100%,0 100%); margin-top:-18px; padding-top:calc(48px + 18px); }
     }
 
-    /* ─── BORDURE EN DENTS ARRONDIES (façon template, entre section colorée et blanche) ───
-       Bande pleine largeur à placer juste après (bord bas) ou avant (bord haut, .scallop-top)
-       une section colorée. Technique : mask radial-gradient répété, pas d'image. */
+    /* ─── BORDURE EN DENTS ARRONDIES (transition entre une section SOMBRE et une section CLAIRE) ───
+       Bande pleine largeur à placer juste après une section sombre (les dents prolongent le sombre
+       vers le bas dans la section claire). Pour la transition inverse (section → footer), voir
+       #footer::before. Technique : mask radial-gradient répété, pas d'image. */
     .scallop-edge {
         --s: 16px;
         height: var(--s);
@@ -218,11 +223,6 @@
         mask-image: radial-gradient(circle var(--s) at var(--s) 100%, #000 99%, transparent 100%);
     }
     .scallop-dark { background-color: var(--c-brown); background-image: var(--texture-grain); }
-    .scallop-red { background: var(--c-red); }
-    /* Dents rouges en bas de la home : elles doivent mordre DANS le footer sombre, pas laisser
-       apparaître le fond blanc de la page entre les vagues. On remonte le footer de --s px et on
-       fait passer la bande au-dessus (position+z-index) : les creux révèlent alors le brun du footer. */
-    .scallop-edge.scallop-red { position: relative; z-index: 1; margin-bottom: calc(var(--s) * -1); }
 
     /* ─── BANDE PHOTO (façon "Championship Dance") ───
        Pas de background-attachment:fixed : combiné au clip-path de .diagonal-top-rev sur le même
@@ -449,6 +449,19 @@
 
     /* ─── FOOTER ─── */
     footer { background:var(--c-brown); color:rgba(255,255,255,.8); padding:56px 0 28px; }
+    /* Bord supérieur du footer en vagues arrondies. Bande sombre remontée de 16px juste au-dessus
+       du footer : sa base pleine se fond dans le footer, ses creux laissent voir la section qui
+       précède (claire, sombre ou rouge — peu importe). Remplace les <div class="scallop-edge">
+       posés par page, qui laissaient un liseré blanc entre la section et le footer. */
+    #footer { position:relative; }
+    #footer::before {
+        content:''; position:absolute; left:0; right:0; top:-16px; height:16px; z-index:1;
+        background:var(--c-brown);
+        -webkit-mask-image:radial-gradient(circle 16px at 16px 100%,#000 99%,transparent 100%);
+        mask-image:radial-gradient(circle 16px at 16px 100%,#000 99%,transparent 100%);
+        -webkit-mask-repeat:repeat-x; mask-repeat:repeat-x;
+        -webkit-mask-size:32px 16px; mask-size:32px 16px;
+    }
     .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; margin-bottom:40px; }
     .footer-logo { font-family:'Lato',sans-serif; font-weight:900; font-size:1.5rem; color:#fff; text-decoration:none; }
     .footer-logo span { color:var(--c-red); }
@@ -478,9 +491,6 @@
     .divider-diagonal { position:relative; height:1px; background:var(--c-border); margin:56px 0; }
     .divider-diagonal::after { content:''; position:absolute; left:0; top:-2px; width:56px; height:4px; background:var(--c-red); transform:skewX(-20deg); }
     .divider-diagonal-sm { margin:32px 0; }
-    .divider-icon { display:flex; align-items:center; gap:16px; margin:48px 0; }
-    .divider-icon::before, .divider-icon::after { content:''; flex:1; height:1px; background:var(--c-border); }
-    .divider-icon-mark { flex-shrink:0; width:40px; height:40px; border-radius:50%; background:var(--c-red-lt); color:var(--c-red); display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
 
     /* ─── ICON BOX (façon "cmsmasters icon box") ─── */
     .icon-box { display:flex; flex-direction:column; align-items:center; text-align:center; gap:12px; }
