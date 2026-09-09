@@ -68,6 +68,8 @@ security:
 
         # public frontoffice (visitor-facing pages, replacing the old WordPress site)
         - { path: '^/$', roles: PUBLIC_ACCESS }
+        - { path: '^/sitemap.xml', roles: PUBLIC_ACCESS }
+        - { path: '^/robots.txt', roles: PUBLIC_ACCESS }
         - { path: '^/sections', roles: PUBLIC_ACCESS }
         - { path: '^/agenda', roles: PUBLIC_ACCESS }
         - { path: '^/blog', roles: PUBLIC_ACCESS }

@@ -2,7 +2,23 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Clap'Sabots – Danses Traditionnelles{% endblock %}</title>
+        <title>{% block title %}Ensemble Clap'Sabots – Danses Traditionnelles{% endblock %}</title>
+        <meta name="description" content="{% block meta_description %}Ensemble Clap'Sabots : danse, musique et chant traditionnels à Braine-l'Alleud depuis 1977. Cours pour tous les âges, spectacles, stages et festivals de folklore.{% endblock %}">
+        <link rel="canonical" href="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}">
+
+        <meta property="og:site_name" content="Ensemble Clap'Sabots">
+        <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+        <meta property="og:locale" content="fr_BE">
+        <meta property="og:title" content="{{ block('title') }}">
+        <meta property="og:description" content="{{ block('meta_description') }}">
+        <meta property="og:url" content="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}">
+        <meta property="og:image" content="{% block og_image %}{{ app.request.schemeAndHttpHost }}{{ asset('images/clapsabots/scene-ensemble.jpg') }}{% endblock %}">
+
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{{ block('title') }}">
+        <meta name="twitter:description" content="{{ block('meta_description') }}">
+        <meta name="twitter:image" content="{{ block('og_image') }}">
+
         {% block head %}{% endblock %}
         {% block stylesheets %}{% endblock %}
     </head>

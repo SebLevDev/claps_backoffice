@@ -4,6 +4,9 @@
 
 {% block banner_title %}Blog{% endblock %}
 {% block title %}{{ article.title }} – Clap'Sabots{% endblock %}
+{% block meta_description %}{{ (article.resume ?: article.title)|striptags|slice(0, 160) }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_image %}{{ article.img ? (article.img starts with 'http' ? article.img : app.request.schemeAndHttpHost ~ article.img) : (app.request.schemeAndHttpHost ~ asset('images/clapsabots/scene-ensemble.jpg')) }}{% endblock %}
 
 {% block main %}
 <article>

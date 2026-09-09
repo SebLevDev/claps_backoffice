@@ -31,7 +31,6 @@
             </div>
         </li>
         <li><a href="{{ path('app_agenda_list') }}" class="{{ route == 'app_agenda_list' ? 'active' }}">Agenda</a></li>
-        <li><a href="{{ path('app_medias') }}" class="{{ route == 'app_medias' ? 'active' }}">Médias</a></li>
         <li><a href="{{ path('app_blog_list') }}" class="{{ route in ['app_blog_list', 'app_blog_show'] ? 'active' }}">Blog</a></li>
         <li><a href="{{ path('app_contact') }}" class="{{ route == 'app_contact' ? 'active' }}">Contact</a></li>
         {% if is_granted('ROLE_USER') %}
