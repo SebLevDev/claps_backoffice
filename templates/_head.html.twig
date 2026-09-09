@@ -308,11 +308,24 @@
 
     /* ─── SECTION GALLERY ─── */
     .section-gallery { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:28px }
-    .section-gallery-item { overflow:hidden; border-radius:6px; aspect-ratio:4/3 }
+    .section-gallery-item { position:relative; overflow:hidden; border-radius:6px; aspect-ratio:4/3; cursor:zoom-in }
     .section-gallery-item:first-child { grid-column:1/-1; aspect-ratio:16/7; border-radius:var(--r-lg); box-shadow:var(--shadow-lg) }
     .section-gallery-item img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .35s ease }
-    .section-gallery-item:hover img { transform:scale(1.04) }
+    .section-gallery-item:hover img { transform:scale(1.06) }
+    .section-gallery-item::after {
+        content:'🔍'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+        font-size:1.6rem; background:rgba(15,17,23,0); opacity:0; transition:opacity .25s ease,background .25s ease; pointer-events:none;
+    }
+    .section-gallery-item:hover::after { opacity:1; background:rgba(15,17,23,.28) }
     @media(max-width:600px){ .section-gallery { grid-template-columns:repeat(2,1fr) } .section-gallery-item:first-child { aspect-ratio:16/9 } }
+
+    /* ─── LIGHTBOX (voir une photo de galerie en grand) ─── */
+    .lightbox { display:none; position:fixed; inset:0; z-index:999; background:rgba(15,17,23,.94); align-items:center; justify-content:center; padding:48px; cursor:zoom-out; }
+    .lightbox.open { display:flex; }
+    .lightbox img { max-width:100%; max-height:100%; object-fit:contain; border-radius:8px; box-shadow:0 20px 60px rgba(0,0,0,.5); cursor:default; }
+    .lightbox-close { position:absolute; top:18px; right:22px; background:none; border:none; color:#fff; font-size:1.9rem; line-height:1; cursor:pointer; padding:10px; opacity:.85; }
+    .lightbox-close:hover { opacity:1; }
+    @media(max-width:600px){ .lightbox { padding:16px; } }
 
     /* ─── BLOG SHOW ─── */
     .blog-show-hero { margin-top:var(--nav-h); position:relative; height:420px; overflow:hidden; background:#1c222f; }

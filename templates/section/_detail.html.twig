@@ -7,12 +7,13 @@
 {% endif %}
 <p class="lead">{{ section.desc }}</p>
 <hr class="divider-diagonal divider-diagonal-sm">
-<div class="grid-2">
+<div class="grid-3">
+	<div class="card"><div class="card-body"><h3>🎂 Tranche d'âge</h3><p class="text-muted mt-8">{{ section.age }}</p></div></div>
 	<div class="card"><div class="card-body"><h3>🕐 Horaire</h3><p class="text-muted mt-8">{{ section.horaire }}</p></div></div>
 	<div class="card"><div class="card-body"><h3>👤 Encadrement</h3><p class="text-muted mt-8">{{ section.encad }}</p></div></div>
 </div>
 <div class="card mt-16" style="border-color:rgba(234,96,69,.2)"><div class="card-body"><h3>📍 Lieu des cours</h3><p class="text-muted mt-8">Stade Gaston Reiff — Rue Ernest Laurent 215, 1420 Braine-l'Alleud</p></div></div>
 <div style="margin-top:28px;display:flex;gap:14px;flex-wrap:wrap">
-	<a href="mailto:contact@clapsabots.be" class="btn btn-primary">S'inscrire à cette section</a>
+	<a href="{{ path('app_contact', {sent: 'inscription'}) }}" class="btn btn-primary">S'inscrire à cette section</a>
 	<a href="{{ path('app_sections_list') }}" class="btn btn-outline">← Toutes les sections</a>
 </div>
