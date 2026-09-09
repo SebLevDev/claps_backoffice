@@ -39,6 +39,12 @@ class GroupController extends AbstractController
         return $this->render('group/giants.html.twig');
     }
 
+    #[Route('/team', name: 'app_team')]
+    public function teamAction(): Response
+    {
+        return $this->render('group/team.html.twig');
+    }
+
     #[Route('/references', name: 'app_references')]
     public function referencesAction(): Response
     {

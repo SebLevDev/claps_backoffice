@@ -4,9 +4,10 @@
     <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
     <ul class="nav-links" id="navLinks">
         <li><a href="{{ path('app_index') }}" class="{{ route == 'app_index' ? 'active' }}">Accueil</a></li>
-        <li class="dropdown"><a href="#" class="{{ route in ['app_history', 'app_giants', 'app_references', 'app_friends'] ? 'active' }}">Le Groupe</a>
+        <li class="dropdown"><a href="#" class="{{ route in ['app_history', 'app_team', 'app_giants', 'app_references', 'app_friends'] ? 'active' }}">Le Groupe</a>
             <div class="dropdown-menu">
                 <a href="{{ path('app_history') }}" class="{{ route == 'app_history' ? 'active' }}">Histoire & Qui sommes-nous</a>
+                <a href="{{ path('app_team') }}" class="{{ route == 'app_team' ? 'active' }}">Équipe</a>
                 <a href="{{ path('app_giants') }}" class="{{ route == 'app_giants' ? 'active' }}">Nos géants</a>
                 <a href="{{ path('app_references') }}" class="{{ route == 'app_references' ? 'active' }}">Références</a>
                 <a href="{{ path('app_friends') }}" class="{{ route == 'app_friends' ? 'active' }}">L'AmiClap</a>

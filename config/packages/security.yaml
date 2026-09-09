@@ -73,6 +73,7 @@ security:
         - { path: '^/blog', roles: PUBLIC_ACCESS }
         - { path: '^/medias', roles: PUBLIC_ACCESS }
         - { path: '^/history', roles: PUBLIC_ACCESS }
+        - { path: '^/team', roles: PUBLIC_ACCESS }
         - { path: '^/giants', roles: PUBLIC_ACCESS }
         - { path: '^/references', roles: PUBLIC_ACCESS }
         - { path: '^/friends', roles: PUBLIC_ACCESS }
