@@ -31,7 +31,7 @@ ENV MAILER_SENDER_ADDR="no-reply@claps.be"
 ENV MAILER_DSN="null://null"
 ENV DATABASE_URL=$DATABASE_URL
 ENV TRUSTED_PROXIES="127.0.0.1,REMOTE_ADDR"
-ENV TRUSTED_HOSTS="^beta\.claps\.be$"
+ENV TRUSTED_HOSTS="^preview\.clapsabots\.be$"
 ENV SERVER_NAME=":80"
 
 # 5. Création d'un fichier .env minimal si absent pour éviter tout crash de Dotenv
