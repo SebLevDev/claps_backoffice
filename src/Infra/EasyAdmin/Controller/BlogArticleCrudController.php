@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Infra\EasyAdmin\Controller;
 
+use Domain\BlogArticle\Enum\BlogArticleTagEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -31,6 +33,7 @@ class BlogArticleCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('blog_article.crud.title.singular')
             ->setEntityLabelInPlural('blog_article.crud.title.plural')
             ->setSearchFields(['id', 'title', 'slug', 'tag'])
+            ->setDefaultSort(['date' => 'DESC'])
             ->setPaginatorPageSize(100)
             ->overrideTemplate('label/null', 'easy_admin/label_null.html.twig');
     }
@@ -38,8 +41,10 @@ class BlogArticleCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $title = TextField::new('title', 'word.name');
-        $slug = TextField::new('slug', 'blog_article.properties.slug');
-        $tag = TextField::new('tag', 'blog_article.properties.tag');
+        $slug = TextField::new('slug', 'blog_article.properties.slug')
+            ->setRequired(false)
+            ->setHelp('blog_article.properties.slug_help');
+        $tag = ChoiceField::new('tag', 'blog_article.properties.tag')->setChoices(BlogArticleTagEnum::cases());
         $date = DateTimeField::new('date', 'word.date');
         $isPublished = BooleanField::new('isPublished', 'blog_article.properties.is_published');
         $resume = TextareaField::new('resume', 'blog_article.properties.resume');

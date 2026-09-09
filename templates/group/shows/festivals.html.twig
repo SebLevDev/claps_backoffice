@@ -25,26 +25,15 @@
 
         <h2 class="section-title">Nos dernières participations</h2>
         <div class="mt-16">
-            <div class="event-item">
-                <div style="font-size:1.6rem;text-align:center">🇭🇺</div>
-                <div><div class="event-title">Festival international de folklore de Sárvár (IOV)</div><div class="event-meta">Hongrie · 2010</div></div>
-                <span class="event-type type-spectacle">Festival</span>
-            </div>
-            <div class="event-item">
-                <div style="font-size:1.6rem;text-align:center">🇬🇷</div>
-                <div><div class="event-title">Festival international d'Aigion</div><div class="event-meta">Grèce · 2007</div></div>
-                <span class="event-type type-spectacle">Festival</span>
-            </div>
-            <div class="event-item">
-                <div style="font-size:1.6rem;text-align:center">🇨🇿</div>
-                <div><div class="event-title">Festival international de folklore de Šlapanice (IOV)</div><div class="event-meta">Tchéquie · 2006</div></div>
-                <span class="event-type type-spectacle">Festival</span>
-            </div>
-            <div class="event-item">
-                <div style="font-size:1.6rem;text-align:center">🇧🇪</div>
-                <div><div class="event-title">Fête de Wallonie</div><div class="event-meta">Namur · 2008</div></div>
-                <span class="event-type type-spectacle">Festival</span>
-            </div>
+            {% for ref in latestFestivals %}
+                <div class="event-item">
+                    <div style="font-size:1.6rem;text-align:center">{{ ref.icon|default('🌍') }}</div>
+                    <div><div class="event-title">{{ ref.name }}</div><div class="event-meta">{{ ref.city ? ref.city ~ ', ' : '' }}{{ ref.country|countryFlag }} {{ ref.country }} · {{ ref.year }}</div></div>
+                    <span class="event-type type-spectacle">Festival</span>
+                </div>
+            {% else %}
+                <p class="text-muted">Aucune participation récente enregistrée pour le moment — retrouvez tout l'historique dans nos références.</p>
+            {% endfor %}
         </div>
 
         <div class="flex gap-12 mt-24" style="flex-wrap:wrap">

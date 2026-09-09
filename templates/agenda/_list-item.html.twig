@@ -7,7 +7,9 @@
 	</div>
 	<div>
 		<div class="event-title">{{ event.title }}</div>
-		<div class="event-meta">📍 {{ event.lieu }}</div>
+		<div class="event-meta">📍 {{ event.lieu }}{% if event.endDate and event.endDate|date('Y-m-d') != event.date|date('Y-m-d') %} · jusqu'au {{ event.endDate|date('d/m/Y') }}{% endif %}</div>
 	</div>
+	{% if event.type %}
 	<span class="event-type type-{{ event.type }}">{{ type_labels[event.type] ?? event.type|capitalize }}</span>
+	{% endif %}
 </div>

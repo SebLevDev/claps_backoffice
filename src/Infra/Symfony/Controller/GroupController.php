@@ -80,7 +80,9 @@ class GroupController extends AbstractController
     #[Route('/shows/festivals', name: 'app_shows_festivals')]
     public function showsFestivalsAction(): Response
     {
-        return $this->render('group/shows/festivals.html.twig');
+        return $this->render('group/shows/festivals.html.twig', [
+            'latestFestivals' => $this->referencesProvider->getLatestFestivals(),
+        ]);
     }
 
     #[Route('/workshops', name: 'app_workshops')]

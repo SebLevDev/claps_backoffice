@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Infra\Symfony\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Domain\BlogArticle\Enum\BlogArticleTagEnum;
 use Infra\Symfony\Persistance\Doctrine\Entity\BlogArticle;
 use Infra\Symfony\Persistance\Doctrine\Repository\BlogArticleRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -58,7 +59,7 @@ class ResetBlogArticlesCommand extends Command
         foreach ($rows as $row) {
             $article = new BlogArticle();
             $article->setSlug($row['slug']);
-            $article->setTag($row['tag']);
+            $article->setTag(BlogArticleTagEnum::tryFrom($row['tag']));
             $article->setTitle($row['title']);
             $article->setDate(new \DateTime($row['date']));
             $article->setResume($row['resume']);

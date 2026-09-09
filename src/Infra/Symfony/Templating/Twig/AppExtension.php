@@ -145,20 +145,55 @@ class AppExtension extends AbstractExtension
     }
 
     /**
-     * Convertit un code pays ISO 3166-1 alpha-2 (ex: "BE", "FR") en émoji drapeau (🇧🇪, 🇫🇷),
-     * en combinant les deux "regional indicator symbols" Unicode correspondant aux lettres du code.
+     * Noms français (parfois historiques/non-ISO) rencontrés dans `reference.country`,
+     * faute d'y stocker un code ISO comme le fait déjà `video.country`.
+     */
+    private const COUNTRY_NAME_TO_CODE = [
+        'allemagne' => 'DE',
+        'belgique' => 'BE',
+        'bulgarie' => 'BG',
+        'canada' => 'CA',
+        'france' => 'FR',
+        'grande bretagne' => 'GB',
+        'royaume-uni' => 'GB',
+        'grèce' => 'GR',
+        'hongrie' => 'HU',
+        'italie' => 'IT',
+        'pologne' => 'PL',
+        'rfa' => 'DE', // République fédérale d'Allemagne (RFA, avant la réunification de 1990)
+        'roumanie' => 'RO',
+        'tchéquie' => 'CZ',
+        'urss' => 'RU', // URSS dissoute en 1991, approximée par la Russie
+    ];
+
+    /**
+     * Convertit un pays en émoji drapeau : soit un code ISO 3166-1 alpha-2 (ex: "BE", "FR"),
+     * soit un nom français (ex: "Belgique", "URSS (en tournée)"), en combinant les deux
+     * "regional indicator symbols" Unicode correspondant aux lettres du code ISO.
      * N'a besoin d'aucune image/police additionnelle, s'affiche nativement partout.
      */
-    public function countryFlag(?string $country_code): string
+    public function countryFlag(?string $country): string
     {
-        $country_code = strtoupper(trim((string) $country_code));
+        $country = trim((string) $country);
 
-        if (!preg_match('/^[A-Z]{2}$/', $country_code)) {
+        if ($country === '') {
             return '';
         }
 
+        if (preg_match('/^[A-Za-z]{2}$/', $country)) {
+            return $this->flagFromCode($country);
+        }
+
+        $name = mb_strtolower(trim((string) preg_replace('/\s*\(.*\)\s*$/', '', $country)));
+        $code = self::COUNTRY_NAME_TO_CODE[$name] ?? null;
+
+        return $code ? $this->flagFromCode($code) : '';
+    }
+
+    private function flagFromCode(string $code): string
+    {
         $flag = '';
-        foreach (str_split($country_code) as $letter) {
+        foreach (str_split(strtoupper($code)) as $letter) {
             $flag .= mb_chr(0x1F1E6 + (\ord($letter) - \ord('A')), 'UTF-8');
         }
 

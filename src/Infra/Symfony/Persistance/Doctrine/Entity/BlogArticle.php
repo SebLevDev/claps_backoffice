@@ -7,6 +7,7 @@ namespace Infra\Symfony\Persistance\Doctrine\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Domain\BlogArticle\Enum\BlogArticleTagEnum;
 use Infra\Symfony\Persistance\Doctrine\Repository\BlogArticleRepository;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Attribute as Vich;
@@ -24,8 +25,8 @@ class BlogArticle implements \Stringable
     #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     private string $slug;
 
-    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    private ?string $tag = null;
+    #[ORM\Column(type: Types::STRING, length: 255, enumType: BlogArticleTagEnum::class, nullable: true)]
+    private ?BlogArticleTagEnum $tag = null;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
     private string $title;
@@ -53,6 +54,8 @@ class BlogArticle implements \Stringable
 
     public function __construct()
     {
+        $this->slug = '';
+        $this->title = '';
         $this->updatedAt = new \DateTime('now');
     }
 
@@ -78,12 +81,12 @@ class BlogArticle implements \Stringable
         return $this;
     }
 
-    public function getTag(): ?string
+    public function getTag(): ?BlogArticleTagEnum
     {
         return $this->tag;
     }
 
-    public function setTag(?string $tag): self
+    public function setTag(?BlogArticleTagEnum $tag): self
     {
         $this->tag = $tag;
 

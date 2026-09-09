@@ -30,7 +30,7 @@ class BlogDataProvider
     {
         return [
             'slug'    => $article->getSlug(),
-            'tag'     => $article->getTag(),
+            'tag'     => $article->getTag()?->value,
             'title'   => $article->getTitle(),
             'date'    => $article->getDate(),
             'resume'  => $article->getResume(),

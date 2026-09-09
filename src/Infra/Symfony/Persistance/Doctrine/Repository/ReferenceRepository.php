@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Infra\Symfony\Persistance\Doctrine\Repository;
 
+use Domain\Reference\Enum\ReferenceTypeEnum;
 use Infra\Symfony\Persistance\Doctrine\Entity\Reference;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -26,6 +27,28 @@ class ReferenceRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('r')
             ->orderBy('r.year', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Participations les plus récentes dont le type appartient à la catégorie "festival"
+     * (les cases de ReferenceTypeEnum préfixées "Festival").
+     *
+     * @return Reference[]
+     */
+    public function findLatestFestivals(int $limit = 4): array
+    {
+        $festivalTypes = array_values(array_map(
+            static fn (ReferenceTypeEnum $type) => $type->value,
+            array_filter(ReferenceTypeEnum::cases(), static fn (ReferenceTypeEnum $type) => $type->isFestival()),
+        ));
+
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.type IN (:types)')
+            ->setParameter('types', $festivalTypes)
+            ->orderBy('r.year', 'DESC')
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }

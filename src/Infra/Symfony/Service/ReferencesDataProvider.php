@@ -17,11 +17,17 @@ class ReferencesDataProvider
         return array_map($this->toArray(...), $this->referenceRepository->findAllOrdered());
     }
 
+    /** @return array<int, array<string, mixed>> */
+    public function getLatestFestivals(int $limit = 4): array
+    {
+        return array_map($this->toArray(...), $this->referenceRepository->findLatestFestivals($limit));
+    }
+
     /** @return array<string, mixed> */
     private function toArray(Reference $reference): array
     {
         return [
-            'icon'    => $reference->getIcon()?->value,
+            'icon'    => $reference->getIcon(),
             'name'    => $reference->getName(),
             'city'    => $reference->getCity(),
             'country' => $reference->getCountry(),

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Infra\EasyAdmin\Controller;
 
-use Domain\Reference\Enum\ReferenceIconEnum;
+use Domain\Reference\Enum\ReferenceTypeEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -36,7 +36,7 @@ class ReferenceCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $icon = ChoiceField::new('icon', 'reference.properties.icon')->setChoices(ReferenceIconEnum::cases());
+        $type = ChoiceField::new('type', 'reference.properties.type')->setChoices(ReferenceTypeEnum::cases());
         $name = TextField::new('name', 'word.name');
         $city = TextField::new('city', 'reference.properties.city');
         $country = TextField::new('country', 'address.properties.country');
@@ -46,9 +46,9 @@ class ReferenceCrudController extends AbstractCrudController
         $description = TextareaField::new('description', 'word.description');
 
         if (Crud::PAGE_INDEX === $pageName) {
-            return [$year, $icon, $name, $city, $country];
+            return [$year, $type, $name, $city, $country];
         }
 
-        return [$icon, $name, $city, $country, $year, $lat, $lng, $description];
+        return [$type, $name, $city, $country, $year, $lat, $lng, $description];
     }
 }

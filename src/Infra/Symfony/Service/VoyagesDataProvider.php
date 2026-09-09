@@ -11,28 +11,34 @@ class VoyagesDataProvider
     {
         return [
             [
-                'img'   => 'https://www.clapsabots.be/wp-content/uploads/2016/10/23_Clapsabots_14_000_Bulgarie-1024x621.jpg',
+                'img'   => '/images/clapsabots/festivals-hero.jpg',
+                'pays'  => 'Hongrie',
+                'annee' => '2010',
+                'desc'  => 'Sárvár — 5e participation au Festival International de Folklore (IOV).',
+            ],
+            [
+                'img'   => '/images/clapsabots/echanges-polynesie.jpg',
+                'pays'  => 'Grèce',
+                'annee' => '2007',
+                'desc'  => 'Aigion — festival de folklore.',
+            ],
+            [
+                'img'   => '/images/clapsabots/g-leaping.jpg',
+                'pays'  => 'Tchéquie',
+                'annee' => '2006',
+                'desc'  => 'Šlapanice — participation au Festival International de Folklore (IOV).',
+            ],
+            [
+                'img'   => '/images/clapsabots/ensemble-swirl.jpg',
                 'pays'  => 'Bulgarie',
-                'annee' => '2024',
-                'desc'  => 'Festival international de Plovdiv — 3e participation du groupe.',
+                'annee' => '1998',
+                'desc'  => 'Pazardjik, Panagurichté, Vélingrad, Saint-Constantin, Calougérovo — tournée à l\'invitation de l\'Ensemble Chavdar de Pazardjik.',
             ],
             [
-                'img'   => 'https://www.clapsabots.be/wp-content/uploads/2016/10/23_Clapsabots_12_002_Angleterre-400x400.jpg',
-                'pays'  => 'Écosse',
-                'annee' => '2023',
-                'desc'  => 'Festival de Stirling — échange avec le groupe Thistle Dancers.',
-            ],
-            [
-                'img'   => 'https://www.clapsabots.be/wp-content/uploads/2016/10/23_Clapsabots_14_010_Bulgarie-400x400.jpg',
-                'pays'  => 'Allemagne',
-                'annee' => '2022',
-                'desc'  => 'Festival de Wangen im Allgäu — 120 groupes participants.',
-            ],
-            [
-                'img'   => 'https://www.clapsabots.be/wp-content/uploads/2016/03/23_Clapsabots_03_006_Israel-400x400.jpg',
-                'pays'  => 'Israël',
-                'annee' => '2019',
-                'desc'  => 'Voyage culturel et stage avec des groupes locaux à Jérusalem.',
+                'img'   => '/images/clapsabots/danse-energie.jpg',
+                'pays'  => 'France',
+                'annee' => '1995',
+                'desc'  => 'Draguignan — échange culturel avec le groupe local.',
             ],
         ];
     }

@@ -7,7 +7,7 @@ namespace Infra\Symfony\Persistance\Doctrine\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Domain\Reference\Enum\ReferenceIconEnum;
+use Domain\Reference\Enum\ReferenceTypeEnum;
 use Infra\Symfony\Persistance\Doctrine\Repository\ReferenceRepository;
 
 #[ApiResource]
@@ -19,8 +19,8 @@ class Reference implements \Stringable
     #[ORM\Column(type: Types::INTEGER)]
     private $id;
 
-    #[ORM\Column(type: Types::STRING, length: 10, enumType: ReferenceIconEnum::class, nullable: true)]
-    private ?ReferenceIconEnum $icon = null;
+    #[ORM\Column(type: Types::STRING, length: 30, enumType: ReferenceTypeEnum::class, nullable: true)]
+    private ?ReferenceTypeEnum $type = null;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
     private string $name;
@@ -43,6 +43,11 @@ class Reference implements \Stringable
     #[ORM\Column(type: Types::TEXT, length: 2000, nullable: true)]
     private ?string $description = null;
 
+    public function __construct()
+    {
+        $this->name = '';
+    }
+
     public function __toString(): string
     {
         return $this->name ?? '';
@@ -53,16 +58,22 @@ class Reference implements \Stringable
         return $this->id;
     }
 
-    public function getIcon(): ?ReferenceIconEnum
+    public function getType(): ?ReferenceTypeEnum
     {
-        return $this->icon;
+        return $this->type;
     }
 
-    public function setIcon(?ReferenceIconEnum $icon): self
+    public function setType(?ReferenceTypeEnum $type): self
     {
-        $this->icon = $icon;
+        $this->type = $type;
 
         return $this;
+    }
+
+    /** Icône dérivée du type — plus de champ dédié en base. */
+    public function getIcon(): ?string
+    {
+        return $this->type?->getIcon();
     }
 
     public function getName(): ?string

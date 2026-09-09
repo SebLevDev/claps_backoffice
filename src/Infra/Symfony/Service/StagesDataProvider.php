@@ -10,11 +10,10 @@ class StagesDataProvider
     public function getStages(): array
     {
         return [
-            ['flag' => '🇧🇬', 'pays' => 'Bulgarie',  'annee' => '2024', 'choreg' => 'Ivan Petrov',     'style' => 'Danses de Thrace et de Rhodopes'],
-            ['flag' => '🇦🇲', 'pays' => 'Arménie',   'annee' => '2023', 'choreg' => 'Anahit Sargsyan', 'style' => 'Danses de fête arméniennes'],
-            ['flag' => '🇮🇱', 'pays' => 'Israël',    'annee' => '2023', 'choreg' => 'Rachel Cohen',    'style' => 'Danses folkloriques israéliennes'],
-            ['flag' => '🇳🇴', 'pays' => 'Norvège',   'annee' => '2022', 'choreg' => 'Erik Halvorsen',  'style' => 'Springleik et Halling'],
-            ['flag' => '🇭🇺', 'pays' => 'Hongrie',   'annee' => '2022', 'choreg' => 'László Tóth',     'style' => 'Danses du Kalotaszeg'],
+            ['flag' => '🇺🇦', 'pays' => 'Ukraine',  'annee' => '2024', 'choreg' => 'Riakhovskyi Mykhailo, Volkovych Olena & Maxime Luna Kirschbach (danseurs à l\'ensemble Mazowsze)', 'style' => 'Danses ukrainiennes — Hopak'],
+            ['flag' => '🇮🇳', 'pays' => 'Inde',     'annee' => '2023', 'choreg' => 'Khushboo Agarwal',                                                                              'style' => 'Danses indiennes — Bollywood'],
+            ['flag' => '🇵🇱', 'pays' => 'Pologne',  'annee' => '2013', 'choreg' => 'Maxime Luna Kirschbach (danseur à l\'ensemble Mazowsze)',                                       'style' => 'Danses polonaises de Lublin'],
+            ['flag' => '🇷🇴', 'pays' => 'Roumanie', 'annee' => '2012', 'choreg' => 'Maria & Marius Ursu',                                                                            'style' => 'Danses roumaines de Făgăraș'],
         ];
     }
 }

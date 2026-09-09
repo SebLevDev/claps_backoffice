@@ -19,6 +19,7 @@ blog_article:
       plural: "Articles de blog"
   properties:
     slug: "Slug"
+    slug_help: "Laissez vide pour générer automatiquement à partir du titre."
     tag: "Catégorie"
     resume: "Résumé"
     content: "Contenu"
@@ -138,6 +139,7 @@ event:
   properties:
     is_highlight: "Mise en avant"
     type: "Type"
+    end_date: "Date de fin"
 
 media_photo:
   crud:
@@ -184,7 +186,7 @@ reference:
       singular: "Référence"
       plural: "Références"
   properties:
-    icon: "Icône"
+    type: "Type"
     city: "Ville"
     year: "Année"
     lat: "Latitude"

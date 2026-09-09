@@ -39,6 +39,7 @@ class EventCrudController extends AbstractCrudController
     {
         $name = TextField::new('name', 'word.name');
         $date = DateTimeField::new('date', 'word.date');
+        $endDate = DateTimeField::new('endDate', 'event.properties.end_date')->setRequired(false);
         $vanue = TextField::new('venue', 'vent.properties.venue');
         $isHighlight = Field::new('isHighlight', 'event.properties.is_highlight');
         $type = ChoiceField::new('type', 'event.properties.type')->setChoices(EventTypeEnum::cases());
@@ -48,11 +49,11 @@ class EventCrudController extends AbstractCrudController
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $name, $date, $vanue, $type, $isHighlight, $videos];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $name, $date, $vanue, $type, $isHighlight, $videos];
+            return [$id, $name, $date, $endDate, $vanue, $type, $isHighlight, $videos];
         } elseif (Crud::PAGE_NEW === $pageName) {
-            return [$name, $date, $vanue, $type, $isHighlight, $videos];
+            return [$name, $date, $endDate, $vanue, $type, $isHighlight, $videos];
         } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$name, $date, $vanue, $type, $isHighlight, $videos];
+            return [$name, $date, $endDate, $vanue, $type, $isHighlight, $videos];
         }
     }
 }

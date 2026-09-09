@@ -12,8 +12,24 @@
     </div>
 </div>
 
-<section class="section bg-dark">
+<section class="section">
+    <div class="container" style="max-width:820px">
+        <p class="hero-eyebrow">Un cours pour chaque âge</p>
+        <h2 class="section-title">Des cours adaptés à chaque étape</h2>
+        <p class="section-sub">De la découverte du rythme chez les tout-petits au perfectionnement des danseurs confirmés, chaque section a son propre programme.</p>
+
+        <div class="mt-8" style="display:flex;flex-direction:column;gap:16px">
+            <p class="text-muted" style="line-height:1.7">Les plus jeunes (Petits, Juniors, Jeunes) découvrent la danse folklorique en s'amusant, dans le respect de leur rythme, avec des chorégraphies simples et un premier passage sur scène dès le Gala annuel. Les groupes Adultes et Perfectionnement s'adressent à toute personne débutante ou expérimentée souhaitant approfondir les danses traditionnelles d'Europe et d'ailleurs, jusqu'aux chorégraphies présentées en spectacle.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section bg-dark diagonal-top">
     <div class="container">
+        <p class="hero-eyebrow">Nos sections</p>
+        <h2 class="section-title">Choisissez votre section</h2>
+        <p class="section-sub">Chaque section a son horaire, son encadrant et son ambiance propre — cliquez sur une section pour découvrir son programme et rejoindre le groupe qui vous correspond.</p>
+
         <div class="circle-grid mt-32">
             {% for section in sections %}
                 {% include 'section/_strip-item.html.twig' %}
