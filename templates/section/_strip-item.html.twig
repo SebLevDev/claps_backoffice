@@ -1,4 +1,4 @@
-<a class="circle-grid-item" href="{{ path('app_sections_show', {slug: section.slug}) }}">
+<a class="circle-grid-item" href="{{ section.slug == 'amiclap' ? path('app_friends') : path('app_sections_show', {slug: section.slug}) }}">
 	<div class="circle-grid-photo">
 		<div class="circle-grid-mask">
 			{% if section.images is not empty %}
