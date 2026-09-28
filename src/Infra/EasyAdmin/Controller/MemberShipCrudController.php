@@ -7,7 +7,6 @@ namespace Infra\EasyAdmin\Controller;
 use Domain\MemberShip\Service\PdfInsurance;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
-use EasyCorp\Bundle\EasyAdminBundle\Factory\FieldFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Infra\Symfony\Persistance\Doctrine\Entity\ClubYear;
@@ -139,13 +138,10 @@ class MemberShipCrudController extends AbstractCrudController
     }
 
     #[AdminRoute(path: '/export', name: 'export')]
-    public function export(Request $request, FieldFactory $fieldFactory)
+    public function export(Request $request)
     {
         $context = $request->attributes->get(EA::CONTEXT_REQUEST_ATTRIBUTE);
-        $fieldFactory = $this->container->get(FieldFactory::class);
-        $configuredFields = $this->configureFields(Crud::PAGE_INDEX);
-        $processedFields = $fieldFactory->processFields($context->getEntity(), $configuredFields);
-        $fields = new FieldCollection($processedFields);
+        $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
         $filters = $this->container->get(FilterFactory::class)->create(
             $context->getCrud()->getFiltersConfig(),
             $fields,
