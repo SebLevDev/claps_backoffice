@@ -1,19 +1,37 @@
-{% extends 'old/layout_rightcolumn.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block title %}{{ 'user.reset_password.request.title' |trans }}{% endblock %}
-
-{% block body_id 'user_resetpassword_request' %}
+{% block title %}{{ 'user.reset_password.request.title'|trans }} – Clap'Sabots{% endblock %}
 
 {% block main %}
-    {% for flash_error in app.flashes('reset_password_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-    <h1>{{ 'user.reset_password.request.title' |trans }}</h1>
+<div class="page-banner" style="padding:48px 0 64px">
+    <div class="container" style="max-width:440px">
+        <p class="hero-eyebrow">Espace membre</p>
+        <h1 class="display" style="font-size:2rem;margin-bottom:0">{{ 'user.reset_password.request.title'|trans }}</h1>
+    </div>
+</div>
 
-    <p>{{ 'user.reset_password.request.info' |trans }}</p>
-    {{ form_start(requestForm) }}
-        {{ form_row(requestForm.email) }}
+<section class="section" style="padding-top:48px">
+    <div class="container auth-card">
+        <div class="card">
+            <div class="card-body">
+                {% for flash_error in app.flashes('reset_password_error') %}
+                    <div class="notice mb-24" style="background:var(--c-red-lt);border-color:rgba(234,96,69,.3);color:var(--c-red-dk)">
+                        ⚠️ {{ flash_error }}
+                    </div>
+                {% endfor %}
 
-        <button class="btn btn-primary">{{ 'user.reset_password.request.action' |trans }}</button>
-    {{ form_end(requestForm) }}
+                <div class="notice mb-24">ℹ️ {{ 'user.reset_password.request.info'|trans }}</div>
+
+                {{ form_start(requestForm, {'attr': {'class': 'auth-form'}}) }}
+                {{ form_widget(requestForm) }}
+                <button type="submit" class="btn btn-primary mt-8" style="width:100%;justify-content:center">{{ 'user.reset_password.request.action'|trans }}</button>
+                {{ form_end(requestForm) }}
+            </div>
+        </div>
+
+        <p class="text-center text-muted mt-24" style="font-size:.9rem">
+            <a href="{{ path('security_login') }}">{{ 'user.login.action'|trans }}</a>
+        </p>
+    </div>
+</section>
 {% endblock %}

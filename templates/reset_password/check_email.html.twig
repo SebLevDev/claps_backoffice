@@ -1,12 +1,27 @@
-{% extends 'old/layout_rightcolumn.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block title %}{{ 'user.reset_password.check_email.title' |trans }}{% endblock %}
-
-{% block body_id 'user_resetpassword_checkemail' %}
+{% block title %}{{ 'user.reset_password.check_email.title'|trans }} – Clap'Sabots{% endblock %}
 
 {% block main %}
-    <h1>{{ 'user.reset_password.check_email.title' |trans }}</h1>
+<div class="page-banner" style="padding:48px 0 64px">
+    <div class="container" style="max-width:440px">
+        <p class="hero-eyebrow">Espace membre</p>
+        <h1 class="display" style="font-size:2rem;margin-bottom:0">{{ 'user.reset_password.check_email.title'|trans }}</h1>
+    </div>
+</div>
 
-    <p>{{ 'user.reset_password.check_email.info' |trans }}</p>
-    <p>{{ 'user.reset_password.check_email.dont_receive' |trans }}</p>
+<section class="section" style="padding-top:48px">
+    <div class="container auth-card">
+        <div class="card">
+            <div class="card-body">
+                <p>{{ 'user.reset_password.check_email.info'|trans }}</p>
+                <p class="text-muted" style="margin-bottom:0">{{ 'user.reset_password.check_email.dont_receive'|trans }}</p>
+            </div>
+        </div>
+
+        <p class="text-center text-muted mt-24" style="font-size:.9rem">
+            <a href="{{ path('security_login') }}">{{ 'user.login.action'|trans }}</a>
+        </p>
+    </div>
+</section>
 {% endblock %}

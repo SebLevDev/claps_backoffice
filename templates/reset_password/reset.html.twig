@@ -1,14 +1,25 @@
-{% extends 'old/layout_rightcolumn.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block title %}{{ 'user.reset_password.reset.title' |trans }}{% endblock %}
-
-{% block body_id 'user_resetpassword_reset' %}
+{% block title %}{{ 'user.reset_password.reset.title'|trans }} – Clap'Sabots{% endblock %}
 
 {% block main %}
-    <h1>{{ 'user.reset_password.reset.title' |trans }}</h1>
+<div class="page-banner" style="padding:48px 0 64px">
+    <div class="container" style="max-width:440px">
+        <p class="hero-eyebrow">Espace membre</p>
+        <h1 class="display" style="font-size:2rem;margin-bottom:0">{{ 'user.reset_password.reset.title'|trans }}</h1>
+    </div>
+</div>
 
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">{{ 'user.reset_password.reset.action' |trans }}</button>
-    {{ form_end(resetForm) }}
+<section class="section" style="padding-top:48px">
+    <div class="container auth-card">
+        <div class="card">
+            <div class="card-body">
+                {{ form_start(resetForm, {'attr': {'class': 'auth-form'}}) }}
+                {{ form_widget(resetForm) }}
+                <button type="submit" class="btn btn-primary mt-8" style="width:100%;justify-content:center">{{ 'user.reset_password.reset.action'|trans }}</button>
+                {{ form_end(resetForm) }}
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

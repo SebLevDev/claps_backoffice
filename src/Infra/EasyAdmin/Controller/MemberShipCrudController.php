@@ -141,7 +141,7 @@ class MemberShipCrudController extends AbstractCrudController
     public function export(Request $request)
     {
         $context = $request->attributes->get(EA::CONTEXT_REQUEST_ATTRIBUTE);
-        $fields = FieldCollection::new($this->configureFields(Crud::PAGE_INDEX));
+        $fields = new FieldCollection($this->configureFields(Crud::PAGE_INDEX));
         $filters = $this->container->get(FilterFactory::class)->create(
             $context->getCrud()->getFiltersConfig(),
             $fields,
