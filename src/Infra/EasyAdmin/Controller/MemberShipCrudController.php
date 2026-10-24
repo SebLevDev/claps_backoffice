@@ -30,9 +30,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Infra\Symfony\Service\CsvService;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[AdminRoute(path: '/memberships', name: 'membership')]
 class MemberShipCrudController extends AbstractCrudController
@@ -161,20 +162,20 @@ class MemberShipCrudController extends AbstractCrudController
     }
 
     #[AdminRoute(path: '/download-insurance', name: 'generateInsuranceDocument')]
-    public function generateInsuranceDocument(AdminContext $context): BinaryFileResponse
+    public function generateInsuranceDocument(AdminContext $context): Response
     {
         $memberShip = $context->getEntity()->getInstance();
-        $filename = "public/insurances/" . $memberShip->getPdfFileName("Insurance");
+        $filename = $memberShip->getPdfFileName("Insurance");
         $pdf = PdfInsurance::createDocument($memberShip);
 
-        $test = __DIR__ . '/../../../../'.$filename;
-        $pdf->Output(__DIR__ . '/../../../../'.$filename, "F");
+        // Généré en mémoire : pas d'écriture disque (dossier absent/non inscriptible en prod)
+        // et pas de document nominatif exposé publiquement dans public/.
+        $content = $pdf->Output($filename, 'S');
         $pdf->freeResources();
-        $fullName = realpath($test);
 
-        $fileResponse = new BinaryFileResponse($fullName);
-        $fileResponse->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $memberShip->getPdfFileName("Insurance"));
-
-        return $fileResponse;
+        return new Response($content, Response::HTTP_OK, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $filename, (new AsciiSlugger())->slug(pathinfo($filename, PATHINFO_FILENAME)) . '.pdf'),
+        ]);
     }
 }

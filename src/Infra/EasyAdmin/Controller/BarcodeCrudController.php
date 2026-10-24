@@ -18,9 +18,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[AdminRoute(path: '/barcodes', name: 'barcode')]
 class BarcodeCrudController extends AbstractCrudController
@@ -72,23 +72,18 @@ class BarcodeCrudController extends AbstractCrudController
     {
         $barcode = $context->getEntity()->getInstance();
 
-        $filename = "public/barcodes/" . $barcode->getPdfFileName();
+        $filename = $barcode->getPdfFileName();
         $pdf = PdfPrintTicket::createDocument($barcode);
 
-        $test = __DIR__ . '/../../../../'.$filename;
-        $content = $pdf->Output(__DIR__ . '/../../../../'.$filename, "F");
+        // Généré en mémoire : pas d'écriture disque (dossier absent/non inscriptible en prod)
+        // et pas de document nominatif exposé publiquement dans public/.
+        $content = $pdf->Output($filename, 'S');
         $pdf->freeResources();
-        $fullName = realpath($test);
-/*
-        return new Response($content, 200, [
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'attachment; filename="' . $filename . '.pdf"'
-            ]
-        );*/
-        $fileResponse = new BinaryFileResponse($fullName);
-        $fileResponse->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $barcode->getPdfFileName());
 
-        return $fileResponse;
+        return new Response($content, Response::HTTP_OK, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $filename, (new AsciiSlugger())->slug(pathinfo($filename, PATHINFO_FILENAME)) . '.pdf'),
+        ]);
     }
 
 }

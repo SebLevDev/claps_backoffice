@@ -14,8 +14,9 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class BarcodeController extends AbstractController
 {
@@ -110,19 +111,19 @@ class BarcodeController extends AbstractController
         return $this->createPdf($barcode);
     }
 
-    private function createPdf(Barcode $barcode): BinaryFileResponse
+    private function createPdf(Barcode $barcode): Response
     {
-        $filename = "public/barcodes/" . $barcode->getPdfFileName();
+        $filename = $barcode->getPdfFileName();
         $pdf = PdfPrintTicket::createDocument($barcode);
 
-        $test = __DIR__ . '/../../../../'.$filename;
-        $content = $pdf->Output(__DIR__ . '/../../../../'.$filename, "F");
+        // Généré en mémoire : pas d'écriture disque (dossier absent/non inscriptible en prod)
+        // et pas de document nominatif exposé publiquement dans public/.
+        $content = $pdf->Output($filename, 'S');
         $pdf->freeResources();
-        $fullName = realpath($test);
 
-        $fileResponse = new BinaryFileResponse($fullName);
-        $fileResponse->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $barcode->getPdfFileName());
-
-        return $fileResponse;
+        return new Response($content, Response::HTTP_OK, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $filename, (new AsciiSlugger())->slug(pathinfo($filename, PATHINFO_FILENAME)) . '.pdf'),
+        ]);
     }
 }
