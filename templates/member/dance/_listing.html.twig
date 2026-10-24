@@ -12,7 +12,7 @@
     <tbody>
     {% for dance in dances %}
     <tr>
-        <td><a href="{{ path('app_dance_show', { 'id': dance.id }) }}">{{ dance.name }}</a></td>
+        <td><a href="{{ path('app_dance_show', { 'id': dance.id, 'slug': dance.slug }) }}">{{ dance.name }}</a></td>
         <td>{{ dance.country|country }}</td>
         <td>{{ dance.region }}</td>
         <td>{% if dance.videosOfPerformance|length > 0 %}🎬{% endif %}</td>

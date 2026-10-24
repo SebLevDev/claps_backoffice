@@ -11,11 +11,11 @@
         <a href="{{ path('user_change_password') }}" class="sidebar-item {{ member_route == 'user_change_password' ? 'active' }}">🔒 Mot de passe</a>
 
         <div class="sidebar-section">Médias</div>
-        <a href="{{ path('app_video_index') }}" class="sidebar-item {{ member_route in ['app_video_index', 'app_video_show', 'app_video_search'] ? 'active' }}">🎬 Vidéos</a>
+        <a href="{{ path('app_video_index') }}" class="sidebar-item {{ member_route in ['app_video_index', 'app_video_show', 'app_video_show_legacy', 'app_video_search'] ? 'active' }}">🎬 Vidéos</a>
         <a href="{{ path('app_music_index') }}" class="sidebar-item {{ member_route == 'app_music_index' ? 'active' }}">🎵 Musique</a>
 
         <div class="sidebar-section">Danses & costumes</div>
-        <a href="{{ path('app_dance_index') }}" class="sidebar-item {{ member_route in ['app_dance_index', 'app_dance_show'] ? 'active' }}">💃 Danses</a>
+        <a href="{{ path('app_dance_index') }}" class="sidebar-item {{ member_route in ['app_dance_index', 'app_dance_show', 'app_dance_show_legacy'] ? 'active' }}">💃 Danses</a>
         <a href="{{ path('app_clothes_piece_index') }}" class="sidebar-item {{ member_route in ['app_clothes_piece_index', 'app_clothes_piece_show'] ? 'active' }}">✂️ Pièces de costume</a>
         <a href="{{ path('app_clothes_costume_index') }}" class="sidebar-item {{ member_route == 'app_clothes_costume_index' ? 'active' }}">🎽 Costumes</a>
 

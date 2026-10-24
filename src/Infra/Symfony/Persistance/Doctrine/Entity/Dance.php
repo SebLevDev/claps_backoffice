@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Domain\Video\Enum\VideoTagEnum;
 use Infra\Symfony\Persistance\Doctrine\Repository\DanceRepository;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[ApiResource]
 #[ORM\Entity(repositoryClass: DanceRepository::class)]
@@ -66,6 +67,16 @@ class Dance implements \Stringable
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * Slug cosmétique pour les URLs, non persisté : l'identification se fait par l'id.
+     */
+    public function getSlug(): string
+    {
+        $slug = (new AsciiSlugger())->slug((string) $this->name)->lower()->toString();
+
+        return $slug !== '' ? $slug : 'dance';
     }
 
     public function getCountry(): ?string

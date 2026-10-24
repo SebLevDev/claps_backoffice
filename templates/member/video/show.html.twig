@@ -21,7 +21,7 @@
                 <h3 class="mt-24">Danses</h3>
                 <div class="mt-8" style="display:flex;flex-direction:column;gap:6px">
                     {% for dance in video.dances %}
-                        <a href="{{ path('app_dance_show', { 'id': dance.id }) }}">{{ dance }}</a>
+                        <a href="{{ path('app_dance_show', { 'id': dance.id, 'slug': dance.slug }) }}">{{ dance }}</a>
                     {% endfor %}
                 </div>
             {% endif %}

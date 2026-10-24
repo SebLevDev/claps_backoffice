@@ -48,9 +48,14 @@ class VideoController extends BaseController
         ]);
     }
 
-    #[Route('/{id}', name:'app_video_show', requirements: ['id' => '\d+'])]
-    public function showAction(Video $video): Response
+    #[Route('/{slug}-{id}', name:'app_video_show', requirements: ['slug' => '[a-z0-9-]+', 'id' => '\d+'])]
+    #[Route('/{id}', name:'app_video_show_legacy', requirements: ['id' => '\d+'])]
+    public function showAction(Video $video, ?string $slug = null): Response
     {
+        if ($slug !== $video->getSlug()) {
+            return $this->redirectToRoute('app_video_show', ['id' => $video->getId(), 'slug' => $video->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
+        }
+
         return $this->render('member/video/show.html.twig', [
             'video' => $video,
             'breadcrumb' => $this->getBreadcurmb()

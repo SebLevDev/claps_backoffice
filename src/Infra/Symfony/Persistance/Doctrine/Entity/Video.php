@@ -11,6 +11,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Domain\Video\Enum\VideoTagEnum;
 use Infra\Symfony\Persistance\Doctrine\Repository\VideoRepository;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[ApiResource]
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
@@ -79,6 +80,16 @@ class Video implements \Stringable
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * Slug cosmétique pour les URLs, non persisté : l'identification se fait par l'id.
+     */
+    public function getSlug(): string
+    {
+        $slug = (new AsciiSlugger())->slug((string) $this->name)->lower()->toString();
+
+        return $slug !== '' ? $slug : 'video';
     }
 
     public function getUrl(): ?string

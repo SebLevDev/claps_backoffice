@@ -1,5 +1,5 @@
 {% for video in videos %}
-    <a href="{{ path('app_video_show', {'id': video.id }) }}" class="media-card video">
+    <a href="{{ path('app_video_show', { 'id': video.id, 'slug': video.slug }) }}" class="media-card video">
         <img src="https://img.youtube.com/vi/{{ video.youtubeId }}/0.jpg" alt="{{ video.name|e }}">
         <div class="media-card-body">
             <h3>{{ video.name|e }}</h3>

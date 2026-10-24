@@ -40,9 +40,14 @@ class DanceController extends BaseController
         ]);
     }
 
-    #[Route('/{id}', name:'app_dance_show', requirements: ['id' => '\d+'])]
-    public function showAction(Dance $dance): Response
+    #[Route('/{slug}-{id}', name:'app_dance_show', requirements: ['slug' => '[a-z0-9-]+', 'id' => '\d+'])]
+    #[Route('/{id}', name:'app_dance_show_legacy', requirements: ['id' => '\d+'])]
+    public function showAction(Dance $dance, ?string $slug = null): Response
     {
+        if ($slug !== $dance->getSlug()) {
+            return $this->redirectToRoute('app_dance_show', ['id' => $dance->getId(), 'slug' => $dance->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
+        }
+
         return $this->render('member/dance/show.html.twig', [
             'dance' => $dance,
             'breadcrumb' => $this->getBreadcurmb()
