@@ -32,7 +32,7 @@ class PdfInsurance extends PdfPrint
 
         if ($member->getInsurer() === 'PARTENA') {
             $pdf->Image(
-                "/var/www/claps.be/public/images/insurance/insurance_partenamut.jpg",
+                dirname(__DIR__, 4) . "/public/images/insurance/insurance_partenamut.jpg",
                 0, 0, $pageWidth, $pageHeight, '', '',  '',  2
             );
 
@@ -70,7 +70,7 @@ class PdfInsurance extends PdfPrint
             $pdf->Cell(200, 5, $memberShip->getSubscriptionAmount(), 0, 1, 'L');
         } elseif ($member->getInsurer() === 'MC') {
             $pdf->Image(
-                "/var/www/claps.be/public/images/insurance/insurance_mc.jpg",
+                dirname(__DIR__, 4) . "/public/images/insurance/insurance_mc.jpg",
                 0, 0, $pageWidth, $pageHeight, '', '',  '',  2
             );
 
@@ -112,7 +112,7 @@ class PdfInsurance extends PdfPrint
 
         } elseif ($member->getInsurer() === 'SOLIDARIS') {
             $pdf->Image(
-                "/var/www/claps.be/public/images/insurance/insurance_solidaris.jpg",
+                dirname(__DIR__, 4) . "/public/images/insurance/insurance_solidaris.jpg",
                 0, 0, $pageWidth, $pageHeight, '', '',  '',  2
             );
             $pdf->setFont('FreeSans', '', 12);
@@ -143,7 +143,7 @@ class PdfInsurance extends PdfPrint
 
         } elseif ($member->getInsurer() === 'MN') {
             $pdf->Image(
-                "/var/www/claps.be/public/images/insurance/insurance_mn.jpg",
+                dirname(__DIR__, 4) . "/public/images/insurance/insurance_mn.jpg",
                 0, 0, $pageWidth, $pageHeight, '', '',  '',  2
             );
 

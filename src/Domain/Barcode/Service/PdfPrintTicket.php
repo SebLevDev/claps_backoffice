@@ -26,8 +26,8 @@ class PdfPrintTicket extends PdfPrint
         //$pdf->RoundedRect(5, 5, 255, 255, 3.50, '1111', 'DF', null, array(255, 255, 255));
         $pdf->RoundedRect(10, 5, 190, 90, 3.50, '1111', 'DF', null, array(255, 255, 255));
 
-        $logoTitreImage = "/var/www/test.claps.be/public/images/logo-titre.png";
-        $logoImage = "/var/www/test.claps.be/public/images/LogoClapTitre.jpg";
+        $logoTitreImage = dirname(__DIR__, 4) . "/public/images/logo-titre.png";
+        $logoImage = dirname(__DIR__, 4) . "/public/images/LogoClapTitre.jpg";
         $pdf->Image($logoTitreImage, 20, 8, 75, 0, '', '', '', 2, 300, '', false, false, 0, "CB");
         $pdf->Image($logoImage, 150, 270, 35, 0, '', '', '', 2, 300, '', false, false, 0, "CB");
 
@@ -75,7 +75,7 @@ class PdfPrintTicket extends PdfPrint
         $pdf->Cell(60, 4, $barcode->getAttendeeDisplayName(), 0, 1, 'L');
 
 
-        $mapImage = "/var/www/test.claps.be/public/images/map-ceria-detail.png";
+        $mapImage = dirname(__DIR__, 4) . "/public/images/map-ceria-detail.png";
         $pdf->Image($mapImage, 10, 100, 190, 0, '', '', '', 2, 300, '', false, false, 0, "CB");
 
 
