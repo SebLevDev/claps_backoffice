@@ -399,11 +399,22 @@
     .media-card-body h3 { font-size:.88rem; margin-bottom:4px; color:var(--c-text); }
     .media-card-body span { font-size:.76rem; color:var(--c-muted); display:flex; align-items:center; gap:5px; }
     .media-card-body img.country-flag { border-radius:2px; }
-    .search-bar { display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; margin-bottom:20px; }
-    .search-bar input[type=search] { flex:1; min-width:180px; max-width:280px; }
-    .filter-form { background:var(--c-surface); border:1px solid var(--c-border); border-radius:var(--r-lg); padding:20px; margin-bottom:24px; }
-    .filter-form .grid-2, .filter-form .grid-3, .filter-form .grid-4 { margin-bottom:16px; }
-    .filter-form h4 { font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:var(--c-muted); margin-bottom:8px; }
+    .filter-form { background:var(--c-surface); border:1px solid var(--c-border); border-radius:var(--r-lg); padding:18px 20px; margin-bottom:24px; box-shadow:var(--shadow); }
+    .member-main .filter-form > div { margin-bottom:0; }
+    .filter-search { position:relative; margin-bottom:16px!important; }
+    .filter-search svg { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--c-muted); pointer-events:none; }
+    .member-main .filter-search input[type=search] { padding:12px 14px 12px 42px; font-size:.95rem; background:var(--c-bg); }
+    .member-main .filter-search input[type=search]:focus { background:#fff; }
+    .filter-fields { display:flex; flex-wrap:wrap; align-items:flex-end; gap:14px; }
+    .filter-field { flex:1 1 160px; min-width:0; }
+    .member-main .filter-field label { font-size:.7rem; margin-bottom:6px; }
+    .member-main .filter-field select { padding:9px 12px; font-size:.85rem; cursor:pointer; }
+    .member-main .filter-check { flex:1 1 160px; display:flex; align-items:center; gap:8px; min-height:40px; margin:0; font-size:.85rem; font-weight:400; color:var(--c-text); text-transform:none; letter-spacing:0; cursor:pointer; }
+    .member-main .filter-check input { width:auto; accent-color:var(--c-red); }
+    .filter-actions { display:flex; align-items:center; gap:16px; margin-left:auto; min-height:40px; }
+    .filter-reset { font-size:.8rem; color:var(--c-muted); text-decoration:underline; text-underline-offset:3px; white-space:nowrap; }
+    .filter-reset:hover { color:var(--c-red); }
+    @media(max-width:600px) { .filter-actions { width:100%; justify-content:flex-end; } }
     .video-meta { font-size:.8rem; color:var(--c-muted); display:flex; flex-wrap:wrap; gap:10px; margin-top:6px; }
     .video-meta a { color:var(--c-muted); }
     .video-meta a:hover { color:var(--c-red); }

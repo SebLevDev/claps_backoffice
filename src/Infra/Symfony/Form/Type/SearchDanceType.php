@@ -29,6 +29,7 @@ class SearchDanceType extends AbstractType
         $builder
             ->setMethod('GET')
             ->add('country', ChoiceType::class, [
+                'placeholder' => 'Tous les pays',
                 'choices' => $countriesChoice,
                 'required' => false,
                 'attr' => ['class' => 'form-control'],

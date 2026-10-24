@@ -32,6 +32,7 @@ class SearchClothesPieceType extends AbstractType
         $builder
             ->setMethod('GET')
             ->add('sections', EntityType::class, [
+                'placeholder' => 'Toutes les sections',
                 'class' => Section::class,
                 'query_builder' => fn(EntityRepository $er) => $er->createQueryBuilder('section')
                     ->orderBy('section.id', 'ASC'),
@@ -40,6 +41,7 @@ class SearchClothesPieceType extends AbstractType
                 'required' => false
             ])
             ->add('country', ChoiceType::class, [
+                'placeholder' => 'Tous les pays',
                 'choices' => $countriesChoice,
                 'required' => false,
                 'attr' => ['class' => 'form-control'],

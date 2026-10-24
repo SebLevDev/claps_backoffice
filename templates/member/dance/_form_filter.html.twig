@@ -1,14 +1,20 @@
+{% set has_filters = app.request.query.all|filter((v, k) => k != 'page' and v is not same as('') and v is not null)|length > 0 %}
 <form class="filter-form" action="{{ path('app_dance_index') }}">
-    <div class="grid-2">
-        <div>
-            <h4>Pays</h4>
+    <div class="filter-search">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" name="search" placeholder="Rechercher une danse…" value="{{ app.request.query.get('search') }}" aria-label="Rechercher une danse…">
+    </div>
+    <div class="filter-fields">
+        <div class="filter-field">
+            <label for="{{ searchDanceForm.country.vars.id }}">Pays</label>
             {{ form_widget(searchDanceForm.country) }}
         </div>
-        <div style="display:flex;align-items:flex-end">
-            <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--c-text);text-transform:none;letter-spacing:0;font-weight:400">
-                {{ form_widget(searchDanceForm.hasWorkshopVideo) }} Avec vidéo de stage
-            </label>
+        <label class="filter-check">
+            {{ form_widget(searchDanceForm.hasWorkshopVideo) }} Avec vidéo de stage
+        </label>
+        <div class="filter-actions">
+            {% if has_filters %}<a href="{{ path('app_dance_index') }}" class="filter-reset">Réinitialiser</a>{% endif %}
+            <button type="submit" class="btn btn-primary btn-sm">Rechercher</button>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary btn-sm">Filtrer</button>
 </form>

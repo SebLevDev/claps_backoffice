@@ -33,6 +33,7 @@ class SearchVideoType extends AbstractType
         $builder
             ->setMethod('GET')
             ->add('sections', EntityType::class, [
+                'placeholder' => 'Toutes les sections',
                 'class' => Section::class,
                 'query_builder' => fn(EntityRepository $er) => $er->createQueryBuilder('section')
                     ->orderBy('section.id', 'ASC'),
@@ -41,6 +42,7 @@ class SearchVideoType extends AbstractType
                 'required' => false
             ])
             ->add('event', EntityType::class, [
+                'placeholder' => 'Tous les événements',
                 'class' => Event::class,
                 'query_builder' => fn(EntityRepository $er) => $er->createQueryBuilder('event')
                     ->orderBy('event.date', 'DESC'),
@@ -49,11 +51,13 @@ class SearchVideoType extends AbstractType
                 'required' => false
             ])
             ->add('country', ChoiceType::class, [
+                'placeholder' => 'Tous les pays',
                 'choices' => $countriesChoice,
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('tag', EnumType::class, [
+                'placeholder' => 'Tous les tags',
                 'class' => VideoTagEnum::class,
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
