@@ -1,0 +1,778 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Attribution des costumes{% endblock %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <style>
+        .ca-toolbar { display: flex; flex-wrap: wrap; gap: .75rem 1.25rem; align-items: end; margin-bottom: 1rem; }
+        .ca-toolbar .form-select { min-width: 16rem; }
+        .ca-summary { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: .75rem; }
+        .ca-wrap { overflow: auto; max-height: calc(100vh - 16rem); border: 1px solid var(--bs-border-color); border-radius: .375rem; }
+        .ca-matrix { border-collapse: separate; border-spacing: 0; font-size: .85rem; width: max-content; min-width: 100%; }
+        .ca-matrix th, .ca-matrix td { border-bottom: 1px solid var(--bs-border-color); border-right: 1px solid var(--bs-border-color); padding: .3rem .5rem; vertical-align: middle; background: var(--bs-body-bg); }
+        .ca-matrix thead th { position: sticky; top: 0; z-index: 2; min-width: 9rem; max-width: 12rem; font-weight: 600; }
+        .ca-matrix th.ca-name { position: sticky; left: 0; z-index: 1; min-width: 13rem; text-align: left; }
+        .ca-matrix thead th.ca-name { z-index: 3; }
+        .ca-matrix .ca-piece-btn { all: unset; cursor: pointer; display: block; white-space: normal; line-height: 1.2; }
+        .ca-matrix .ca-piece-btn:hover { text-decoration: underline; }
+        .ca-matrix .ca-optional { opacity: .65; font-weight: 400; }
+        .ca-cell { cursor: pointer; min-height: 1.6rem; }
+        .ca-matrix td:hover { background: var(--bs-tertiary-bg); }
+        .ca-missing { color: var(--bs-danger); font-weight: 600; }
+        .ca-missing-cell { background: rgba(var(--bs-danger-rgb), .08) !important; }
+        .ca-empty { color: var(--bs-secondary-color); }
+        .ca-row-incomplete th.ca-name { box-shadow: inset 3px 0 0 var(--bs-danger); }
+        .ca-group th { background: var(--bs-tertiary-bg) !important; font-weight: 600; text-transform: uppercase; font-size: .75rem; letter-spacing: .03em; }
+        .ca-outside th.ca-name, .ca-outside td { color: var(--bs-secondary-color); }
+        .ca-chip { display: inline-flex; align-items: center; gap: .3rem; white-space: nowrap; }
+        .ca-chip + .ca-chip { margin-left: .4rem; }
+        .ca-swatch { display: inline-block; width: .8rem; height: .8rem; border-radius: 50%; border: 1px solid rgba(0,0,0,.25); vertical-align: middle; }
+        .ca-maker { color: var(--bs-secondary-color); font-size: .78rem; }
+        .ca-name-line { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+        .ca-transfer-btn { padding: 0 .35rem; line-height: 1.4; }
+        .ca-panel { position: fixed; top: 0; right: 0; bottom: 0; width: min(36rem, 100vw); background: var(--bs-body-bg); box-shadow: -4px 0 24px rgba(0,0,0,.18); z-index: 1050; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .15s ease-out; }
+        .ca-panel.open { transform: none; }
+        .ca-panel-head { display: flex; justify-content: space-between; align-items: start; gap: 1rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--bs-border-color); }
+        .ca-panel-head h3 { font-size: 1.1rem; margin: 0; }
+        .ca-panel-body { padding: 1rem 1.25rem; overflow: auto; flex: 1; }
+        .ca-panel-body h4 { font-size: .8rem; text-transform: uppercase; letter-spacing: .03em; color: var(--bs-secondary-color); margin: 1.25rem 0 .5rem; }
+        .ca-panel-body h4:first-child { margin-top: 0; }
+        .ca-list { list-style: none; padding: 0; margin: 0; }
+        .ca-list li { display: flex; justify-content: space-between; align-items: center; gap: .75rem; padding: .4rem 0; border-bottom: 1px solid var(--bs-border-color-translucent); }
+        .ca-panel-body table select { font-size: .8rem; }
+        .ca-views { margin-bottom: 1rem; }
+        .ca-member-name { all: unset; cursor: pointer; }
+        .ca-member-name:hover { text-decoration: underline; }
+        .ca-card { margin-bottom: 1rem; }
+        .ca-card .card-header { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; justify-content: space-between; }
+        .ca-card table { margin: 0; font-size: .85rem; }
+        .ca-card td, .ca-card th { vertical-align: middle; }
+        .ca-combo { position: relative; min-width: 20rem; }
+        .ca-combo-list { display: block; position: absolute; top: 100%; left: 0; right: 0; max-height: 22rem; overflow: auto; z-index: 1000; }
+        .ca-combo-list[hidden] { display: none; }
+        .ca-toast { position: fixed; bottom: 1.25rem; left: 50%; transform: translateX(-50%); z-index: 1100; }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <div class="btn-group ca-views" role="group" aria-label="Vue">
+        <button type="button" class="btn btn-outline-primary" data-view="costume">Par costume</button>
+        <button type="button" class="btn btn-outline-primary" data-view="member">Par danseur</button>
+    </div>
+
+    <div class="ca-toolbar" id="ca-member-tools" hidden>
+        <div>
+            <label class="form-label" for="ca-member-gender">Sexe</label>
+            <select id="ca-member-gender" class="form-select" style="min-width: 10rem">
+                <option value="">Sans sélection</option>
+                <option value="M" {{ selectedMemberGender == 'M' ? 'selected' }}>Homme</option>
+                <option value="F" {{ selectedMemberGender == 'F' ? 'selected' }}>Femme</option>
+            </select>
+        </div>
+        <div>
+            <label class="form-label" for="ca-member">Danseur</label>
+            <div class="ca-combo">
+                <input type="search" id="ca-member" class="form-control" placeholder="Tapez un nom ou prénom…" autocomplete="off" role="combobox" aria-expanded="false">
+                <ul id="ca-member-list" class="dropdown-menu ca-combo-list" hidden></ul>
+            </div>
+        </div>
+        <div>
+            <label class="form-label" for="ca-group">Regrouper</label>
+            <select id="ca-group" class="form-select" style="min-width: 10rem">
+                <option value="costume" {{ selectedGroup == 'costume' ? 'selected' }}>Par costume</option>
+                <option value="country" {{ selectedGroup == 'country' ? 'selected' }}>Par pays</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="ca-toolbar" id="ca-costume-tools">
+        <div>
+            <label class="form-label" for="ca-gender">Sexe</label>
+            <select id="ca-gender" class="form-select" style="min-width: 10rem">
+                <option value="">Sans sélection</option>
+                <option value="M">Homme</option>
+                <option value="F">Femme</option>
+            </select>
+        </div>
+        <div>
+            <label class="form-label" for="ca-country">Pays</label>
+            <select id="ca-country" class="form-select" style="min-width: 12rem">
+                <option value="">Tous les pays</option>
+                {% for country in costumes|map(c => c.country)|filter(c => c)|reduce((carry, c) => c in carry ? carry : carry|merge([c]), [])|sort((a, b) => a|country_name('fr') <=> b|country_name('fr')) %}
+                    <option value="{{ country }}" {{ country == selectedCountry ? 'selected' }}>{{ country|country_name('fr') }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label class="form-label" for="ca-costume">Costume</label>
+            <select id="ca-costume" class="form-select">
+                <option value="">— Choisir un costume —</option>
+                {% for costume in costumes %}
+                    <option value="{{ costume.id }}" data-genders="{{ costume.gender|default([])|join(',') }}" data-country="{{ costume.country }}" {{ costume.id == selectedCostume ? 'selected' }}>{{ costume.name }} ({{ costume.code }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label class="form-label" for="ca-section">Section</label>
+            <select id="ca-section" class="form-select">
+                <option value="">Sections du costume</option>
+                {% for section in sections %}
+                    <option value="{{ section.id }}" {{ section.id == selectedSection ? 'selected' }}>{{ section.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="ca-only-incomplete">
+            <label class="form-check-label" for="ca-only-incomplete">Seulement les danseurs incomplets</label>
+        </div>
+    </div>
+
+    <div id="ca-summary" class="ca-summary"></div>
+    <div id="ca-content"></div>
+
+    <aside id="ca-panel" class="ca-panel" aria-hidden="true">
+        <div class="ca-panel-head">
+            <div><h3 id="ca-panel-title"></h3><div id="ca-panel-subtitle" class="text-secondary small"></div></div>
+            <button type="button" class="btn-close" id="ca-panel-close" aria-label="Fermer"></button>
+        </div>
+        <div class="ca-panel-body" id="ca-panel-body"></div>
+    </aside>
+
+    <div id="ca-toast" class="ca-toast"></div>
+
+    <script>
+    (() => {
+        const urls = {
+            state: {{ path('admin_dashboard_clothesAssignment_state')|json_encode|raw }},
+            keeper: {{ path('admin_dashboard_clothesAssignment_keeper')|json_encode|raw }},
+            maker: {{ path('admin_dashboard_clothesAssignment_maker')|json_encode|raw }},
+            transfer: {{ path('admin_dashboard_clothesAssignment_transfer')|json_encode|raw }},
+            required: {{ path('admin_dashboard_clothesAssignment_required')|json_encode|raw }},
+            stock: {{ path('admin_dashboard_clothesAssignment_stock')|json_encode|raw }},
+            member: {{ path('admin_dashboard_clothesAssignment_member')|json_encode|raw }},
+        };
+        const csrfToken = {{ csrf_token(csrfTokenId)|json_encode|raw }};
+        const members = {{ members|json_encode|raw }};
+        const colors = {{ colors|map(c => {id: c.id, name: c.name, code: c.code})|json_encode|raw }};
+
+        const $ = (id) => document.getElementById(id);
+        const costumeSelect = $('ca-costume'), sectionSelect = $('ca-section');
+        const genderSelect = $('ca-gender'), onlyIncompleteInput = $('ca-only-incomplete');
+        const memberGenderSelect = $('ca-member-gender'), groupSelect = $('ca-group'), countrySelect = $('ca-country');
+        const panel = $('ca-panel');
+        const countryNames = new Intl.DisplayNames(['fr'], {type: 'region'});
+        const countryName = (code) => { try { return code ? countryNames.of(code) : 'Pays non renseigné'; } catch { return code; } };
+
+        let view = {{ selectedView|json_encode|raw }}; // 'costume' | 'member'
+        let state = null;
+        let memberState = null;
+        let panelView = null; // {type: 'cell'|'piece'|'transfer', ...} : ré-affiché après chaque modification
+
+        // --- petits utilitaires DOM (pas d'innerHTML pour ne jamais injecter de noms non échappés)
+        function h(tag, attrs = {}, ...children) {
+            const el = document.createElement(tag);
+            for (const [k, v] of Object.entries(attrs)) {
+                if (v === null || v === undefined || v === false) continue;
+                if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+                else if (k === 'class') el.className = v;
+                else if (k === 'style') el.style.cssText = v;
+                else if (v === true) el.setAttribute(k, '');
+                else el.setAttribute(k, v);
+            }
+            for (const child of children.flat()) {
+                if (child === null || child === undefined || child === false) continue;
+                el.append(child instanceof Node ? child : document.createTextNode(String(child)));
+            }
+            return el;
+        }
+
+        function toast(message, type = 'success') {
+            const el = h('div', {class: `alert alert-${type} shadow py-2 px-3 mb-0`}, message);
+            $('ca-toast').replaceChildren(el);
+            setTimeout(() => el.remove(), 3500);
+        }
+
+        async function post(url, body) {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken},
+                body: JSON.stringify(body),
+            });
+            if (!response.ok) {
+                toast(`Erreur lors de l'enregistrement (${response.status})`, 'danger');
+                throw new Error(await response.text());
+            }
+            const result = await response.json();
+            await load();
+            return result;
+        }
+
+        // --- chargement / état
+        async function load() {
+            for (const btn of document.querySelectorAll('.ca-views [data-view]')) btn.classList.toggle('active', btn.dataset.view === view);
+            $('ca-costume-tools').hidden = view !== 'costume';
+            $('ca-member-tools').hidden = view !== 'member';
+            return view === 'member' ? loadMember() : loadCostume();
+        }
+
+        async function loadMember() {
+            const params = new URLSearchParams({view: 'member', group: groupSelect.value, sex: memberGenderSelect.value});
+            if (memberPicker.value) params.set('member', memberPicker.value);
+            history.replaceState(null, '', `${location.pathname}?${params}`);
+            closePanel();
+
+            memberState = null;
+            if (memberPicker.value) {
+                const response = await fetch(`${urls.member}?member=${memberPicker.value}`);
+                if (!response.ok) {
+                    toast(`Impossible de charger le danseur (${response.status})`, 'danger');
+                    return;
+                }
+                memberState = await response.json();
+            }
+            renderMember();
+        }
+
+        async function loadCostume() {
+            const costume = costumeSelect.value;
+            const params = new URLSearchParams();
+            if (costume) params.set('costume', costume);
+            if (sectionSelect.value) params.set('section', sectionSelect.value);
+            if (countrySelect.value) params.set('country', countrySelect.value);
+            if (costume) params.set('gender', genderSelect.value);
+            history.replaceState(null, '', `${location.pathname}?${params}`);
+
+            if (!costume) {
+                state = null;
+                closePanel();
+                render();
+                return;
+            }
+            const response = await fetch(`${urls.state}?${params}`);
+            if (!response.ok) {
+                toast(`Impossible de charger le costume (${response.status})`, 'danger');
+                return;
+            }
+            state = index(await response.json());
+            render();
+            renderPanel();
+        }
+
+        function index(data) {
+            data.stocksByPiece = {};
+            data.held = {}; // memberId -> pieceId -> stocks
+            for (const piece of data.pieces) data.stocksByPiece[piece.id] = [];
+            for (const stock of data.stocks) {
+                data.stocksByPiece[stock.pieceId]?.push(stock);
+                if (stock.keeper) {
+                    ((data.held[stock.keeper.id] ??= {})[stock.pieceId] ??= []).push(stock);
+                }
+            }
+            data.listedIds = new Set(data.dancers.map(d => d.id));
+            for (const dancer of data.dancers) {
+                dancer.missing = data.pieces.filter(p => p.required && !heldBy(dancer.id, p.id, data).length);
+            }
+            return data;
+        }
+
+        const heldBy = (memberId, pieceId, data = state) => data.held[memberId]?.[pieceId] ?? [];
+        const piece = (pieceId) => state.pieces.find(p => p.id === pieceId);
+        const person = (memberId) => state.dancers.find(d => d.id === memberId) ?? state.outsiders.find(d => d.id === memberId) ?? members.find(m => m.id === memberId);
+
+        // --- rendu d'une pièce unique
+        function swatches(stock) {
+            if (!stock.colors.length) return [];
+            return stock.colors.map(c => c.code
+                ? h('span', {class: 'ca-swatch', style: `background:${c.code}`, title: c.name})
+                : h('span', {class: 'badge text-bg-light'}, c.name));
+        }
+
+        function stockLabel(stock) {
+            return `#${stock.id}${stock.colors.length ? ' ' + stock.colors.map(c => c.name).join('/') : ''}`;
+        }
+
+        function chip(stock, {withMaker = true} = {}) {
+            return h('span', {class: 'ca-chip', title: `${stockLabel(stock)} — cousu par ${stock.maker?.name ?? 'inconnu'}`},
+                swatches(stock),
+                withMaker ? h('span', {class: 'ca-maker'}, `✂ ${stock.maker?.name ?? '?'}`) : `#${stock.id}`,
+            );
+        }
+
+        function stockDescription(stock) {
+            return h('span', {class: 'ca-chip'}, swatches(stock), h('span', {}, `#${stock.id}`), h('span', {class: 'ca-maker'}, `✂ ${stock.maker?.name ?? 'couturière inconnue'}`));
+        }
+
+        // --- matrice
+        function render() {
+            const content = $('ca-content'), summary = $('ca-summary');
+            summary.replaceChildren();
+            if (!state) {
+                content.replaceChildren(h('div', {class: 'alert alert-info'}, 'Choisissez un costume pour voir qui porte quelle pièce.'));
+                return;
+            }
+            const {pieces, dancers, outsiders} = state;
+            const incomplete = dancers.filter(d => d.missing.length);
+            const required = pieces.filter(p => p.required);
+
+            summary.append(...[
+                h('span', {class: 'badge text-bg-secondary fs-6 fw-normal'}, `${dancers.length} danseur(s)`),
+                incomplete.length
+                    ? h('span', {class: 'badge text-bg-danger fs-6 fw-normal'}, `⚠ ${incomplete.length} incomplet(s) — ${incomplete.reduce((n, d) => n + d.missing.length, 0)} pièce(s) manquante(s)`)
+                    : dancers.length && required.length ? h('span', {class: 'badge text-bg-success fs-6 fw-normal'}, '✓ Tout le monde est servi') : null,
+                h('span', {class: 'badge text-bg-light fs-6 fw-normal'}, `${state.stocks.filter(s => !s.keeper).length} pièce(s) en stock`),
+            ].filter(Boolean));
+            if (!pieces.length) {
+                content.replaceChildren(h('div', {class: 'alert alert-warning'}, 'Ce costume n\'a encore aucune pièce. Ajoutez-les depuis la fiche du costume.'));
+                return;
+            }
+            if (!required.length) {
+                summary.append(h('div', {class: 'alert alert-warning w-100 mb-0 py-2'}, 'Aucune pièce n\'est cochée « obligatoire » pour ce costume : personne ne peut apparaître comme incomplet. Cochez les pièces obligatoires dans l\'en-tête du tableau.'));
+            }
+            if (!state.costume.sections.length && !sectionSelect.value) {
+                summary.append(h('div', {class: 'alert alert-warning w-100 mb-0 py-2'}, 'Ce costume n\'est lié à aucune section : choisissez une section pour afficher les danseurs.'));
+            }
+
+            const head = h('tr', {},
+                h('th', {class: 'ca-name'}, 'Danseur'),
+                pieces.map(p => {
+                    const stocks = state.stocksByPiece[p.id];
+                    const served = dancers.filter(d => heldBy(d.id, p.id).length).length;
+                    return h('th', {class: p.required ? '' : 'ca-optional'},
+                        h('button', {type: 'button', class: 'ca-piece-btn', title: 'Voir toutes les pièces uniques', onclick: () => openPanel({type: 'piece', pieceId: p.id})}, p.name),
+                        h('div', {class: 'small text-secondary fw-normal'}, p.code, p.personal ? ' · perso' : ''),
+                        h('div', {class: 'small fw-normal'}, `${served}/${dancers.length} servis · ${stocks.length} au total`),
+                        h('label', {class: 'small fw-normal d-flex gap-1 align-items-center mt-1'},
+                            h('input', {type: 'checkbox', checked: p.required, onchange: (e) => post(urls.required, {costumePiece: p.costumePieceId, required: e.target.checked})}),
+                            'obligatoire'),
+                    );
+                }),
+            );
+
+            const rows = [];
+            const shown = onlyIncompleteInput.checked ? incomplete : dancers;
+            if (!shown.length) {
+                rows.push(h('tr', {}, h('td', {colspan: pieces.length + 1, class: 'text-center text-secondary py-3'},
+                    dancers.length ? 'Tous les danseurs ont leurs pièces obligatoires.' : 'Aucun danseur inscrit cette année dans cette sélection.')));
+            }
+            for (const dancer of shown) rows.push(memberRow(dancer));
+
+            rows.push(h('tr', {class: 'ca-group'},
+                h('th', {class: 'ca-name'}, 'En stock'),
+                pieces.map(p => {
+                    const free = state.stocksByPiece[p.id].filter(s => !s.keeper);
+                    return h('td', {class: 'ca-cell', onclick: () => openPanel({type: 'piece', pieceId: p.id})},
+                        free.length ? free.map(s => chip(s, {withMaker: false})) : h('span', {class: 'ca-empty'}, '—'));
+                }),
+            ));
+
+            if (outsiders.length && !onlyIncompleteInput.checked) {
+                rows.push(h('tr', {class: 'ca-group'}, h('th', {class: 'ca-name', colspan: pieces.length + 1}, 'Hors sélection — pièces à récupérer ?')));
+                for (const outsider of outsiders) rows.push(memberRow(outsider));
+            }
+
+            content.replaceChildren(h('div', {class: 'ca-wrap'}, h('table', {class: 'ca-matrix'}, h('thead', {}, head), h('tbody', {}, rows))));
+        }
+
+        function memberRow(m) {
+            const isIncomplete = !m.outside && m.missing.length;
+            return h('tr', {class: [m.outside ? 'ca-outside' : '', isIncomplete ? 'ca-row-incomplete' : ''].join(' ')},
+                h('th', {class: 'ca-name'},
+                    h('div', {class: 'ca-name-line'},
+                        h('span', {}, h('button', {type: 'button', class: 'ca-member-name', title: 'Voir toutes ses pièces', onclick: () => showMember(m.id)}, m.name),
+                            m.outside ? h('span', {class: 'badge text-bg-light ms-1'}, m.former ? 'ancien membre' : 'autre section') : null,
+                            isIncomplete ? h('span', {class: 'badge text-bg-danger ms-1', title: m.missing.map(p => p.name).join(', ')}, `${m.missing.length} manque`) : null),
+                        h('button', {type: 'button', class: 'btn btn-sm btn-outline-secondary ca-transfer-btn', title: 'Reprendre tout le costume de quelqu\'un / tout rendre', onclick: () => openPanel({type: 'transfer', memberId: m.id})}, '⇄'),
+                    ),
+                ),
+                state.pieces.map(p => {
+                    const held = heldBy(m.id, p.id);
+                    const missing = !m.outside && p.required && !held.length;
+                    return h('td', {class: 'ca-cell' + (missing ? ' ca-missing-cell' : ''), onclick: () => openPanel({type: 'cell', memberId: m.id, pieceId: p.id})},
+                        held.length ? held.map(s => chip(s))
+                            : missing ? h('span', {class: 'ca-missing'}, '✗ manque')
+                            : h('span', {class: 'ca-empty'}, '—'));
+                }),
+            );
+        }
+
+        // --- panneau latéral
+        function openPanel(view) {
+            panelView = view;
+            renderPanel();
+            panel.classList.add('open');
+            panel.setAttribute('aria-hidden', 'false');
+        }
+
+        function closePanel() {
+            panelView = null;
+            panel.classList.remove('open');
+            panel.setAttribute('aria-hidden', 'true');
+        }
+
+        function renderPanel() {
+            if (!panelView || !state) return;
+            const renderers = {cell: renderCellPanel, piece: renderPiecePanel, transfer: renderTransferPanel};
+            renderers[panelView.type](panelView);
+        }
+
+        function setPanel(title, subtitle, ...children) {
+            $('ca-panel-title').textContent = title;
+            $('ca-panel-subtitle').textContent = subtitle ?? '';
+            $('ca-panel-body').replaceChildren(...children.flat().filter(Boolean));
+        }
+
+        const keeperBadge = (keeper) => !keeper ? null
+            : state.listedIds.has(keeper.id) ? h('span', {class: 'badge text-bg-warning ms-1', title: 'Cette personne fait partie de la liste : elle se retrouvera sans cette pièce'}, 'dans la liste')
+            : h('span', {class: 'badge text-bg-light ms-1'}, 'hors liste');
+
+        function renderCellPanel({memberId, pieceId}) {
+            const p = piece(pieceId), m = person(memberId);
+            if (!p || !m) return closePanel();
+            const all = state.stocksByPiece[pieceId];
+            const held = all.filter(s => s.keeper?.id === memberId);
+            const free = all.filter(s => !s.keeper);
+            const others = all.filter(s => s.keeper && s.keeper.id !== memberId);
+            const assign = (stock) => post(urls.keeper, {stock: stock.id, member: memberId}).then(() => toast(`${p.name} ${stockLabel(stock)} attribuée à ${m.name}`));
+
+            setPanel(`${m.name}`, `${p.name} (${p.code})${p.required ? ' — obligatoire' : ''}`,
+                h('h4', {}, 'Porte actuellement'),
+                held.length ? h('ul', {class: 'ca-list'}, held.map(s => h('li', {}, stockDescription(s),
+                    h('button', {class: 'btn btn-sm btn-outline-secondary', onclick: () => post(urls.keeper, {stock: s.id, member: null}).then(() => toast(`${stockLabel(s)} remise en stock`))}, 'Remettre en stock'))))
+                    : h('p', {class: p.required ? 'ca-missing' : 'ca-empty'}, p.required ? '✗ Aucune — pièce manquante' : 'Aucune'),
+                h('h4', {}, `Disponible en stock (${free.length})`),
+                free.length ? h('ul', {class: 'ca-list'}, free.map(s => h('li', {}, stockDescription(s),
+                    h('button', {class: 'btn btn-sm btn-primary', onclick: () => assign(s)}, 'Attribuer'))))
+                    : h('p', {class: 'ca-empty'}, 'Rien en stock.'),
+                h('h4', {}, `Chez d'autres (${others.length})`),
+                others.length ? h('ul', {class: 'ca-list'}, others.map(s => h('li', {},
+                    h('div', {}, stockDescription(s), h('div', {class: 'small'}, `chez ${s.keeper.name}`, keeperBadge(s.keeper))),
+                    h('button', {class: 'btn btn-sm btn-outline-primary', onclick: () => assign(s)}, 'Reprendre'))))
+                    : h('p', {class: 'ca-empty'}, '—'),
+                newStockForm(p, m),
+                h('p', {class: 'mt-3'}, h('a', {href: '#', onclick: (e) => { e.preventDefault(); openPanel({type: 'piece', pieceId}); }}, `Gérer toutes les pièces « ${p.name} » →`)),
+            );
+        }
+
+        /** Crée une nouvelle pièce unique et l'attribue directement au danseur de la case. */
+        function newStockForm(p, m) {
+            const colorSelect = h('select', {multiple: true, class: 'form-select form-select-sm', size: 4}, colors.map(c => h('option', {value: c.id}, c.name)));
+            let maker = null;
+            const makerSelect = memberSelect(null, {emptyLabel: '— inconnue —', onchange: (id) => { maker = id; }});
+            const selfMaker = h('input', {type: 'checkbox', class: 'form-check-input', id: 'ca-self-maker', onchange: (e) => { makerSelect.disabled = e.target.checked; }});
+
+            return [
+                h('h4', {}, 'Créer une nouvelle pièce'),
+                h('div', {class: 'd-flex flex-wrap gap-2 align-items-start'},
+                    h('div', {style: 'min-width:10rem'}, h('label', {class: 'form-label small mb-1'}, 'Couleur(s)'), colorSelect),
+                    h('div', {style: 'min-width:14rem'},
+                        h('label', {class: 'form-label small mb-1'}, 'Cousue par'), makerSelect,
+                        h('div', {class: 'form-check mt-1'}, selfMaker, h('label', {class: 'form-check-label small', for: 'ca-self-maker'}, `Cousue par ${m.name}`)),
+                    ),
+                ),
+                h('button', {class: 'btn btn-sm btn-success mt-2', onclick: () => post(urls.stock, {
+                    piece: p.id,
+                    quantity: 1,
+                    colors: [...colorSelect.selectedOptions].map(o => Number(o.value)),
+                    maker: selfMaker.checked ? m.id : maker,
+                    keeper: m.id,
+                }).then(() => toast(`Nouvelle pièce « ${p.name} » créée et attribuée à ${m.name}`))}, `+ Créer la pièce et l'attribuer à ${m.name}`),
+            ];
+        }
+
+        function memberSelect(selectedId, {emptyLabel, onchange}) {
+            const listed = [...state.dancers], outside = [...state.outsiders];
+            const used = new Set([...listed, ...outside].map(m => m.id));
+            const current = members.filter(m => m.current && !used.has(m.id));
+            const former = members.filter(m => !m.current && !used.has(m.id));
+            const option = (m) => h('option', {value: m.id, selected: m.id === selectedId}, m.name);
+            return h('select', {class: 'form-select form-select-sm', onchange: (e) => onchange(e.target.value ? Number(e.target.value) : null)},
+                h('option', {value: ''}, emptyLabel),
+                listed.length ? h('optgroup', {label: 'Danseurs de la liste'}, listed.map(option)) : null,
+                outside.length ? h('optgroup', {label: 'Porteurs hors sélection'}, outside.map(option)) : null,
+                h('optgroup', {label: 'Autres membres de l\'année'}, current.map(option)),
+                h('optgroup', {label: 'Anciens membres'}, former.map(option)),
+            );
+        }
+
+        function renderPiecePanel({pieceId}) {
+            const p = piece(pieceId);
+            if (!p) return closePanel();
+            const stocks = state.stocksByPiece[pieceId];
+            const free = stocks.filter(s => !s.keeper).length;
+
+            const quantity = h('input', {type: 'number', min: 1, max: 50, value: 1, class: 'form-control form-control-sm', style: 'width:5rem'});
+            const colorSelect = h('select', {multiple: true, class: 'form-select form-select-sm', size: 4}, colors.map(c => h('option', {value: c.id}, c.name)));
+            let newMaker = null;
+
+            setPanel(p.name, `${p.code} — ${stocks.length} pièce(s) unique(s), ${free} en stock`,
+                stocks.length ? h('table', {class: 'table table-sm align-middle'},
+                    h('thead', {}, h('tr', {}, h('th', {}, 'Pièce'), h('th', {}, 'Cousue par'), h('th', {}, 'Portée par'))),
+                    h('tbody', {}, stocks.map(s => h('tr', {},
+                        h('td', {}, h('span', {class: 'ca-chip'}, swatches(s), `#${s.id}`)),
+                        h('td', {}, memberSelect(s.maker?.id ?? null, {emptyLabel: '— inconnue —', onchange: (id) => post(urls.maker, {stock: s.id, member: id}).then(() => toast('Couturière enregistrée'))})),
+                        h('td', {}, memberSelect(s.keeper?.id ?? null, {emptyLabel: '— en stock —', onchange: (id) => post(urls.keeper, {stock: s.id, member: id}).then(() => toast(id ? 'Porteur enregistré' : 'Pièce remise en stock'))})),
+                    ))),
+                ) : h('p', {class: 'ca-empty'}, 'Aucune pièce unique enregistrée.'),
+                h('h4', {}, 'Ajouter des pièces uniques'),
+                h('div', {class: 'd-flex flex-wrap gap-2 align-items-start'},
+                    h('div', {}, h('label', {class: 'form-label small mb-1'}, 'Quantité'), quantity),
+                    h('div', {style: 'min-width:10rem'}, h('label', {class: 'form-label small mb-1'}, 'Couleur(s)'), colorSelect),
+                    h('div', {style: 'min-width:12rem'}, h('label', {class: 'form-label small mb-1'}, 'Cousue par'), memberSelect(null, {emptyLabel: '— inconnue —', onchange: (id) => { newMaker = id; }})),
+                ),
+                h('button', {class: 'btn btn-sm btn-primary mt-2', onclick: () => post(urls.stock, {
+                    piece: pieceId,
+                    quantity: Number(quantity.value),
+                    colors: [...colorSelect.selectedOptions].map(o => Number(o.value)),
+                    maker: newMaker,
+                }).then((r) => toast(`${r.count} pièce(s) ajoutée(s) au stock`))}, 'Ajouter au stock'),
+                h('p', {class: 'small text-secondary mt-2'}, 'Pour plusieurs couleurs différentes, ajoutez un lot par couleur.'),
+            );
+        }
+
+        function renderTransferPanel({memberId}) {
+            const m = person(memberId);
+            if (!m) return closePanel();
+            const mine = state.stocks.filter(s => s.keeper?.id === memberId);
+            const holders = [...state.dancers, ...state.outsiders]
+                .filter(d => d.id !== memberId)
+                .map(d => ({...d, stocks: state.stocks.filter(s => s.keeper?.id === d.id)}))
+                .filter(d => d.stocks.length);
+            const pieceNames = (stocks) => stocks.map(s => piece(s.pieceId)?.name).join(', ');
+            const takeFrom = (holder) => post(urls.transfer, {costume: state.costume.id, from: holder.id, to: memberId})
+                .then((r) => toast(`${r.count} pièce(s) de ${holder.name} transférée(s) à ${m.name}`));
+
+            setPanel(m.name, `Transfert de costume complet — ${state.costume.name}`,
+                h('h4', {}, `Reprendre tout le costume de…`),
+                h('p', {class: 'small text-secondary'}, `Toutes les pièces de ce costume que porte la personne choisie passent chez ${m.name} (ex. même taille).`),
+                holders.length ? h('ul', {class: 'ca-list'}, holders.map(d => h('li', {},
+                    h('div', {}, h('strong', {}, d.name), keeperBadge(d), h('div', {class: 'small text-secondary'}, pieceNames(d.stocks))),
+                    h('button', {class: 'btn btn-sm btn-primary text-nowrap', onclick: () => takeFrom(d)}, `Prendre ses ${d.stocks.length} pièce(s)`))))
+                    : h('p', {class: 'ca-empty'}, 'Personne d\'autre ne porte de pièce de ce costume.'),
+                h('h4', {}, `Pièces de ${m.name} (${mine.length})`),
+                mine.length ? [
+                    h('p', {class: 'small'}, pieceNames(mine)),
+                    h('div', {class: 'd-flex flex-wrap gap-2'},
+                        h('button', {class: 'btn btn-sm btn-outline-secondary', onclick: () => post(urls.transfer, {costume: state.costume.id, from: memberId, to: null})
+                            .then((r) => toast(`${r.count} pièce(s) remise(s) en stock`))}, 'Tout remettre en stock'),
+                        memberSelect(null, {emptyLabel: 'Tout donner à…', onchange: (id) => id && post(urls.transfer, {costume: state.costume.id, from: memberId, to: id})
+                            .then((r) => toast(`${r.count} pièce(s) transférée(s) à ${person(id)?.name ?? ''}`))}),
+                    ),
+                ] : h('p', {class: 'ca-empty'}, 'Aucune.'),
+            );
+        }
+
+        // --- recherche de danseur : insensible aux accents et à l'ordre des mots ("leveque seb" -> Sébastien Lévêque)
+        const normalize = (text) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+        function createMemberPicker(input, list, {onChange}) {
+            let selected = null, matches = [], active = 0;
+
+            function search() {
+                const terms = normalize(input.value).split(/\s+/).filter(Boolean);
+                const gender = memberGenderSelect.value;
+                matches = members
+                    .filter(m => (!gender || m.sex === gender) && terms.every(t => normalize(m.name).includes(t)))
+                    .sort((a, b) => (b.current - a.current) || a.name.localeCompare(b.name, 'fr'))
+                    .slice(0, 50);
+                active = 0;
+                draw();
+            }
+
+            function draw() {
+                list.replaceChildren(...(matches.length
+                    ? matches.map((m, i) => h('li', {}, h('button', {
+                        type: 'button',
+                        class: 'dropdown-item' + (i === active ? ' active' : ''),
+                        onmousedown: (e) => { e.preventDefault(); pick(m); },
+                    }, m.name, m.current ? null : h('span', {class: 'badge text-bg-light ms-2'}, 'ancien membre'))))
+                    : [h('li', {}, h('span', {class: 'dropdown-item-text text-secondary'}, 'Aucun danseur trouvé'))]));
+                list.hidden = false;
+                input.setAttribute('aria-expanded', 'true');
+                list.querySelector('.active')?.scrollIntoView({block: 'nearest'});
+            }
+
+            function close() {
+                list.hidden = true;
+                input.setAttribute('aria-expanded', 'false');
+                input.value = selected?.name ?? '';
+            }
+
+            function pick(member) {
+                selected = member;
+                close();
+                onChange();
+            }
+
+            input.addEventListener('focus', () => { input.select(); search(); });
+            input.addEventListener('input', search);
+            input.addEventListener('blur', close);
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (list.hidden) return search();
+                    active = (active + (e.key === 'ArrowDown' ? 1 : -1) + matches.length) % Math.max(matches.length, 1);
+                    draw();
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (matches[active]) pick(matches[active]);
+                } else if (e.key === 'Escape') {
+                    input.blur();
+                }
+            });
+
+            return {
+                get value() { return selected ? String(selected.id) : ''; },
+                set value(id) { selected = members.find(m => m.id === Number(id)) ?? null; input.value = selected?.name ?? ''; },
+                get member() { return selected; },
+            };
+        }
+
+        const memberPicker = createMemberPicker($('ca-member'), $('ca-member-list'), {onChange: load});
+        memberPicker.value = {{ selectedMember|json_encode|raw }};
+
+        // --- vue par danseur
+        function showMember(memberId) {
+            view = 'member';
+            memberPicker.value = memberId;
+            load();
+        }
+
+        /** Bascule sur la matrice du costume et ouvre la case danseur × pièce. */
+        async function openInMatrix(costumeId, memberId, pieceId) {
+            view = 'costume';
+            costumeSelect.value = costumeId;
+            sectionSelect.value = '';
+            genderSelect.value = ''; // le danseur doit apparaître même s'il est hors sélection
+            countrySelect.value = '';
+            filterCostumes();
+            await load();
+            openPanel({type: 'cell', memberId, pieceId});
+        }
+
+        const giveBack = (stock) => post(urls.keeper, {stock: stock.id, member: null}).then(() => toast(`${stock.piece.name} ${stockLabel(stock)} remise en stock`));
+
+        function renderMember() {
+            const content = $('ca-content'), summary = $('ca-summary');
+            summary.replaceChildren();
+            if (!memberState) {
+                content.replaceChildren(h('div', {class: 'alert alert-info'}, 'Choisissez un danseur pour voir toutes les pièces qu\'il porte.'));
+                return;
+            }
+            const {member, stocks, costumes} = memberState;
+            const incomplete = costumes.filter(c => missingPieces(c).length);
+            summary.append(...[
+                h('span', {class: 'badge text-bg-secondary fs-6 fw-normal'}, `${stocks.length} pièce(s) portée(s)`),
+                h('span', {class: 'badge text-bg-light fs-6 fw-normal'}, `${costumes.length} costume(s) concerné(s)`),
+                incomplete.length ? h('span', {class: 'badge text-bg-danger fs-6 fw-normal'}, `⚠ ${incomplete.length} costume(s) incomplet(s)`) : null,
+                member.current ? null : h('span', {class: 'badge text-bg-warning fs-6 fw-normal'}, 'Ancien membre — pièces à récupérer ?'),
+            ].filter(Boolean));
+            if (!stocks.length) {
+                content.replaceChildren(h('div', {class: 'alert alert-secondary'}, `${member.name} ne porte actuellement aucune pièce de costume.`));
+                return;
+            }
+            content.replaceChildren(...(groupSelect.value === 'country' ? renderMemberByCountry() : renderMemberByCostume()));
+        }
+
+        const heldPieces = (pieceId) => memberState.stocks.filter(s => s.piece.id === pieceId);
+        const missingPieces = (costume) => costume.pieces.filter(p => p.required && !heldPieces(p.id).length);
+        const giveBackButton = (stock) => h('button', {class: 'btn btn-sm btn-outline-secondary', onclick: () => giveBack(stock)}, 'Remettre en stock');
+
+        function renderMemberByCostume() {
+            const {member, stocks, costumes} = memberState;
+            const cards = costumes.map(c => {
+                const required = c.pieces.filter(p => p.required);
+                const missing = missingPieces(c);
+                return h('div', {class: 'card ca-card'},
+                    h('div', {class: 'card-header'},
+                        h('div', {}, h('strong', {}, c.name), ` (${c.code}) · ${countryName(c.country)}`),
+                        h('div', {class: 'd-flex gap-2 align-items-center'},
+                            required.length
+                                ? h('span', {class: `badge ${missing.length ? 'text-bg-danger' : 'text-bg-success'}`}, `${required.length - missing.length}/${required.length} obligatoires`)
+                                : h('span', {class: 'badge text-bg-light'}, 'aucune pièce obligatoire définie'),
+                            h('button', {class: 'btn btn-sm btn-outline-primary', onclick: () => openInMatrix(c.id, member.id, c.pieces[0]?.id)}, 'Ouvrir la matrice')),
+                    ),
+                    h('table', {class: 'table table-sm'}, h('tbody', {}, c.pieces.map(p => {
+                        const held = heldPieces(p.id);
+                        return h('tr', {class: p.required ? '' : 'ca-optional'},
+                            h('td', {style: 'width:40%'}, p.name, h('span', {class: 'text-secondary small ms-1'}, p.code)),
+                            h('td', {}, held.length ? held.map(s => chip(s))
+                                : p.required ? h('span', {class: 'ca-missing'}, '✗ manque') : h('span', {class: 'ca-empty'}, '—')),
+                            h('td', {class: 'text-end'}, held.length
+                                ? held.map(giveBackButton)
+                                : h('button', {class: 'btn btn-sm btn-outline-primary', onclick: () => openInMatrix(c.id, member.id, p.id)}, 'Attribuer…')),
+                        );
+                    }))),
+                );
+            });
+
+            const loose = stocks.filter(s => !s.piece.costumes.length);
+            if (loose.length) {
+                cards.push(h('div', {class: 'card ca-card'},
+                    h('div', {class: 'card-header'}, h('strong', {}, 'Pièces liées à aucun costume'), h('span', {class: 'badge text-bg-light'}, `${loose.length}`)),
+                    stockTable(loose, {withCountry: true}),
+                ));
+            }
+            return cards;
+        }
+
+        function renderMemberByCountry() {
+            const byCountry = {};
+            for (const stock of memberState.stocks) (byCountry[stock.piece.country ?? ''] ??= []).push(stock);
+            return Object.entries(byCountry)
+                .sort(([a], [b]) => (a ? countryName(a) : '~').localeCompare(b ? countryName(b) : '~'))
+                .map(([country, stocks]) => h('div', {class: 'card ca-card'},
+                    h('div', {class: 'card-header'}, h('strong', {}, countryName(country)), h('span', {class: 'badge text-bg-light'}, `${stocks.length} pièce(s)`)),
+                    stockTable(stocks, {withCostumes: true}),
+                ));
+        }
+
+        function stockTable(stocks, {withCountry = false, withCostumes = false} = {}) {
+            const costumeName = (id) => memberState.costumes.find(c => c.id === id)?.name;
+            return h('table', {class: 'table table-sm'}, h('tbody', {}, stocks.map(s => h('tr', {},
+                h('td', {style: 'width:40%'}, s.piece.name, h('span', {class: 'text-secondary small ms-1'}, s.piece.code)),
+                h('td', {}, chip(s)),
+                withCountry ? h('td', {class: 'small'}, countryName(s.piece.country)) : null,
+                withCostumes ? h('td', {class: 'small text-secondary'}, s.piece.costumes.map(costumeName).filter(Boolean).join(', ') || 'aucun costume') : null,
+                h('td', {class: 'text-end'}, giveBackButton(s)),
+            ))));
+        }
+
+        for (const btn of document.querySelectorAll('.ca-views [data-view]')) {
+            btn.addEventListener('click', () => { view = btn.dataset.view; closePanel(); load(); });
+        }
+        memberGenderSelect.addEventListener('change', () => {
+            // le danseur choisi ne correspond plus au sexe : on le désélectionne
+            if (memberPicker.value && memberGenderSelect.value && memberPicker.member?.sex !== memberGenderSelect.value) memberPicker.value = '';
+            load();
+        });
+        groupSelect.addEventListener('change', load);
+
+        $('ca-panel-close').addEventListener('click', closePanel);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePanel(); });
+        // Le sexe et le pays filtrent la liste des costumes (un costume sans sexe défini reste visible quel que soit le sexe)
+        function filterCostumes() {
+            const gender = genderSelect.value, country = countrySelect.value;
+            for (const option of costumeSelect.options) {
+                if (!option.value) continue;
+                const genders = option.dataset.genders ? option.dataset.genders.split(',') : [];
+                option.hidden = option.disabled = (!!gender && !!genders.length && !genders.includes(gender))
+                    || (!!country && option.dataset.country !== country);
+            }
+            if (costumeSelect.selectedOptions[0]?.hidden) costumeSelect.value = '';
+        }
+        costumeSelect.addEventListener('change', () => { closePanel(); load(); });
+        sectionSelect.addEventListener('change', load);
+        genderSelect.addEventListener('change', () => { filterCostumes(); load(); });
+        countrySelect.addEventListener('change', () => { filterCostumes(); load(); });
+        onlyIncompleteInput.addEventListener('change', render);
+
+        const selectedGender = {{ selectedGender|json_encode|raw }};
+        // Arrivée depuis la fiche d'un costume (sans sexe dans l'URL) : on prend celui du costume s'il n'en a qu'un
+        const costumeGenders = costumeSelect.selectedOptions[0]?.dataset.genders?.split(',').filter(Boolean) ?? [];
+        genderSelect.value = selectedGender ?? (costumeGenders.length === 1 ? costumeGenders[0] : '');
+        filterCostumes();
+        load();
+    })();
+    </script>
+{% endblock %}

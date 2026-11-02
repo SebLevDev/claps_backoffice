@@ -17,6 +17,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -43,14 +45,16 @@ class ClothesCostumeCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        $sendInvoice = Action::new('pieceDashboard', 'pieceDashboard', 'fa fa-cubes')
-            ->linkToRoute('admin_clothes_costume_dashboard', function (ClothesCostume $costume): array {
+        $assignment = Action::new('assignment', 'Attribution', 'fa fa-people-arrows')
+            ->linkToRoute('admin_dashboard_clothesAssignment_index', function (ClothesCostume $costume): array {
                 return [
-                    'id' => $costume->getId(),
+                    'costume' => $costume->getId(),
                 ];
             });
 
-        return $actions->add(Crud::PAGE_DETAIL, $sendInvoice);
+        return $actions
+            ->add(Crud::PAGE_INDEX, $assignment)
+            ->add(Crud::PAGE_DETAIL, $assignment);
     }
 
     public function configureFilters(Filters $filters): Filters
@@ -85,15 +89,23 @@ class ClothesCostumeCrudController extends AbstractCrudController
             ->setFormTypeOption('entry_type', CostumePieceType::class)
             ->setTemplatePath('admin/field/clothes_costume_pieces.html.twig');
         $id = IdField::new('id', 'ID');
+        // Onglet "Pièces uniques" : affichage seul (non mappé), avec création rapide de pièces uniques
+        $stockOverview = Field::new('stockOverview', 'Pièces uniques')
+            ->setVirtual(true)
+            ->setFormTypeOptions(['mapped' => false, 'required' => false])
+            ->setTemplatePath('admin/field/clothes_costume_stocks.html.twig')
+            ->addFormTheme('admin/form/clothes_costume_stocks_theme.html.twig');
+        $tabCostume = FormField::addTab('Costume');
+        $tabStocks = FormField::addTab('Pièces uniques');
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$code, $gender, $name, $country];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $name, $code, $description, $country, $area, $city, $gender, $sections, $clothesCostumePieces];
+            return [$tabCostume, $id, $name, $code, $description, $country, $area, $city, $gender, $sections, $clothesCostumePieces, $tabStocks, $stockOverview];
         } elseif (Crud::PAGE_NEW === $pageName) {
             return [$name, $code, $gender, $sections, $country, $area, $city, $description, $clothesCostumePieces];
         } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$name, $code, $gender, $sections, $country, $area, $city, $description, $clothesCostumePieces];
+            return [$tabCostume, $name, $code, $gender, $sections, $country, $area, $city, $description, $clothesCostumePieces, $tabStocks, $stockOverview];
         }
     }
 }

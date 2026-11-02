@@ -1,0 +1,4 @@
+{# Champ virtuel "stockOverview" du formulaire d'édition d'un costume : affichage seul, aucun input. #}
+{% block _ClothesCostume_stockOverview_row %}
+    {% include 'admin/clothes_costume/_stocks.html.twig' with {costume: ea().entity.instance} only %}
+{% endblock %}

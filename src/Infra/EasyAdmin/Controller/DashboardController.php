@@ -111,6 +111,7 @@ class DashboardController extends AbstractDashboardController
         ];
 
         $submenuClothe = [
+            MenuItem::linkToRoute('Attribution', 'fa fa-people-arrows', 'admin_dashboard_clothesAssignment_index'),
             MenuItem::linkTo(ClothesCostumeCrudController::class, 'Costumes', 'fa fa-user-tie'),
             MenuItem::linkTo(ClothesPieceCrudController::class, 'Pièces', 'fa fa-tshirt'),
             MenuItem::linkTo(ClothesPieceStockCrudController::class, 'Stock', 'fa fa-cubes'),
