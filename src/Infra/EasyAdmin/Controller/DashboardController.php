@@ -90,8 +90,6 @@ class DashboardController extends AbstractDashboardController
         $submenuAdmin = [
             MenuItem::linkTo(ClubCrudController::class, 'Club', 'fa fa-building'),
             MenuItem::linkTo(ClubYearCrudController::class, 'Années', 'fa fa-calendar-alt'),
-            MenuItem::linkTo(SectionCrudController::class, 'Sections', 'fa fa-list'),
-            MenuItem::linkTo(SectionImageCrudController::class, 'Photos des sections', 'fa fa-images'),
             MenuItem::linkTo(UserCrudController::class, 'Users', 'fa fa-user-circle-o'),
             MenuItem::linkTo(LoginHistoryCrudController::class, 'Login History', 'fa fa-user-circle-o'),
         ];
@@ -141,6 +139,8 @@ class DashboardController extends AbstractDashboardController
         ];
 
         $submenuWebsite = [
+            MenuItem::linkTo(SectionCrudController::class, 'Sections', 'fa fa-list'),
+            MenuItem::linkTo(SectionImageCrudController::class, 'Photos des sections', 'fa fa-images'),
             MenuItem::linkTo(BlogArticleCrudController::class, 'Articles de blog', 'fa fa-newspaper'),
             MenuItem::linkTo(ReferenceCrudController::class, 'Références', 'fa fa-globe'),
         ];
