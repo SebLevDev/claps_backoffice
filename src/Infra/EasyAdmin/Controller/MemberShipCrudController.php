@@ -52,7 +52,15 @@ class MemberShipCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('MemberShip')
             ->setEntityLabelInPlural('MemberShip')
-            ->setSearchFields(['id', 'subscriptionAmount'])
+            ->setSearchFields([
+                'id',
+                'subscriptionAmount',
+                'member.firstname',
+                'member.lastname',
+                'member.email',
+                'member.phone',
+                'member.mobilePhone',
+            ])
             ->setPaginatorPageSize(100)
             ->overrideTemplate('label/null', 'easy_admin/label_null.html.twig');
     }
