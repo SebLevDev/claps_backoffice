@@ -158,5 +158,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::subMenu('Event', 'fa fa-calendar-alt')->setSubItems($submenuEvent);
         yield MenuItem::subMenu('Site public', 'fas fa-globe')->setSubItems($submenuWebsite);
         yield MenuItem::subMenu('Marketing', 'fas fa-bullhorn')->setSubItems($submenuMarketing);
+        yield MenuItem::section();
+        yield MenuItem::linkToUrl('Voir le site', 'fa fa-external-link-alt', $this->generateUrl('app_index'))->setLinkTarget('_blank');
     }
 }
