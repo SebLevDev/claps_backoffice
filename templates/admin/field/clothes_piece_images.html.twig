@@ -1,0 +1,14 @@
+{# Galerie des photos d'une pièce de costume (page détail) #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{% set images = field.value|filter(i => i.path) %}
+{% if images|length > 0 %}
+    <div class="d-flex flex-wrap gap-2">
+        {% for image in images %}
+            <a href="{{ asset(image.path) }}" target="_blank" title="Ordre {{ image.position }}">
+                <img src="{{ asset(image.path) }}" alt="" style="height: 150px; max-width: 220px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border-color, #ddd)">
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <span class="badge badge-secondary">Aucune photo</span>
+{% endif %}

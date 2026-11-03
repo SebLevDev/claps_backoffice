@@ -9,12 +9,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Infra\Symfony\Persistance\Doctrine\Repository\ClothesPieceRepository;
 use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Attribute as Vich;
+use Infra\Symfony\Persistance\Doctrine\Repository\ClothesPieceRepository;
 
 #[ApiResource]
-#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: ClothesPieceRepository::class)]
 class ClothesPiece implements \Stringable
 {
@@ -53,11 +51,9 @@ class ClothesPiece implements \Stringable
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $updatedAt;
 
-    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    private ?string $image = null;
-
-    #[Vich\UploadableField(mapping: 'clothespiece_images', fileNameProperty: 'image')]
-    private ?File $imageFile = null;
+    #[ORM\OneToMany(targetEntity: ClothesPieceImage::class, mappedBy: 'piece', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
+    private $images;
 
     #[ORM\ManyToOne(targetEntity: ClothesSeason::class, inversedBy: 'clothesPieces')]
     private $season;
@@ -85,6 +81,7 @@ class ClothesPiece implements \Stringable
         $this->sections = new ArrayCollection();
         $this->clothesCostumePieces = new ArrayCollection();
         $this->clothesPieceStocks = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -287,32 +284,60 @@ class ClothesPiece implements \Stringable
         return $this;
     }
 
-    public function setImageFile(File $image = null)
+    /**
+     * @return Collection|ClothesPieceImage[]
+     */
+    public function getImages(): Collection
     {
-        $this->imageFile = $image;
+        return $this->images;
+    }
 
-        // VERY IMPORTANT:
-        // It is required that at least one field changes if you are using Doctrine,
-        // otherwise the event listeners won't be called and the file is lost
-        if ($image) {
-            // if 'updatedAt' is not defined in your entity, use another property
+    public function addImage(ClothesPieceImage $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setPiece($this);
             $this->updatedAt = new \DateTime('now');
         }
+
+        return $this;
     }
 
-    public function getImageFile()
+    public function removeImage(ClothesPieceImage $image): self
     {
-        return $this->imageFile;
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+            // set the owning side to null (unless already changed)
+            if ($image->getPiece() === $this) {
+                $image->setPiece(null);
+            }
+        }
+
+        return $this;
     }
 
-    public function setImage($image)
+    /** Ajout de plusieurs photos d'un coup (champ "Ajouter des photos" de l'admin), placées après les existantes. */
+    public function setNewImageFiles(?array $files): self
     {
-        $this->image = $image;
+        $position = max([0, ...$this->images->map(static fn (ClothesPieceImage $i) => $i->getPosition() + 1)->toArray()]);
+        foreach ($files ?? [] as $file) {
+            if ($file instanceof File) {
+                $this->addImage((new ClothesPieceImage())->setImageFile($file)->setPosition($position++));
+            }
+        }
+
+        return $this;
     }
 
-    public function getImage()
+    public function getNewImageFiles(): array
     {
-        return $this->image;
+        return [];
+    }
+
+    /** Image principale (la première), pour les écrans qui n'en affichent qu'une. */
+    public function getImage(): ?string
+    {
+        return $this->images->first() ? $this->images->first()->getPath() : null;
     }
 
     public function getUpdatedAt(): ?\DateTime
