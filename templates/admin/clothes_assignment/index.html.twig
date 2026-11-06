@@ -361,8 +361,8 @@
                 h('th', {class: 'ca-name'}, 'En stock'),
                 pieces.map(p => {
                     const free = state.stocksByPiece[p.id].filter(s => !s.keeper);
-                    return h('td', {class: 'ca-cell', onclick: () => openPanel({type: 'piece', pieceId: p.id})},
-                        free.length ? free.map(s => chip(s, {withMaker: false})) : h('span', {class: 'ca-empty'}, '—'));
+                    return h('td', {class: 'ca-cell', title: free.length ? `${free.length} pièce(s) disponible(s) — cliquer pour le détail` : 'Aucune pièce disponible', onclick: () => openPanel({type: 'piece', pieceId: p.id})},
+                        free.length ? h('span', {class: 'fw-semibold'}, String(free.length)) : h('span', {class: 'ca-empty'}, '0'));
                 }),
             ));
 
